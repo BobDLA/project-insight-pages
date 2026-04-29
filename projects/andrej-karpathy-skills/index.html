@@ -1,0 +1,1331 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>andrej-karpathy-skills 项目洞察</title>
+  <style>
+:root {
+  --bg: #f3f0e8;
+  --paper: #fffdf8;
+  --sheet: #f8fafb;
+  --ink: #151923;
+  --muted: #65707d;
+  --line: #d8ddd9;
+  --line-strong: #bfc8c2;
+  --teal: #0f766e;
+  --blue: #315c8f;
+  --amber: #a66f12;
+  --red: #a13a32;
+  --green: #147a47;
+  --dark: #17202b;
+  --soft-teal: #e8f4f2;
+  --soft-blue: #edf3fb;
+  --soft-amber: #fff5dd;
+  --soft-red: #fff0ee;
+  --radius: 8px;
+  --shadow: 0 18px 60px rgba(21, 25, 35, .08);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, rgba(21,25,35,.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21,25,35,.03) 1px, transparent 1px),
+    var(--bg);
+  background-size: 32px 32px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.58;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+a { color: #0b5c55; text-decoration: none; }
+strong { color: #071018; font-weight: 850; }
+code {
+  padding: 1px 5px;
+  border: 1px solid #d7dfdc;
+  border-radius: 5px;
+  background: #f4f7f6;
+  color: #183d39;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .92em;
+}
+.page { width: 100%; max-width: 1280px; margin: 0 auto; padding: 28px; }
+.topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.brand {
+  color: var(--teal);
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.22fr) minmax(330px, .78fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.hero-main { min-width: 0; padding: 42px 46px 36px; }
+.eyebrow {
+  display: block;
+  max-width: 100%;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+.title {
+  margin: 14px 0 18px;
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.02;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+.summary, .bullets {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.summary { max-width: 78ch; font-size: 17px; }
+.summary li, .bullets li {
+  position: relative;
+  padding-left: 18px;
+  overflow-wrap: anywhere;
+}
+.summary li::before, .bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .72em;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--teal);
+}
+.bullets.compact { gap: 6px; font-size: 14px; }
+.adoption {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 26px;
+  padding: 34px;
+  color: #fff;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), transparent 42%),
+    var(--dark);
+}
+.adoption-label {
+  color: #b9c6d6;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.adoption-title {
+  margin-top: 10px;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.16;
+}
+.adoption-detail { margin: 13px 0 0; color: #e2ebf3; font-size: 14px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 1px solid #aab6c4;
+  border-radius: 5px;
+  background: #f8fafb;
+  color: #394557;
+  font-size: 12px;
+  font-weight: 850;
+}
+.tag.green { color: var(--green); border-color: #b8dfc9; background: #eef8f2; }
+.tag.blue { color: #254466; border-color: #b9cde5; background: var(--soft-blue); }
+.tag.amber { color: var(--amber); border-color: #e6cf9f; background: var(--soft-amber); }
+.tag.red { color: var(--red); border-color: #e3b9b4; background: var(--soft-red); }
+.adoption .tag { color: #e9f1fb; border-color: #3d4e61; background: #202c3a; }
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--line-strong);
+  border-top: 0;
+  background: #fbfcfb;
+}
+.fact {
+  min-width: 0;
+  min-height: 102px;
+  padding: 18px 22px;
+  border-right: 1px solid var(--line);
+}
+.fact:last-child { border-right: 0; }
+.fact b {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+.fact span { display: block; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1px;
+  margin: 18px 0 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--line);
+  overflow: hidden;
+}
+.nav a {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  background: var(--paper);
+  color: #26313e;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+}
+.section {
+  display: block;
+  margin-top: 28px;
+  padding: 30px 0 0;
+  border-top: 1px solid var(--line-strong);
+}
+.section-head {
+  min-width: 0;
+  display: block;
+  margin-bottom: 18px;
+}
+.section-index {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.section h2 { margin: 0; font-size: 27px; line-height: 1.18; }
+.section-note { margin: 8px 0 0; max-width: 860px; color: var(--muted); font-size: 14px; }
+.section-body { min-width: 0; display: grid; gap: 18px; }
+.lean-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+}
+.kv, .asset, .check-card, .evidence-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  padding: 16px;
+}
+.kv h3, .asset h3, .check-card h3, .evidence-card h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  line-height: 1.25;
+}
+.kv p, .asset p { margin: 0; color: #364150; overflow-wrap: anywhere; }
+.demo-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr);
+  gap: 18px;
+  align-items: start;
+}
+.media-card {
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fbfcfd;
+  overflow: hidden;
+}
+.media-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 430px;
+  object-fit: contain;
+  background: #f7fafc;
+}
+.media-caption {
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.example-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fbfcfd;
+  padding: 14px;
+}
+.example-row {
+  padding: 12px 14px;
+  border-left: 4px solid var(--blue);
+  background: #fff;
+}
+.example-row.bad { border-left-color: var(--red); background: var(--soft-red); }
+.example-row.good { border-left-color: var(--teal); background: var(--soft-teal); }
+.example-row b { display: block; margin-bottom: 4px; }
+.example-row p { margin: 0; color: #35414f; }
+.diagram-shell {
+  min-width: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: 0 12px 34px rgba(21,25,35,.055);
+  overflow: hidden;
+}
+.diagram-header {
+  display: block;
+  padding: 18px 20px 15px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfb;
+}
+.type-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.type-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 1px solid #b9cde5;
+  border-radius: 5px;
+  background: var(--soft-blue);
+  color: #254466;
+  font-size: 12px;
+  font-weight: 850;
+}
+.scenario {
+  margin: 0 0 6px;
+  color: #394656;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.diagram-header .type-row { margin-top: 12px; }
+.diagram-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+.diagram-tabs button {
+  min-height: 34px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: #f8fafb;
+  color: #2f3b48;
+  padding: 5px 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.diagram-tabs button[aria-selected="true"] {
+  color: #fff;
+  border-color: var(--teal);
+  background: var(--teal);
+}
+.diagram-panel { padding: 18px 20px 20px; }
+.diagram-panel[hidden] { display: none; }
+.svg-frame {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #dce2df;
+  border-radius: var(--radius);
+  background:
+    linear-gradient(90deg, rgba(21,25,35,.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21,25,35,.035) 1px, transparent 1px),
+    #fff;
+  background-size: 28px 28px;
+}
+.svg-frame svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 960px;
+}
+.diagram-caption { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
+.diagram-mobile {
+  display: none;
+  gap: 10px;
+}
+.mobile-step, .mobile-loop {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  padding: 12px 13px 12px 42px;
+}
+.mobile-step::before {
+  content: attr(data-step);
+  position: absolute;
+  left: 12px;
+  top: 13px;
+  display: flex;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--dark);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+}
+.mobile-step b, .mobile-loop b { display: block; margin-bottom: 4px; line-height: 1.3; }
+.mobile-step p, .mobile-step small, .mobile-loop p {
+  display: block;
+  margin: 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.mobile-step p, .mobile-loop p { color: #35414f; }
+.mermaid-block {
+  margin: 0;
+  padding: 14px;
+  border: 1px solid #dce2df;
+  border-radius: var(--radius);
+  background: #f8fafb;
+  color: #26313e;
+  font-size: 12px;
+  line-height: 1.48;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+.asset-grid, .view-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.arch-lens {
+  min-width: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  overflow: hidden;
+  box-shadow: 0 12px 34px rgba(21,25,35,.045);
+}
+.arch-head {
+  display: block;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfb;
+}
+.arch-kicker {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.arch-head h3 { margin: 0; font-size: 20px; line-height: 1.25; }
+.arch-reason {
+  display: block;
+  max-width: 100%;
+  margin-top: 12px;
+  border-left: 3px solid var(--teal);
+  background: var(--soft-teal);
+  padding: 12px 14px;
+  color: #24433f;
+  font-size: 13px;
+}
+.arch-decision {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fffdf8;
+}
+.arch-kv {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fbfcfb;
+  padding: 13px 14px;
+}
+.arch-kv b {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 900;
+}
+.arch-kv span {
+  display: block;
+  color: #354252;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.arch-views {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  background:
+    linear-gradient(90deg, rgba(21,25,35,.026) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21,25,35,.022) 1px, transparent 1px),
+    #fffdf8;
+  background-size: 24px 24px;
+}
+.arch-view {
+  min-width: 0;
+  border: 1px solid #ccd7d2;
+  border-radius: var(--radius);
+  background: var(--paper);
+  overflow: hidden;
+}
+.arch-view-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfb;
+}
+.arch-view h4 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  line-height: 1.25;
+}
+.arch-view-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.priority-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 1px solid #e6cf9f;
+  border-radius: 5px;
+  background: var(--soft-amber);
+  color: var(--amber);
+  font-size: 12px;
+  font-weight: 900;
+}
+.arch-view-body {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px 16px;
+}
+.arch-view-body p {
+  margin: 0;
+  color: #354252;
+}
+.arch-source {
+  border: 1px solid #dce2df;
+  border-radius: var(--radius);
+  background: #fbfcfb;
+  overflow: hidden;
+}
+.arch-source summary {
+  min-height: 38px;
+  padding: 9px 12px;
+  color: #26313e;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 850;
+}
+.arch-source .mermaid-block {
+  border: 0;
+  border-top: 1px solid #dce2df;
+  border-radius: 0;
+}
+.two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.footer {
+  margin-top: 28px;
+  padding: 18px 0 4px;
+  border-top: 1px solid var(--line-strong);
+  color: var(--muted);
+  font-size: 13px;
+}
+@media (max-width: 980px) {
+  .page { padding: 16px; }
+  .hero, .demo-layout, .two-col { grid-template-columns: 1fr; }
+  .nav { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lean-grid, .asset-grid, .view-grid, .facts, .arch-decision { grid-template-columns: 1fr; }
+  .fact { border-right: 0; border-bottom: 1px solid var(--line); }
+  .fact:last-child { border-bottom: 0; }
+  .media-card img { max-height: none; }
+}
+@media (max-width: 1180px) and (min-width: 561px) {
+  .svg-frame svg { min-width: 0; }
+}
+@media (max-width: 560px) {
+  body { font-size: 15px; }
+  .page { padding: 12px; }
+  .topline { align-items: flex-start; }
+  .hero-main, .adoption { padding: 24px 20px; }
+  .title {
+    font-size: 32px;
+    overflow-wrap: break-word;
+  }
+  .nav { grid-template-columns: 1fr; }
+  .section h2 { font-size: 24px; }
+  .diagram-tabs { padding: 10px 12px; }
+  .diagram-panel { padding: 12px; }
+  .svg-frame { display: none; }
+  .diagram-mobile { display: grid; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="topline"><span class="brand">Project Insight</span><span>Lean · 自适应架构视角 · 图型按需选择 · 静态分析</span></div>
+  <article aria-label="andrej-karpathy-skills 项目洞察">
+    <header class="hero">
+      <div class="hero-main">
+        <div class="eyebrow">https://github.com/forrestchang/andrej-karpathy-skills</div>
+        <h1 class="title">andrej-karpathy-skills</h1>
+        <ul class="summary"><li>极轻量 coding agent 行为规则包，把 Karpathy 对 LLM 编码失败模式的观察压缩成 <strong>CLAUDE.md、Claude plugin skill 和 Cursor rule</strong>。</li><li>它不是开发框架，而是减少 agent 误判、过度设计和无关改动的行为约束。</li></ul>
+      </div>
+      <aside class="adoption">
+        <div>
+          <div class="adoption-label">Adoption Read</div>
+          <div class="adoption-title">适合作为 Agent 行为基线；仍需 eval 验证</div>
+          <p class="adoption-detail">适合先作为团队 agent 指令基线；要证明长期价值，需要用真实 PR 或任务集评估返工率和无关 diff 是否下降。</p>
+        </div>
+        <div class="tags"><span class="tag green">行为基线</span><span class="tag blue">低接入成本</span><span class="tag amber">仍需 eval</span></div>
+      </aside>
+    </header>
+    <section class="facts"><div class="fact"><b>91.9k</b><span>GitHub stars；8.8k+ forks，传播势能极强。</span></div><div class="fact"><b>4 principles</b><span>Think Before Coding、Simplicity First、Surgical Changes、Goal-Driven Execution。</span></div><div class="fact"><b>3 formats</b><span>CLAUDE.md、Skill、Cursor rule 三种主要分发形态。</span></div></section>
+    <nav class="nav">
+      <a href="#lean">Lean 判断</a><a href="#demo">Demo</a><a href="#diagram">机制图</a><a href="#views">架构视角</a><a href="#assets">资产</a><a href="#adopt">采用确认</a>
+    </nav>
+    
+    <section id="lean" class="section">
+      <div class="section-head">
+        <div class="section-index">01</div>
+        <h2>新用户先看什么</h2>
+        <p class="section-note">保留精益创业视角：适合谁、问题、差异、时机和最小验证。</p>
+      </div>
+      <div class="section-body"><div class="lean-grid"><div class="kv"><h3>适合谁</h3><ul class="bullets"><li>Claude Code / Cursor 用户。</li><li>维护团队级 agent 指令、想减少返工和无关 diff 的工程团队。</li><li>正在整理 AI coding 规范、但不想维护长篇流程文档的团队。</li></ul></div><div class="kv"><h3>解决什么问题</h3><ul class="bullets"><li>Coding agent 容易隐藏假设、过度抽象、顺手改无关代码、没有明确验收目标。</li><li>团队需要短、硬、可复制的行为规则，而不是长篇抽象建议。</li></ul></div><div class="kv"><h3>和别的方案哪里不同</h3><ul class="bullets"><li>四条原则足够短：<strong>先澄清、简单优先、外科式修改、目标驱动执行</strong>。</li><li>同一规则被分发为 CLAUDE.md、Skill、Cursor rule 和 plugin manifest，降低采用成本。</li></ul></div><div class="kv"><h3>为什么现在值得看</h3><ul class="bullets"><li>Agent coding 已经成为日常开发入口，团队开始需要稳定行为基线。</li><li>项目传播势能强，说明这类“短规则 + 多分发格式”的需求真实存在。</li></ul></div><div class="kv"><h3>最小验证方式</h3><ul class="bullets"><li>把规则加入一个真实 repo，选择 5-10 个历史小任务做前后对照。</li><li>观察 agent 是否减少无关 diff、是否更早澄清目标、是否更少过度设计。</li></ul></div></div></div>
+    </section>
+    
+    <section id="demo" class="section">
+      <div class="section-head">
+        <div class="section-index">02</div>
+        <h2>Gold Example / Demo</h2>
+        <p class="section-note">优先使用真实项目图片或仓库 example；未运行时明确标注静态推演。</p>
+      </div>
+      <div class="section-body">
+    <div class="demo-layout">
+      
+    <div class="example-card">
+      <div class="example-row"><b>User</b><p>“Make the search faster”</p></div>
+      <div class="example-row bad"><b>错误做法</b><p>静默选择缓存、索引、异步处理，然后开始大范围修改。</p></div>
+      <div class="example-row good"><b>正确做法</b><p>先澄清：响应时间、吞吐量、还是感知速度？再选最小修改路径。</p></div>
+      <div class="media-caption">来自 <code>EXAMPLES.md</code> 的 “Make the search faster” 示例。它比抽象描述更能说明该项目如何改变 agent 行为。</div>
+    </div>
+    
+      <div class="kv">
+        <h3>Make the search faster</h3>
+        <p class="section-note">仓库 EXAMPLES.md 示例</p>
+        <ul class="bullets"><li>用户只说“让搜索更快”，但“快”可能指响应时间、吞吐量或感知速度。</li><li>错误做法：agent 静默选择缓存、索引、异步等方案并开始大改。</li><li>正确做法：先列出三种解释、成本和影响，再让用户确认目标。</li><li>价值：减少错误方向、过度实现和返工。</li></ul>
+      </div>
+    </div>
+    </div>
+    </section>
+    
+    <section id="diagram" class="section">
+      <div class="section-head">
+        <div class="section-index">03</div>
+        <h2>项目机制图</h2>
+        <p class="section-note">图表是可选组件；只在 UML / 系统动力学等表达方式能带来解释增益时使用。</p>
+      </div>
+      <div class="section-body">
+    <div class="diagram-shell">
+      <div class="diagram-header">
+        <div>
+          <p class="scenario"><strong>选择理由：</strong>这是规则/skill 项目，核心不是系统调用链，而是模糊需求如何被规则转成可验证行动；长期效果适合用概念 BOT 展示。</p>
+          <p class="scenario"><strong>场景：</strong>用户给 agent 一个模糊请求：Make the search faster。</p>
+        </div>
+        <div class="type-row" aria-label="diagram model types"><span class="type-chip">行为流程</span><span class="type-chip">BOT</span></div>
+      </div>
+      <div class="diagram-tabs" role="tablist" aria-label="diagram views">
+        <button type="button" data-diagram-tab="flow" aria-selected="true">主流程</button><button type="button" data-diagram-tab="component" aria-selected="false">组件关系</button><button type="button" data-diagram-tab="system" aria-selected="false">系统动力学</button><button type="button" data-diagram-tab="source" aria-selected="false">图源</button>
+      </div>
+      <div class="diagram-panel" data-diagram-panel="flow" >
+    <div class="svg-frame"><svg viewBox="0 0 1180 470" role="img" aria-label="andrej-karpathy-skills runtime flow">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="468" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">运行主链路</tspan></text>
+<text x="185.0" y="38.0" text-anchor="start" font-size="13" font-weight="500" fill="#65707d"><tspan x="185.0" dy="0">用户给 agent 一个模糊请求：Make the search faster。</tspan></text>
+<rect x="-12.0" y="82" width="148" height="66" rx="8" fill="#e8f4f2" stroke="#0f766e" filter="url(#soft-shadow)"/>
+<circle cx="10.0" cy="104" r="12" fill="#17202b"/>
+<text x="10.0" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="10.0" dy="0">1</tspan></text>
+<text x="62.0" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="62.0" dy="0">用户</tspan></text>
+<rect x="199.2" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="221.2" cy="104" r="12" fill="#17202b"/>
+<text x="221.2" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="221.2" dy="0">2</tspan></text>
+<text x="273.2" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="273.2" dy="0">Agent</tspan></text>
+<rect x="410.4" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="432.4" cy="104" r="12" fill="#17202b"/>
+<text x="432.4" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="432.4" dy="0">3</tspan></text>
+<text x="484.4" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="484.4" dy="0">规则基线</tspan></text>
+<rect x="621.6" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="643.6" cy="104" r="12" fill="#17202b"/>
+<text x="643.6" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="643.6" dy="0">4</tspan></text>
+<text x="695.6" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="695.6" dy="0">Agent</tspan></text>
+<rect x="832.8" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="854.8" cy="104" r="12" fill="#17202b"/>
+<text x="854.8" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="854.8" dy="0">5</tspan></text>
+<text x="906.8" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="906.8" dy="0">代码修改</tspan></text>
+<rect x="1044.0" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="1066.0" cy="104" r="12" fill="#17202b"/>
+<text x="1066.0" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="1066.0" dy="0">6</tspan></text>
+<text x="1118.0" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="1118.0" dy="0">验证</tspan></text>
+<path d="M144.0,115 L191.2,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M167.6,125 V180" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="103.6" y="190" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="167.6" y="217.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="167.6" dy="0">提出模糊目标</tspan></text>
+<text x="167.6" y="245.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="167.6" dy="0">Make the search</tspan><tspan x="167.6" dy="14">faster</tspan></text>
+<path d="M355.2,115 L402.4,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M378.8,125 V272" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="314.8" y="282" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="378.8" y="309.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="378.8" dy="0">触发先澄清原则</tspan></text>
+<text x="378.8" y="337.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="378.8" dy="0">列出 latency /</tspan><tspan x="378.8" dy="14">throughput / UX</tspan></text>
+<path d="M566.4,115 L613.6,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M590.0,125 V180" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="526.0" y="190" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="590.0" y="217.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="590.0" dy="0">确认优化目标</tspan></text>
+<text x="590.0" y="245.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="590.0" dy="0">锁定成功标准</tspan></text>
+<path d="M777.6,115 L824.8,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M801.2,125 V272" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="737.2" y="282" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="801.2" y="309.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="801.2" dy="0">执行最小路径修改</tspan></text>
+<text x="801.2" y="337.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="801.2" dy="0">避免顺手重构</tspan></text>
+<path d="M988.8,115 L1036.0,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M1012.4,125 V180" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="948.4" y="190" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="1012.4" y="217.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="1012.4" dy="0">运行测试或基准</tspan></text>
+<text x="1012.4" y="245.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="1012.4" dy="0">确认目标达成</tspan></text>
+<rect x="62" y="408" width="1056" height="28" rx="14" fill="#f4f7f6" stroke="#d8ddd9"/>
+<text x="590.0" y="427.0" text-anchor="middle" font-size="12" font-weight="550" fill="#4b5563"><tspan x="590.0" dy="0">读图方式：从左到右看一次真实任务如何通过项目核心机制完成；下方蓝色框是每一步的关键协议、数据或行为转换。</tspan></text>
+</svg></div>
+    <p class="diagram-caption">主流程图把一次典型任务拆成角色、协议/数据转换和关键交接点。</p>
+    <div class="diagram-mobile">
+            <div class="mobile-step" data-step="1">
+              <b>用户 -> Agent</b>
+              <p>提出模糊目标</p>
+              <small>Make the search faster</small>
+            </div>
+            
+            <div class="mobile-step" data-step="2">
+              <b>Agent -> 规则基线</b>
+              <p>触发先澄清原则</p>
+              <small>列出 latency / throughput / UX</small>
+            </div>
+            
+            <div class="mobile-step" data-step="3">
+              <b>用户 -> Agent</b>
+              <p>确认优化目标</p>
+              <small>锁定成功标准</small>
+            </div>
+            
+            <div class="mobile-step" data-step="4">
+              <b>Agent -> 代码修改</b>
+              <p>执行最小路径修改</p>
+              <small>避免顺手重构</small>
+            </div>
+            
+            <div class="mobile-step" data-step="5">
+              <b>Agent -> 验证</b>
+              <p>运行测试或基准</p>
+              <small>确认目标达成</small>
+            </div>
+            </div></div><div class="diagram-panel" data-diagram-panel="component" hidden>
+    <div class="svg-frame"><svg viewBox="0 0 1180 500" role="img" aria-label="andrej-karpathy-skills component map">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="498" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">组件关系</tspan></text>
+<rect x="210" y="218" width="760" height="78" rx="12" fill="#17202b" stroke="#17202b"/>
+<text x="590.0" y="251.0" text-anchor="middle" font-size="19" font-weight="900" fill="#ffffff"><tspan x="590.0" dy="0">CLAUDE.md</tspan></text>
+<text x="590.0" y="276.0" text-anchor="middle" font-size="12" font-weight="500" fill="#dbe7ef"><tspan x="590.0" dy="0">让模块、数据和外部系统形成可复用的协作边界</tspan></text>
+<path d="M220.0,176.0 L220.0,226.0" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="95.0" y="82" width="250" height="94" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="111.0" y="112.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="111.0" dy="0">CLAUDE.md</tspan></text>
+<text x="111.0" y="137.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="111.0" dy="0">项目根目录规则入口。</tspan></text>
+<path d="M220.0,352.0 L220.0,304.0" stroke="#0f766e" stroke-width="2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="95.0" y="352" width="250" height="94" rx="8" fill="#e8f4f2" stroke="#b8d8d3"/>
+<text x="111.0" y="382.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="111.0" dy="0">SKILL.md</tspan></text>
+<text x="111.0" y="407.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="111.0" dy="0">Claude plugin 兼容分发。</tspan></text>
+<path d="M960.0,176.0 L960.0,226.0" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="835.0" y="82" width="250" height="94" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="851.0" y="112.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="851.0" dy="0">Cursor Rule</tspan></text>
+<text x="851.0" y="137.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="851.0" dy="0">Cursor 项目级 alwaysApply 规则。</tspan></text>
+<path d="M960.0,352.0 L960.0,304.0" stroke="#0f766e" stroke-width="2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="835.0" y="352" width="250" height="94" rx="8" fill="#e8f4f2" stroke="#b8d8d3"/>
+<text x="851.0" y="382.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="851.0" dy="0">EXAMPLES.md</tspan></text>
+<text x="851.0" y="407.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="851.0" dy="0">用 before/after 降低误用概率。</tspan></text>
+<path d="M120,257 H206" stroke="#a66f12" stroke-width="2.4" fill="none" marker-end="url(#arrow-amber)"/>
+<path d="M974,257 H1060" stroke="#a66f12" stroke-width="2.4" fill="none" marker-end="url(#arrow-amber)"/>
+<text x="96.0" y="263.0" text-anchor="middle" font-size="13" font-weight="800" fill="#a66f12"><tspan x="96.0" dy="0">输入</tspan></text>
+<text x="1084.0" y="263.0" text-anchor="middle" font-size="13" font-weight="800" fill="#a66f12"><tspan x="1084.0" dy="0">输出</tspan></text>
+</svg></div>
+    <p class="diagram-caption">组件图强调核心契约：哪个模块承接输入，哪些模块围绕它提供数据、适配或规则。</p>
+    <div class="diagram-mobile">
+        <div class="mobile-step" data-step="1">
+          <b>CLAUDE.md</b>
+          <p>项目根目录规则入口。</p>
+        </div>
+        
+        <div class="mobile-step" data-step="2">
+          <b>SKILL.md</b>
+          <p>Claude plugin 兼容分发。</p>
+        </div>
+        
+        <div class="mobile-step" data-step="3">
+          <b>Cursor Rule</b>
+          <p>Cursor 项目级 alwaysApply 规则。</p>
+        </div>
+        
+        <div class="mobile-step" data-step="4">
+          <b>EXAMPLES.md</b>
+          <p>用 before/after 降低误用概率。</p>
+        </div>
+        </div></div><div class="diagram-panel" data-diagram-panel="system" hidden>
+    <div class="svg-frame"><svg viewBox="0 0 1180 310" role="img" aria-label="andrej-karpathy-skills system dynamics">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="308" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">系统动力学视角</tspan></text>
+<rect x="32" y="58" width="1116" height="226" rx="10" fill="#e8f4f2" stroke="#0f766e" stroke-opacity=".32"/>
+<text x="56.0" y="100.0" text-anchor="start" font-size="16" font-weight="900" fill="#17202b"><tspan x="56.0" dy="0">概念趋势：返工率下降</tspan></text>
+<text x="56.0" y="124.0" text-anchor="start" font-size="12" font-weight="700" fill="#65707d"><tspan x="56.0" dy="0">BOT：行为随时间变化</tspan></text>
+<path d="M290,138 V226 H850" stroke="#64748b" stroke-width="1.8" fill="none"/>
+<path d="M310,210 C455,154 630,138 830,112" stroke="#0f766e" stroke-width="4" fill="none" marker-end="url(#arrow-teal)"/>
+<text x="360.0" y="178.0" text-anchor="middle" font-size="12" font-weight="800" fill="#0f766e"><tspan x="360.0" dy="0">澄清目标增加</tspan></text>
+<text x="760.0" y="106.0" text-anchor="middle" font-size="12" font-weight="800" fill="#0f766e"><tspan x="760.0" dy="0">返工率预期下降</tspan></text>
+<rect x="890" y="140" width="210" height="24" rx="12" fill="#fff" stroke="#0f766e" stroke-opacity=".32"/>
+<text x="995.0" y="156.0" text-anchor="middle" font-size="11" font-weight="700" fill="#29313c"><tspan x="995.0" dy="0">澄清目标增加</tspan></text>
+<rect x="890" y="172" width="210" height="24" rx="12" fill="#fff" stroke="#0f766e" stroke-opacity=".32"/>
+<text x="995.0" y="188.0" text-anchor="middle" font-size="11" font-weight="700" fill="#29313c"><tspan x="995.0" dy="0">无关 diff 减少</tspan></text>
+<rect x="890" y="204" width="210" height="24" rx="12" fill="#fff" stroke="#0f766e" stroke-opacity=".32"/>
+<text x="995.0" y="220.0" text-anchor="middle" font-size="11" font-weight="700" fill="#29313c"><tspan x="995.0" dy="0">返工率预期下降</tspan></text>
+<rect x="890" y="236" width="210" height="24" rx="12" fill="#fff" stroke="#0f766e" stroke-opacity=".32"/>
+<text x="995.0" y="252.0" text-anchor="middle" font-size="11" font-weight="700" fill="#29313c"><tspan x="995.0" dy="0">需要真实 eval 验证</tspan></text>
+</svg></div>
+    <p class="diagram-caption">系统动力学图只在反馈、存量或趋势能解释项目机制时使用。</p>
+    <div class="diagram-mobile">
+            <div class="mobile-loop">
+              <b>BOT · 概念趋势：返工率下降</b>
+              <p>澄清目标增加 -&gt; 无关 diff 减少 -&gt; 返工率预期下降 -&gt; 需要真实 eval 验证</p>
+            </div>
+            </div></div><div class="diagram-panel" data-diagram-panel="source" hidden><pre class="mermaid-block">%% 主流程 / sequence
+sequenceDiagram
+    autonumber
+    participant P1 as 用户
+    participant P2 as Agent
+    participant P3 as 规则基线
+    participant P4 as 代码修改
+    participant P5 as 验证
+    P1-&gt;&gt;P2: 提出模糊目标
+    Note over P2: Make the search faster
+    P2-&gt;&gt;P3: 触发先澄清原则
+    Note over P3: 列出 latency / throughput / UX
+    P1-&gt;&gt;P2: 确认优化目标
+    Note over P2: 锁定成功标准
+    P2-&gt;&gt;P4: 执行最小路径修改
+    Note over P4: 避免顺手重构
+    P2-&gt;&gt;P5: 运行测试或基准
+    Note over P5: 确认目标达成
+
+---
+
+%% 组件关系 / component
+flowchart LR
+    N1[CLAUDE.md&lt;br/&gt;项目根目录规则入口。]
+    N2[SKILL.md&lt;br/&gt;Claude plugin 兼容分发。]
+    N1 --&gt; N2
+    N3[Cursor Rule&lt;br/&gt;Cursor 项目级 alwaysApply 规则。]
+    N2 --&gt; N3
+    N4[EXAMPLES.md&lt;br/&gt;用 before/after 降低误用概率。]
+    N3 --&gt; N4
+
+---
+
+%% 系统动力学 / CLD-SFD-BOT
+BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 -&gt; 返工率预期下降 -&gt; 需要真实 eval 验证</pre></div>
+    </div>
+    </div>
+    </section>
+    
+    <section id="views" class="section">
+      <div class="section-head">
+        <div class="section-index">04</div>
+        <h2>自适应架构视角</h2>
+        <p class="section-note">先判断复杂度，再裁剪 C4 / 4+1 / UML 组合；核心业务交互图必须优先。</p>
+      </div>
+      <div class="section-body">
+    <div class="arch-lens">
+      <div class="arch-head">
+        <span class="arch-kicker">Adaptive Architecture Lens</span>
+        <h3>自适应架构视角</h3>
+        <div class="arch-reason">先做复杂度评估，再选择 C4 或 4+1；无论框架如何，核心业务交互图优先。</div>
+      </div>
+      <div class="arch-decision"><div class="arch-kv"><b>项目复杂性评估</b><span>简单</span></div><div class="arch-kv"><b>选用框架</b><span>C4 模型（轻量裁剪）</span></div><div class="arch-kv"><b>裁剪策略</b><span>这是文档/规则包，不是运行时系统。只保留 Context、核心规则交互和分发结构；不使用 4+1、部署图或物理视图。</span></div><div class="arch-kv"><b>省略内容</b><span>省略 4+1、C4 Deployment 和系统动力部署视角；这些视角会把规则包讲成不存在的运行系统。</span></div></div>
+      <div class="arch-views">
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div>
+                  <h4>1. 系统全貌</h4>
+                  <div class="arch-view-meta">
+                    <span><strong>视图类型：</strong>C4 L1 Context</span>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="arch-view-body">
+                
+                <p>系统边界是开发者、coding agent 和规则包之间的行为约束关系。</p>
+                
+    <div class="svg-frame"><svg viewBox="0 0 1180 390" role="img" aria-label="系统全貌 architecture diagram">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="388" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">系统全貌</tspan></text>
+<text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">语义架构图</tspan></text>
+<rect x="80.0" y="170.0" width="170.0" height="70.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="165.0" y="197.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="165.0" dy="0">Developer</tspan></text>
+<text x="165.0" y="227.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="165.0" dy="0">asks task</tspan></text>
+<rect x="500.0" y="145.0" width="200.0" height="110.0" rx="10" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="600.0" y="192.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="600.0" dy="0">Coding Agent</tspan></text>
+<text x="600.0" y="222.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="600.0" dy="0">acts in repo</tspan></text>
+<rect x="900.0" y="170.0" width="190.0" height="70.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="995.0" y="197.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="995.0" dy="0">Target Repository</tspan></text>
+<text x="995.0" y="227.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="995.0" dy="0">code changes</tspan></text>
+<rect x="500.0" y="60.0" width="220.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="610.0" y="83.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="610.0" dy="0">Rule Pack</tspan></text>
+<text x="610.0" y="113.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="610.0" dy="0">clarify / simple /...</tspan></text>
+<rect x="120.0" y="285.0" width="180.0" height="56.0" rx="10" fill="#edf3fb" stroke="#b9cde5" filter="url(#soft-shadow)"/>
+<text x="210.0" y="305.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="210.0" dy="0">EXAMPLES.md</tspan></text>
+<text x="210.0" y="335.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="210.0" dy="0">calibrates behavior</tspan></text>
+<path d="M250.0,205.0 L500.0,200.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="321.0" y="185.5" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="375.0" y="202.5" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="375.0" dy="0">request</tspan></text>
+<path d="M600.0,122.0 L600.0,145.0" stroke="#0f766e" stroke-width="2.3" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="546.0" y="116.5" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="600.0" y="133.5" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="600.0" dy="0">constraints</tspan></text>
+<path d="M700.0,200.0 L900.0,205.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="746.0" y="185.5" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="800.0" y="202.5" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="800.0" dy="0">minimal change</tspan></text>
+<path d="M300.0,313.0 L500.0,236.0" stroke="#315c8f" stroke-width="2.3" fill="none" stroke-dasharray="5 5" marker-end="url(#arrow-blue)"/>
+<rect x="346.0" y="257.5" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="400.0" y="274.5" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="400.0" dy="0">examples</tspan></text>
+</svg></div>
+    <p class="diagram-caption">上下文图表达规则包的真实作用：它约束 agent 行为，而不是作为运行服务参与调用链。</p>
+    
+                <div class="diagram-mobile">
+                <div class="mobile-step" data-step="1">
+                  <b>Developer -> Agent</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="2">
+                  <b>andrej-karpathy-skills Rule Pack -> Agent</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="3">
+                  <b>Agent -> Target Repository</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="4">
+                  <b>EXAMPLES.md -> Developer</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block"><code>flowchart LR
+    Developer[Developer] --&gt; Agent[Coding Agent]
+    Rules[andrej-karpathy-skills Rule Pack] --&gt; Agent
+    Agent --&gt; Repo[Target Repository]
+    Examples[EXAMPLES.md] --&gt; Developer</code></pre></details>
+              </div>
+            </article>
+            
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div>
+                  <h4>2. 核心业务流转</h4>
+                  <div class="arch-view-meta">
+                    <span><strong>视图类型：</strong>C4 Dynamic / Behavior Sequence</span>
+                  </div>
+                </div>
+                <span class="priority-badge">Priority Interaction</span>
+              </div>
+              <div class="arch-view-body">
+                <p><strong>场景描述：</strong>用户提出 Make the search faster 这类模糊请求。</p>
+                <p>规则包的价值体现在 agent 如何先暴露假设、确认目标，再最小修改并验证结果。</p>
+                
+    <div class="svg-frame"><svg viewBox="0 0 1180 556" role="img" aria-label="核心业务流转 sequence">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="554" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">核心业务流转</tspan></text>
+<text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">Mermaid sequenceDiagram 渲染图</tspan></text>
+<rect x="0.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="18.0" cy="79" r="11" fill="#17202b"/>
+<text x="18.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="18.0" dy="0">1</tspan></text>
+<text x="82.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">User</tspan></text>
+<path d="M72.0,116 V522" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="259.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="277.0" cy="79" r="11" fill="#17202b"/>
+<text x="277.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="277.0" dy="0">2</tspan></text>
+<text x="341.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="341.0" dy="0">Agent</tspan></text>
+<path d="M331.0,116 V522" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="518.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="536.0" cy="79" r="11" fill="#17202b"/>
+<text x="536.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="536.0" dy="0">3</tspan></text>
+<text x="600.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="600.0" dy="0">Rule Pack</tspan></text>
+<path d="M590.0,116 V522" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="777.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="795.0" cy="79" r="11" fill="#17202b"/>
+<text x="795.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="795.0" dy="0">4</tspan></text>
+<text x="859.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="859.0" dy="0">Codebase</tspan></text>
+<path d="M849.0,116 V522" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="1036.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="1054.0" cy="79" r="11" fill="#17202b"/>
+<text x="1054.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="1054.0" dy="0">5</tspan></text>
+<text x="1118.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="1118.0" dy="0">Validation</tspan></text>
+<path d="M1108.0,116 V522" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<path d="M106.0,154 H289.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="115.0" y="126" width="165.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="197.5" y="143.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="197.5" dy="0">Make the search faster</tspan></text>
+<path d="M365.0,212 H548.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="374.0" y="184" width="165.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="456.5" y="201.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="456.5" dy="0">apply clarify-first rule</tspan></text>
+<path d="M556.0,270 H373.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="382.0" y="242" width="165.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="464.5" y="259.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="464.5" dy="0">expose latency / throughp...</tspan></text>
+<path d="M297.0,328 H114.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="123.0" y="300" width="165.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="205.5" y="317.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="205.5" dy="0">ask for target and succes...</tspan></text>
+<path d="M106.0,386 H289.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="115.0" y="358" width="165.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="197.5" y="375.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="197.5" dy="0">confirm objective</tspan></text>
+<path d="M365.0,444 H807.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="456.0" y="416" width="260.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="586.0" y="433.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="586.0" dy="0">make smallest relevant...</tspan></text>
+<path d="M365.0,502 H1066.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="585.5" y="474" width="260.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="715.5" y="491.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="715.5" dy="0">run test or benchmark</tspan></text>
+</svg></div>
+    <p class="diagram-caption">上图由架构视角的 Mermaid sequenceDiagram 源码静态渲染，源码保留在下方。</p>
+    
+                <div class="diagram-mobile">
+                <div class="mobile-step" data-step="1">
+                  <b>User -> Agent</b>
+                  <p>Make the search faster</p>
+                </div>
+                
+                <div class="mobile-step" data-step="2">
+                  <b>Agent -> Rule Pack</b>
+                  <p>apply clarify-first rule</p>
+                </div>
+                
+                <div class="mobile-step" data-step="3">
+                  <b>Rule Pack -> Agent</b>
+                  <p>expose latency / throughput / UX assumptions</p>
+                </div>
+                
+                <div class="mobile-step" data-step="4">
+                  <b>Agent -> User</b>
+                  <p>ask for target and success criteria</p>
+                </div>
+                
+                <div class="mobile-step" data-step="5">
+                  <b>User -> Agent</b>
+                  <p>confirm objective</p>
+                </div>
+                
+                <div class="mobile-step" data-step="6">
+                  <b>Agent -> Codebase</b>
+                  <p>make smallest relevant change</p>
+                </div>
+                
+                <div class="mobile-step" data-step="7">
+                  <b>Agent -> Validation</b>
+                  <p>run test or benchmark</p>
+                </div>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block"><code>sequenceDiagram
+    autonumber
+    actor U as User
+    participant A as Agent
+    participant R as Rule Pack
+    participant C as Codebase
+    participant V as Validation
+    U-&gt;&gt;A: Make the search faster
+    A-&gt;&gt;R: apply clarify-first rule
+    R--&gt;&gt;A: expose latency / throughput / UX assumptions
+    A--&gt;&gt;U: ask for target and success criteria
+    U--&gt;&gt;A: confirm objective
+    A-&gt;&gt;C: make smallest relevant change
+    A-&gt;&gt;V: run test or benchmark</code></pre></details>
+              </div>
+            </article>
+            
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div>
+                  <h4>3. 静态组织结构</h4>
+                  <div class="arch-view-meta">
+                    <span><strong>视图类型：</strong>C4 L2 Container（分发结构）</span>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="arch-view-body">
+                
+                <p>静态结构是多分发格式，而不是服务容器。</p>
+                
+    <div class="svg-frame"><svg viewBox="0 0 1180 430" role="img" aria-label="静态组织结构 architecture diagram">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="428" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">静态组织结构</tspan></text>
+<text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">语义架构图</tspan></text>
+<rect x="90.0" y="178.0" width="210.0" height="86.0" rx="10" fill="#17202b" stroke="#17202b" filter="url(#soft-shadow)"/>
+<text x="195.0" y="213.0" text-anchor="middle" font-size="14" font-weight="900" fill="#ffffff"><tspan x="195.0" dy="0">Four Principles</tspan></text>
+<text x="195.0" y="243.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="195.0" dy="0">core behavior contract</tspan></text>
+<rect x="470.0" y="90.0" width="220.0" height="56.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="580.0" y="110.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="580.0" dy="0">CLAUDE.md</tspan></text>
+<text x="580.0" y="140.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="580.0" dy="0">repo/global instruction</tspan></text>
+<path d="M300.0,221.0 L470.0,118.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="470.0" y="170.0" width="220.0" height="56.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="580.0" y="190.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="580.0" dy="0">Claude Skill</tspan><tspan x="580.0" dy="18">SKILL.md</tspan></text>
+<text x="580.0" y="220.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="580.0" dy="0">skill distribution</tspan></text>
+<path d="M300.0,221.0 L470.0,198.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="470.0" y="250.0" width="220.0" height="56.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="580.0" y="270.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="580.0" dy="0">Cursor Rule</tspan></text>
+<text x="580.0" y="300.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="580.0" dy="0">alwaysApply rule</tspan></text>
+<path d="M300.0,221.0 L470.0,278.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="470.0" y="330.0" width="220.0" height="56.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="580.0" y="350.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="580.0" dy="0">EXAMPLES.md</tspan></text>
+<text x="580.0" y="380.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="580.0" dy="0">behavior calibration</tspan></text>
+<path d="M300.0,221.0 L470.0,358.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="835.0" y="170.0" width="220.0" height="86.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="945.0" y="205.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="945.0" dy="0">Team Agent Baseline</tspan></text>
+<text x="945.0" y="235.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="945.0" dy="0">shared behavior</tspan></text>
+<path d="M690.0,118.0 L835.0,196.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M690.0,198.0 L835.0,208.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M690.0,278.0 L835.0,220.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M690.0,358.0 L835.0,232.0" stroke="#315c8f" stroke-width="2.3" fill="none" stroke-dasharray="5 5" marker-end="url(#arrow-blue)"/>
+<rect x="708.5" y="278.0" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="762.5" y="295.0" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="762.5" dy="0">calibrate</tspan></text>
+</svg></div>
+    <p class="diagram-caption">分发结构图把核心原则和多种落地格式分开，避免画成不存在的系统组件网络。</p>
+    
+                <div class="diagram-mobile">
+                <div class="mobile-step" data-step="1">
+                  <b>Core -> CLAUDE.md</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="2">
+                  <b>Core -> Claude Skill SKILL.md</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="3">
+                  <b>Core -> Cursor Rule</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="4">
+                  <b>Core -> Examples</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="5">
+                  <b>Examples -> Core</b>
+                  <p>calibrate</p>
+                </div>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block"><code>flowchart LR
+    Core[Four Principles] --&gt; Claude[CLAUDE.md]
+    Core --&gt; Skill[Claude Skill SKILL.md]
+    Core --&gt; Cursor[Cursor Rule]
+    Core --&gt; Examples[EXAMPLES.md]
+    Examples -.calibrate.-&gt; Core</code></pre></details>
+              </div>
+            </article>
+            </div>
+    </div>
+    </div>
+    </section>
+    
+    <section id="assets" class="section">
+      <div class="section-head">
+        <div class="section-index">05</div>
+        <h2>核心资产与价值</h2>
+        <p class="section-note">只保留新用户和技术评估者需要理解的关键资产。</p>
+      </div>
+      <div class="section-body"><div class="asset-grid"><div class="asset"><h3>CLAUDE.md</h3><p>适合直接复制到项目根的核心单文件指令。</p></div><div class="asset"><h3>SKILL.md</h3><p>Claude plugin 兼容版本，便于作为 skill 分发。</p></div><div class="asset"><h3>Cursor Rule</h3><p><code>alwaysApply: true</code>，适合 Cursor 项目级规则。</p></div><div class="asset"><h3>EXAMPLES.md</h3><p>用真实反例和正确行为解释四原则，降低误用概率。</p></div></div></div>
+    </section>
+    
+    <section id="adopt" class="section">
+      <div class="section-head">
+        <div class="section-index">06</div>
+        <h2>采用前确认与证据边界</h2>
+        <p class="section-note">风险和工程化信息只保留会影响试用/采用决策的部分。</p>
+      </div>
+      <div class="section-body">
+    <div class="two-col">
+      <div class="check-card"><h3>采用前确认</h3><ul class="bullets"><li>适合作为团队 agent 行为基线，但不要替代项目自己的工程规则。</li><li>简单小改可以快速执行；复杂任务启用澄清、目标定义和验证闭环。</li><li>建议补 eval 或 PR 对照，用真实 diff 噪声下降来验证价值。</li></ul></div>
+      <div class="evidence-card"><h3>DeepWiki / 证据边界</h3><ul class="bullets compact"><li>DeepWiki 将项目解释为解决 silent assumptions、over-abstraction、collateral damage 的四原则系统。</li><li>DeepWiki 还强调双路径集成：全局 plugin 与项目级 CLAUDE.md；这与本地 README/EXAMPLES.md 一致。</li><li><code>README.md</code> 描述四原则与安装方式。</li><li><code>EXAMPLES.md</code> 提供 “Make the search faster” 等 before/after 案例。</li><li>DeepWiki 页面补充了问题分类、原则映射和分发模型；未真实运行目标项目，也未做真实 AB eval。</li></ul></div>
+    </div>
+    </div>
+    </section>
+    
+    <footer class="footer">
+      <div><strong>生成文件：</strong>site/projects/andrej-karpathy-skills/index.html</div>
+      <div><strong>边界：</strong>静态分析，未真实运行目标项目。</div>
+    </footer>
+  </article>
+</main>
+<script>
+document.querySelectorAll('.diagram-shell').forEach((shell) => {
+  const buttons = Array.from(shell.querySelectorAll('[data-diagram-tab]'));
+  const panels = Array.from(shell.querySelectorAll('[data-diagram-panel]'));
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const target = button.getAttribute('data-diagram-tab');
+      buttons.forEach((item) => item.setAttribute('aria-selected', String(item === button)));
+      panels.forEach((panel) => {
+        panel.hidden = panel.getAttribute('data-diagram-panel') !== target;
+      });
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1650 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>FinceptTerminal 项目洞察</title>
+  <style>
+:root {
+  --bg: #f3f0e8;
+  --paper: #fffdf8;
+  --sheet: #f8fafb;
+  --ink: #151923;
+  --muted: #65707d;
+  --line: #d8ddd9;
+  --line-strong: #bfc8c2;
+  --teal: #0f766e;
+  --blue: #315c8f;
+  --amber: #a66f12;
+  --red: #a13a32;
+  --green: #147a47;
+  --dark: #17202b;
+  --soft-teal: #e8f4f2;
+  --soft-blue: #edf3fb;
+  --soft-amber: #fff5dd;
+  --soft-red: #fff0ee;
+  --radius: 8px;
+  --shadow: 0 18px 60px rgba(21, 25, 35, .08);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, rgba(21,25,35,.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21,25,35,.03) 1px, transparent 1px),
+    var(--bg);
+  background-size: 32px 32px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.58;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+a { color: #0b5c55; text-decoration: none; }
+strong { color: #071018; font-weight: 850; }
+code {
+  padding: 1px 5px;
+  border: 1px solid #d7dfdc;
+  border-radius: 5px;
+  background: #f4f7f6;
+  color: #183d39;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .92em;
+}
+.page { width: 100%; max-width: 1280px; margin: 0 auto; padding: 28px; }
+.topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.brand {
+  color: var(--teal);
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.22fr) minmax(330px, .78fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.hero-main { min-width: 0; padding: 42px 46px 36px; }
+.eyebrow {
+  display: block;
+  max-width: 100%;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+.title {
+  margin: 14px 0 18px;
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.02;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+.summary, .bullets {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.summary { max-width: 78ch; font-size: 17px; }
+.summary li, .bullets li {
+  position: relative;
+  padding-left: 18px;
+  overflow-wrap: anywhere;
+}
+.summary li::before, .bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .72em;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--teal);
+}
+.bullets.compact { gap: 6px; font-size: 14px; }
+.adoption {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 26px;
+  padding: 34px;
+  color: #fff;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), transparent 42%),
+    var(--dark);
+}
+.adoption-label {
+  color: #b9c6d6;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.adoption-title {
+  margin-top: 10px;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.16;
+}
+.adoption-detail { margin: 13px 0 0; color: #e2ebf3; font-size: 14px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 1px solid #aab6c4;
+  border-radius: 5px;
+  background: #f8fafb;
+  color: #394557;
+  font-size: 12px;
+  font-weight: 850;
+}
+.tag.green { color: var(--green); border-color: #b8dfc9; background: #eef8f2; }
+.tag.blue { color: #254466; border-color: #b9cde5; background: var(--soft-blue); }
+.tag.amber { color: var(--amber); border-color: #e6cf9f; background: var(--soft-amber); }
+.tag.red { color: var(--red); border-color: #e3b9b4; background: var(--soft-red); }
+.adoption .tag { color: #e9f1fb; border-color: #3d4e61; background: #202c3a; }
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--line-strong);
+  border-top: 0;
+  background: #fbfcfb;
+}
+.fact {
+  min-width: 0;
+  min-height: 102px;
+  padding: 18px 22px;
+  border-right: 1px solid var(--line);
+}
+.fact:last-child { border-right: 0; }
+.fact b {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+.fact span { display: block; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1px;
+  margin: 18px 0 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--line);
+  overflow: hidden;
+}
+.nav a {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  background: var(--paper);
+  color: #26313e;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+}
+.section {
+  display: block;
+  margin-top: 28px;
+  padding: 30px 0 0;
+  border-top: 1px solid var(--line-strong);
+}
+.section-head {
+  min-width: 0;
+  display: block;
+  margin-bottom: 18px;
+}
+.section-index {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.section h2 { margin: 0; font-size: 27px; line-height: 1.18; }
+.section-note { margin: 8px 0 0; max-width: 860px; color: var(--muted); font-size: 14px; }
+.section-body { min-width: 0; display: grid; gap: 18px; }
+.lean-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+}
+.kv, .asset, .check-card, .evidence-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  padding: 16px;
+}
+.kv h3, .asset h3, .check-card h3, .evidence-card h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  line-height: 1.25;
+}
+.kv p, .asset p { margin: 0; color: #364150; overflow-wrap: anywhere; }
+.demo-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr);
+  gap: 18px;
+  align-items: start;
+}
+.media-card {
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fbfcfd;
+  overflow: hidden;
+}
+.media-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 430px;
+  object-fit: contain;
+  background: #f7fafc;
+}
+.media-caption {
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.example-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fbfcfd;
+  padding: 14px;
+}
+.example-row {
+  padding: 12px 14px;
+  border-left: 4px solid var(--blue);
+  background: #fff;
+}
+.example-row.bad { border-left-color: var(--red); background: var(--soft-red); }
+.example-row.good { border-left-color: var(--teal); background: var(--soft-teal); }
+.example-row b { display: block; margin-bottom: 4px; }
+.example-row p { margin: 0; color: #35414f; }
+.diagram-shell {
+  min-width: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: 0 12px 34px rgba(21,25,35,.055);
+  overflow: hidden;
+}
+.diagram-header {
+  display: block;
+  padding: 18px 20px 15px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfb;
+}
+.type-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.type-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 1px solid #b9cde5;
+  border-radius: 5px;
+  background: var(--soft-blue);
+  color: #254466;
+  font-size: 12px;
+  font-weight: 850;
+}
+.scenario {
+  margin: 0 0 6px;
+  color: #394656;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.diagram-header .type-row { margin-top: 12px; }
+.diagram-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+.diagram-tabs button {
+  min-height: 34px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: #f8fafb;
+  color: #2f3b48;
+  padding: 5px 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.diagram-tabs button[aria-selected="true"] {
+  color: #fff;
+  border-color: var(--teal);
+  background: var(--teal);
+}
+.diagram-panel { padding: 18px 20px 20px; }
+.diagram-panel[hidden] { display: none; }
+.svg-frame {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #dce2df;
+  border-radius: var(--radius);
+  background:
+    linear-gradient(90deg, rgba(21,25,35,.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21,25,35,.035) 1px, transparent 1px),
+    #fff;
+  background-size: 28px 28px;
+}
+.svg-frame svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 960px;
+}
+.diagram-caption { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
+.diagram-mobile {
+  display: none;
+  gap: 10px;
+}
+.mobile-step, .mobile-loop {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  padding: 12px 13px 12px 42px;
+}
+.mobile-step::before {
+  content: attr(data-step);
+  position: absolute;
+  left: 12px;
+  top: 13px;
+  display: flex;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--dark);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+}
+.mobile-step b, .mobile-loop b { display: block; margin-bottom: 4px; line-height: 1.3; }
+.mobile-step p, .mobile-step small, .mobile-loop p {
+  display: block;
+  margin: 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.mobile-step p, .mobile-loop p { color: #35414f; }
+.mermaid-block {
+  margin: 0;
+  padding: 14px;
+  border: 1px solid #dce2df;
+  border-radius: var(--radius);
+  background: #f8fafb;
+  color: #26313e;
+  font-size: 12px;
+  line-height: 1.48;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+.asset-grid, .view-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.arch-lens {
+  min-width: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  overflow: hidden;
+  box-shadow: 0 12px 34px rgba(21,25,35,.045);
+}
+.arch-head {
+  display: block;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfb;
+}
+.arch-kicker {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.arch-head h3 { margin: 0; font-size: 20px; line-height: 1.25; }
+.arch-reason {
+  display: block;
+  max-width: 100%;
+  margin-top: 12px;
+  border-left: 3px solid var(--teal);
+  background: var(--soft-teal);
+  padding: 12px 14px;
+  color: #24433f;
+  font-size: 13px;
+}
+.arch-decision {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fffdf8;
+}
+.arch-kv {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fbfcfb;
+  padding: 13px 14px;
+}
+.arch-kv b {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 900;
+}
+.arch-kv span {
+  display: block;
+  color: #354252;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.arch-views {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  background:
+    linear-gradient(90deg, rgba(21,25,35,.026) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21,25,35,.022) 1px, transparent 1px),
+    #fffdf8;
+  background-size: 24px 24px;
+}
+.arch-view {
+  min-width: 0;
+  border: 1px solid #ccd7d2;
+  border-radius: var(--radius);
+  background: var(--paper);
+  overflow: hidden;
+}
+.arch-view-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfb;
+}
+.arch-view h4 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  line-height: 1.25;
+}
+.arch-view-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.priority-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 1px solid #e6cf9f;
+  border-radius: 5px;
+  background: var(--soft-amber);
+  color: var(--amber);
+  font-size: 12px;
+  font-weight: 900;
+}
+.arch-view-body {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px 16px;
+}
+.arch-view-body p {
+  margin: 0;
+  color: #354252;
+}
+.arch-source {
+  border: 1px solid #dce2df;
+  border-radius: var(--radius);
+  background: #fbfcfb;
+  overflow: hidden;
+}
+.arch-source summary {
+  min-height: 38px;
+  padding: 9px 12px;
+  color: #26313e;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 850;
+}
+.arch-source .mermaid-block {
+  border: 0;
+  border-top: 1px solid #dce2df;
+  border-radius: 0;
+}
+.two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.footer {
+  margin-top: 28px;
+  padding: 18px 0 4px;
+  border-top: 1px solid var(--line-strong);
+  color: var(--muted);
+  font-size: 13px;
+}
+@media (max-width: 980px) {
+  .page { padding: 16px; }
+  .hero, .demo-layout, .two-col { grid-template-columns: 1fr; }
+  .nav { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lean-grid, .asset-grid, .view-grid, .facts, .arch-decision { grid-template-columns: 1fr; }
+  .fact { border-right: 0; border-bottom: 1px solid var(--line); }
+  .fact:last-child { border-bottom: 0; }
+  .media-card img { max-height: none; }
+}
+@media (max-width: 1180px) and (min-width: 561px) {
+  .svg-frame svg { min-width: 0; }
+}
+@media (max-width: 560px) {
+  body { font-size: 15px; }
+  .page { padding: 12px; }
+  .topline { align-items: flex-start; }
+  .hero-main, .adoption { padding: 24px 20px; }
+  .title {
+    font-size: 32px;
+    overflow-wrap: break-word;
+  }
+  .nav { grid-template-columns: 1fr; }
+  .section h2 { font-size: 24px; }
+  .diagram-tabs { padding: 10px 12px; }
+  .diagram-panel { padding: 12px; }
+  .svg-frame { display: none; }
+  .diagram-mobile { display: grid; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="topline"><span class="brand">Project Insight</span><span>Lean · 自适应架构视角 · 图型按需选择 · 静态分析</span></div>
+  <article aria-label="FinceptTerminal 项目洞察">
+    <header class="hero">
+      <div class="hero-main">
+        <div class="eyebrow">https://github.com/Fincept-Corporation/FinceptTerminal</div>
+        <h1 class="title">FinceptTerminal</h1>
+        <ul class="summary"><li>一个 C++20 / Qt6 原生金融终端，试图把 <strong>行情、研究、组合、新闻、Python 金融分析、AI agents 和 DataHub</strong> 放进桌面工作台。</li><li>它更像开源金融工作站，而不是单一金融库。</li></ul>
+      </div>
+      <aside class="adoption">
+        <div>
+          <div class="adoption-label">Adoption Read</div>
+          <div class="adoption-title">适合学习研究；机构采用前需审计</div>
+          <p class="adoption-detail">适合先用产品图对应的研究场景理解价值；机构接入前必须审许可证、构建复现、数据源授权和交易安全。</p>
+        </div>
+        <div class="tags"><span class="tag green">金融工作台</span><span class="tag blue">原生桌面</span><span class="tag red">采用需审计</span></div>
+      </aside>
+    </header>
+    <section class="facts"><div class="fact"><b>15.8k</b><span>GitHub stars；2.1k+ forks，2026-04-27 采样。</span></div><div class="fact"><b>DataHub</b><span>in-process pub/sub topic contract 是核心治理资产。</span></div><div class="fact"><b>2,566+</b><span>约 1,143 个 C++ 源/头文件与 1,423 个 Python 脚本。</span></div></section>
+    <nav class="nav">
+      <a href="#lean">Lean 判断</a><a href="#demo">Demo</a><a href="#diagram">机制图</a><a href="#views">架构视角</a><a href="#assets">资产</a><a href="#adopt">采用确认</a>
+    </nav>
+    
+    <section id="lean" class="section">
+      <div class="section-head">
+        <div class="section-index">01</div>
+        <h2>新用户先看什么</h2>
+        <p class="section-note">保留精益创业视角：适合谁、问题、差异、时机和最小验证。</p>
+      </div>
+      <div class="section-body"><div class="lean-grid"><div class="kv"><h3>适合谁</h3><ul class="bullets"><li>个人投资者、金融工程学习者、开源量化开发者。</li><li>想低成本探索行情、研究、组合与 Python 分析整合的小团队。</li><li>希望理解金融终端架构、DataHub 数据分发和桌面工作台组织方式的技术人员。</li></ul></div><div class="kv"><h3>解决什么问题</h3><ul class="bullets"><li>Bloomberg/Eikon 昂贵；开源金融工具往往散落在行情、分析、新闻、交易等不同工具里。</li><li>用户真正需要的是一个能串起研究流程的工作台，而不只是 API 列表。</li></ul></div><div class="kv"><h3>和别的方案哪里不同</h3><ul class="bullets"><li>核心差异是 <strong>Qt 原生桌面 UI + DataHub topic contract + Python 金融脚本生态</strong> 的组合。</li><li>如果 DataHub 治理得住复杂数据源，它有机会从功能集合变成可扩展终端平台。</li></ul></div><div class="kv"><h3>为什么现在值得看</h3><ul class="bullets"><li>开源金融数据、Python 分析和本地 AI agent 都在成熟，桌面集成工作台有现实试用价值。</li><li>仓库已有多张产品截图、DataHub 架构文档和大量 C++/Python 资产，足以做场景级静态评估。</li></ul></div><div class="kv"><h3>最小验证方式</h3><ul class="bullets"><li>先围绕 Equity Research 页面验证一个标的研究路径，例如 AAPL。</li><li>确认 installer/构建、行情数据、Python analytics、DataHub topic 更新和缓存行为。</li><li>真实账户、交易、机构数据源必须延后到许可证和安全审计之后。</li></ul></div></div></div>
+    </section>
+    
+    <section id="demo" class="section">
+      <div class="section-head">
+        <div class="section-index">02</div>
+        <h2>Gold Example / Demo</h2>
+        <p class="section-note">优先使用真实项目图片或仓库 example；未运行时明确标注静态推演。</p>
+      </div>
+      <div class="section-body">
+    <div class="demo-layout">
+      
+        <figure class="media-card">
+          <img src="assets/fincept-equity-research.png" alt="FinceptTerminal demo image">
+          <figcaption class="media-caption">README 展示的 Equity Research 页面。它最能说明用户入口：从标的研究串起行情、新闻、财务和组合上下文。</figcaption>
+        </figure>
+        
+      <div class="kv">
+        <h3>AAPL 研究工作流</h3>
+        <p class="section-note">仓库 README 产品图 + 静态推演</p>
+        <ul class="bullets"><li>打开 Equity Research 或 Markets 页面，输入 AAPL。</li><li>Qt Screen 发出标的请求，DataHub 订阅 <code>market:quote:AAPL</code> 等 topic。</li><li>Producer 拉取行情、新闻或财务数据，缓存后发布给页面。</li><li>研究员在同一工作台查看行情、新闻、财务、组合影响。</li></ul>
+      </div>
+    </div>
+    </div>
+    </section>
+    
+    <section id="diagram" class="section">
+      <div class="section-head">
+        <div class="section-index">03</div>
+        <h2>项目机制图</h2>
+        <p class="section-note">图表是可选组件；只在 UML / 系统动力学等表达方式能带来解释增益时使用。</p>
+      </div>
+      <div class="section-body">
+    <div class="diagram-shell">
+      <div class="diagram-header">
+        <div>
+          <p class="scenario"><strong>选择理由：</strong>这是桌面金融工作台，核心要解释 UI、DataHub、Producer、缓存和研究视图如何协作；数据/研究上下文积累更适合用 SFD 表达。</p>
+          <p class="scenario"><strong>场景：</strong>研究员在 Equity Research 中查看 AAPL，并希望把行情、新闻、财务和组合影响放到同一上下文。</p>
+        </div>
+        <div class="type-row" aria-label="diagram model types"><span class="type-chip">UML Component</span><span class="type-chip">UML Sequence</span><span class="type-chip">SFD</span></div>
+      </div>
+      <div class="diagram-tabs" role="tablist" aria-label="diagram views">
+        <button type="button" data-diagram-tab="mixed" aria-selected="true">混合图</button><button type="button" data-diagram-tab="flow" aria-selected="false">主流程</button><button type="button" data-diagram-tab="component" aria-selected="false">组件关系</button><button type="button" data-diagram-tab="system" aria-selected="false">系统动力学</button><button type="button" data-diagram-tab="source" aria-selected="false">图源</button>
+      </div>
+      <div class="diagram-panel" data-diagram-panel="mixed" >
+    <div class="svg-frame"><svg viewBox="0 0 1180 620" role="img" aria-label="FinceptTerminal mixed behavior and dynamics">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="618" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">UML + 系统动力学混合视角</tspan></text>
+<text x="292.0" y="38.0" text-anchor="start" font-size="13" font-weight="500" fill="#65707d"><tspan x="292.0" dy="0">研究员在 Equity Research 中查看 AAPL，并希望把行情、新闻、财务和组合影响放到同一上下文。</tspan></text>
+<rect x="52" y="212" width="1076" height="156" rx="12" fill="#f8fafb" stroke="#d8ddd9"/>
+<text x="78.0" y="238.0" text-anchor="start" font-size="13" font-weight="850" fill="#17202b"><tspan x="78.0" dy="0">微观执行骨架</tspan></text>
+<rect x="12.0" y="258" width="132" height="62" rx="8" fill="#e8f4f2" stroke="#cfd8d3"/>
+<text x="28.0" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="28.0" dy="0">1</tspan></text>
+<text x="78.0" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="78.0" dy="0">研究员</tspan></text>
+<path d="M152.0,289 L208.8,289" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="216.8" y="258" width="132" height="62" rx="8" fill="#fff" stroke="#cfd8d3"/>
+<text x="232.8" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="232.8" dy="0">2</tspan></text>
+<text x="282.8" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="282.8" dy="0">Qt Screen</tspan></text>
+<path d="M356.8,289 L413.6,289" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="421.6" y="258" width="132" height="62" rx="8" fill="#fff" stroke="#cfd8d3"/>
+<text x="437.6" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="437.6" dy="0">3</tspan></text>
+<text x="487.6" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="487.6" dy="0">DataHub Topic</tspan></text>
+<path d="M561.6,289 L618.4,289" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="626.4" y="258" width="132" height="62" rx="8" fill="#fff" stroke="#cfd8d3"/>
+<text x="642.4" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="642.4" dy="0">4</tspan></text>
+<text x="692.4" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="692.4" dy="0">Producer/Data</tspan><tspan x="692.4" dy="15">Source</tspan></text>
+<path d="M766.4,289 L823.2,289" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="831.2" y="258" width="132" height="62" rx="8" fill="#fff" stroke="#cfd8d3"/>
+<text x="847.2" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="847.2" dy="0">5</tspan></text>
+<text x="897.2" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="897.2" dy="0">Cache/State</tspan></text>
+<path d="M971.2,289 L1028.0,289" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="1036.0" y="258" width="132" height="62" rx="8" fill="#fff" stroke="#cfd8d3"/>
+<text x="1052.0" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="1052.0" dy="0">6</tspan></text>
+<text x="1102.0" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="1102.0" dy="0">研究视图</tspan></text>
+<rect x="72" y="82" width="1036" height="94" rx="12" fill="#e8f4f2" stroke="#0f766e" stroke-opacity=".36"/>
+<text x="96.0" y="114.0" text-anchor="start" font-size="15" font-weight="900" fill="#0f766e"><tspan x="96.0" dy="0">SFD · 研究上下文存量</tspan></text>
+<rect x="252" y="112" width="116" height="34" rx="17" fill="#fff" stroke="#0f766e" stroke-opacity=".34"/>
+<text x="310.0" y="134.0" text-anchor="middle" font-size="10" font-weight="700" fill="#29313c"><tspan x="310.0" dy="0">行情/新闻/财务流入</tspan></text>
+<path d="M372,129 H396" stroke="#0f766e" stroke-width="1.8" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="402" y="112" width="116" height="34" rx="17" fill="#fff" stroke="#0f766e" stroke-opacity=".34"/>
+<text x="460.0" y="134.0" text-anchor="middle" font-size="10" font-weight="700" fill="#29313c"><tspan x="460.0" dy="0">DataHub...</tspan></text>
+<path d="M522,129 H546" stroke="#0f766e" stroke-width="1.8" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="552" y="112" width="116" height="34" rx="17" fill="#fff" stroke="#0f766e" stroke-opacity=".34"/>
+<text x="610.0" y="134.0" text-anchor="middle" font-size="10" font-weight="700" fill="#29313c"><tspan x="610.0" dy="0">缓存与本地状态增加</tspan></text>
+<path d="M672,129 H696" stroke="#0f766e" stroke-width="1.8" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="702" y="112" width="116" height="34" rx="17" fill="#fff" stroke="#0f766e" stroke-opacity=".34"/>
+<text x="760.0" y="134.0" text-anchor="middle" font-size="10" font-weight="700" fill="#29313c"><tspan x="760.0" dy="0">研究页可复用上下文变多</tspan></text>
+<path d="M980,154 C930,206 820,222 700,232" stroke="#0f766e" stroke-width="2.2" fill="none" stroke-dasharray="5 5" marker-end="url(#arrow-teal)"/>
+<rect x="72" y="430" width="1036" height="124" rx="12" fill="#fff5dd" stroke="#a66f12" stroke-opacity=".36"/>
+<text x="96.0" y="464.0" text-anchor="start" font-size="15" font-weight="900" fill="#a66f12"><tspan x="96.0" dy="0">B · 机构采用控制回路</tspan></text>
+<rect x="258" y="480" width="144" height="42" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".34"/>
+<text x="330.0" y="505.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="330.0" dy="0">功能覆盖扩大</tspan></text>
+<path d="M408,501 H435" stroke="#a66f12" stroke-width="1.8" fill="none" marker-end="url(#arrow-amber)"/>
+<rect x="443" y="480" width="144" height="42" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".34"/>
+<text x="515.0" y="505.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="515.0" dy="0">许可证/数据源/交易风险上</tspan><tspan x="515.0" dy="14">升</tspan></text>
+<path d="M593,501 H620" stroke="#a66f12" stroke-width="1.8" fill="none" marker-end="url(#arrow-amber)"/>
+<rect x="628" y="480" width="144" height="42" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".34"/>
+<text x="700.0" y="505.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="700.0" dy="0">审计和权限边界补齐</tspan></text>
+<path d="M778,501 H805" stroke="#a66f12" stroke-width="1.8" fill="none" marker-end="url(#arrow-amber)"/>
+<rect x="813" y="480" width="144" height="42" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".34"/>
+<text x="885.0" y="505.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="885.0" dy="0">可采用范围恢复可控</tspan></text>
+<path d="M270,480 C240,416 288,382 382,356" stroke="#a66f12" stroke-width="2.2" fill="none" stroke-dasharray="5 5" marker-end="url(#arrow-amber)"/>
+<text x="590.0" y="594.0" text-anchor="middle" font-size="12" font-weight="550" fill="#4b5563"><tspan x="590.0" dy="0">读图方式：中心看一次任务如何完成；外圈只保留对采用、信任、风险或存量变化有解释增益的反馈回路。</tspan></text>
+</svg></div>
+    <p class="diagram-caption">参考 docs/reference/image.md 的思路：中心是一次任务执行，外圈只保留有解释增益的动力回路。</p>
+    <div class="diagram-mobile">
+        <div class="mobile-loop">
+          <b>混合图读法</b>
+          <p>先看任务执行步骤，再看哪些反馈回路会改变长期采用、风险或上下文存量。</p>
+        </div>
+        
+            <div class="mobile-step" data-step="1">
+              <b>研究员 -> Qt Screen</b>
+              <p>选择 AAPL / 打开研究页</p>
+              <small>形成研究任务</small>
+            </div>
+            
+            <div class="mobile-step" data-step="2">
+              <b>Qt Screen -> DataHub Topic</b>
+              <p>订阅 quote/news/financials</p>
+              <small>页面不直接管理所有数据源</small>
+            </div>
+            
+            <div class="mobile-step" data-step="3">
+              <b>DataHub Topic -> Producer/Data Source</b>
+              <p>请求行情、新闻、财务数据</p>
+              <small>多来源数据进入统一 topic</small>
+            </div>
+            
+            <div class="mobile-step" data-step="4">
+              <b>Producer/Data Source -> Cache/State</b>
+              <p>写入缓存和状态</p>
+              <small>减少重复请求并保留上下文</small>
+            </div>
+            
+            <div class="mobile-step" data-step="5">
+              <b>Cache/State -> 研究视图</b>
+              <p>发布更新</p>
+              <small>图表、表格、新闻和组合影响同步刷新</small>
+            </div>
+            
+            <div class="mobile-loop">
+              <b>SFD · 研究上下文存量</b>
+              <p>行情/新闻/财务流入 -&gt; DataHub topic 聚合 -&gt; 缓存与本地状态增加 -&gt; 研究页可复用上下文变多</p>
+            </div>
+            
+            <div class="mobile-loop">
+              <b>B · 机构采用控制回路</b>
+              <p>功能覆盖扩大 -&gt; 许可证/数据源/交易风险上升 -&gt; 审计和权限边界补齐 -&gt; 可采用范围恢复可控</p>
+            </div>
+            </div></div><div class="diagram-panel" data-diagram-panel="flow" hidden>
+    <div class="svg-frame"><svg viewBox="0 0 1180 470" role="img" aria-label="FinceptTerminal runtime flow">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="468" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">运行主链路</tspan></text>
+<text x="185.0" y="38.0" text-anchor="start" font-size="13" font-weight="500" fill="#65707d"><tspan x="185.0" dy="0">研究员在 Equity Research 中查看 AAPL，并希望把行情、新闻、财务和组合影响放到同一上下文。</tspan></text>
+<rect x="-12.0" y="82" width="148" height="66" rx="8" fill="#e8f4f2" stroke="#0f766e" filter="url(#soft-shadow)"/>
+<circle cx="10.0" cy="104" r="12" fill="#17202b"/>
+<text x="10.0" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="10.0" dy="0">1</tspan></text>
+<text x="62.0" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="62.0" dy="0">研究员</tspan></text>
+<rect x="199.2" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="221.2" cy="104" r="12" fill="#17202b"/>
+<text x="221.2" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="221.2" dy="0">2</tspan></text>
+<text x="273.2" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="273.2" dy="0">Qt Screen</tspan></text>
+<rect x="410.4" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="432.4" cy="104" r="12" fill="#17202b"/>
+<text x="432.4" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="432.4" dy="0">3</tspan></text>
+<text x="484.4" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="484.4" dy="0">DataHub Topic</tspan></text>
+<rect x="621.6" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="643.6" cy="104" r="12" fill="#17202b"/>
+<text x="643.6" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="643.6" dy="0">4</tspan></text>
+<text x="695.6" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="695.6" dy="0">Producer/Data</tspan><tspan x="695.6" dy="18">Source</tspan></text>
+<rect x="832.8" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="854.8" cy="104" r="12" fill="#17202b"/>
+<text x="854.8" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="854.8" dy="0">5</tspan></text>
+<text x="906.8" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="906.8" dy="0">Cache/State</tspan></text>
+<rect x="1044.0" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="1066.0" cy="104" r="12" fill="#17202b"/>
+<text x="1066.0" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="1066.0" dy="0">6</tspan></text>
+<text x="1118.0" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="1118.0" dy="0">研究视图</tspan></text>
+<path d="M144.0,115 L191.2,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M167.6,125 V180" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="103.6" y="190" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="167.6" y="217.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="167.6" dy="0">选择 AAPL / 打开研究页</tspan></text>
+<text x="167.6" y="245.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="167.6" dy="0">形成研究任务</tspan></text>
+<path d="M355.2,115 L402.4,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M378.8,125 V272" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="314.8" y="282" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="378.8" y="309.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="378.8" dy="0">订阅</tspan><tspan x="378.8" dy="15">quote/news/financials</tspan></text>
+<text x="378.8" y="337.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="378.8" dy="0">页面不直接管理所有数据源</tspan></text>
+<path d="M566.4,115 L613.6,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M590.0,125 V180" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="526.0" y="190" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="590.0" y="217.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="590.0" dy="0">请求行情、新闻、财务数据</tspan></text>
+<text x="590.0" y="245.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="590.0" dy="0">多来源数据进入统一 topic</tspan></text>
+<path d="M777.6,115 L824.8,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M801.2,125 V272" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="737.2" y="282" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="801.2" y="309.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="801.2" dy="0">写入缓存和状态</tspan></text>
+<text x="801.2" y="337.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="801.2" dy="0">减少重复请求并保留上下文</tspan></text>
+<path d="M988.8,115 L1036.0,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M1012.4,125 V180" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="948.4" y="190" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="1012.4" y="217.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="1012.4" dy="0">发布更新</tspan></text>
+<text x="1012.4" y="245.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="1012.4" dy="0">图表、表格、新闻和组合影响同步刷</tspan><tspan x="1012.4" dy="14">新</tspan></text>
+<rect x="62" y="408" width="1056" height="28" rx="14" fill="#f4f7f6" stroke="#d8ddd9"/>
+<text x="590.0" y="427.0" text-anchor="middle" font-size="12" font-weight="550" fill="#4b5563"><tspan x="590.0" dy="0">读图方式：从左到右看一次真实任务如何通过项目核心机制完成；下方蓝色框是每一步的关键协议、数据或行为转换。</tspan></text>
+</svg></div>
+    <p class="diagram-caption">主流程图把一次典型任务拆成角色、协议/数据转换和关键交接点。</p>
+    <div class="diagram-mobile">
+            <div class="mobile-step" data-step="1">
+              <b>研究员 -> Qt Screen</b>
+              <p>选择 AAPL / 打开研究页</p>
+              <small>形成研究任务</small>
+            </div>
+            
+            <div class="mobile-step" data-step="2">
+              <b>Qt Screen -> DataHub Topic</b>
+              <p>订阅 quote/news/financials</p>
+              <small>页面不直接管理所有数据源</small>
+            </div>
+            
+            <div class="mobile-step" data-step="3">
+              <b>DataHub Topic -> Producer/Data Source</b>
+              <p>请求行情、新闻、财务数据</p>
+              <small>多来源数据进入统一 topic</small>
+            </div>
+            
+            <div class="mobile-step" data-step="4">
+              <b>Producer/Data Source -> Cache/State</b>
+              <p>写入缓存和状态</p>
+              <small>减少重复请求并保留上下文</small>
+            </div>
+            
+            <div class="mobile-step" data-step="5">
+              <b>Cache/State -> 研究视图</b>
+              <p>发布更新</p>
+              <small>图表、表格、新闻和组合影响同步刷新</small>
+            </div>
+            </div></div><div class="diagram-panel" data-diagram-panel="component" hidden>
+    <div class="svg-frame"><svg viewBox="0 0 1180 500" role="img" aria-label="FinceptTerminal component map">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="498" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">组件关系</tspan></text>
+<rect x="210" y="218" width="760" height="78" rx="12" fill="#17202b" stroke="#17202b"/>
+<text x="590.0" y="251.0" text-anchor="middle" font-size="19" font-weight="900" fill="#ffffff"><tspan x="590.0" dy="0">DataHub</tspan></text>
+<text x="590.0" y="276.0" text-anchor="middle" font-size="12" font-weight="500" fill="#dbe7ef"><tspan x="590.0" dy="0">让模块、数据和外部系统形成可复用的协作边界</tspan></text>
+<path d="M220.0,176.0 L220.0,226.0" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="95.0" y="82" width="250" height="94" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="111.0" y="112.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="111.0" dy="0">Qt Screens</tspan></text>
+<text x="111.0" y="137.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="111.0" dy="0">承载用户交互和金融场景页面。</tspan></text>
+<path d="M220.0,352.0 L220.0,304.0" stroke="#0f766e" stroke-width="2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="95.0" y="352" width="250" height="94" rx="8" fill="#e8f4f2" stroke="#b8d8d3"/>
+<text x="111.0" y="382.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="111.0" dy="0">DataHub</tspan></text>
+<text x="111.0" y="407.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="111.0" dy="0">用 topic 统一</tspan><tspan x="111.0" dy="15">quote、news、economics、bro...</tspan></text>
+<path d="M590.0,176.0 L590.0,226.0" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="465.0" y="82" width="250" height="94" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="481.0" y="112.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="481.0" dy="0">Producers</tspan></text>
+<text x="481.0" y="137.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="481.0" dy="0">HTTP、WebSocket、Broker、PythonRunner</tspan><tspan x="481.0" dy="15">等生产数据。</tspan></text>
+<path d="M960.0,352.0 L960.0,304.0" stroke="#0f766e" stroke-width="2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="835.0" y="352" width="250" height="94" rx="8" fill="#e8f4f2" stroke="#b8d8d3"/>
+<text x="851.0" y="382.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="851.0" dy="0">Cache / SQLite</tspan></text>
+<text x="851.0" y="407.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="851.0" dy="0">承接历史数据、状态和本地上下文。</tspan></text>
+<path d="M960.0,176.0 L960.0,226.0" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="835.0" y="82" width="250" height="94" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="851.0" y="112.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="851.0" dy="0">Python Scripts</tspan></text>
+<text x="851.0" y="137.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="851.0" dy="0">提供分析、数据获取、agent 和量化能力。</tspan></text>
+<path d="M120,257 H206" stroke="#a66f12" stroke-width="2.4" fill="none" marker-end="url(#arrow-amber)"/>
+<path d="M974,257 H1060" stroke="#a66f12" stroke-width="2.4" fill="none" marker-end="url(#arrow-amber)"/>
+<text x="96.0" y="263.0" text-anchor="middle" font-size="13" font-weight="800" fill="#a66f12"><tspan x="96.0" dy="0">输入</tspan></text>
+<text x="1084.0" y="263.0" text-anchor="middle" font-size="13" font-weight="800" fill="#a66f12"><tspan x="1084.0" dy="0">输出</tspan></text>
+</svg></div>
+    <p class="diagram-caption">组件图强调核心契约：哪个模块承接输入，哪些模块围绕它提供数据、适配或规则。</p>
+    <div class="diagram-mobile">
+        <div class="mobile-step" data-step="1">
+          <b>Qt Screens</b>
+          <p>承载用户交互和金融场景页面。</p>
+        </div>
+        
+        <div class="mobile-step" data-step="2">
+          <b>DataHub</b>
+          <p>用 topic 统一 quote、news、economics、broker 等状态。</p>
+        </div>
+        
+        <div class="mobile-step" data-step="3">
+          <b>Producers</b>
+          <p>HTTP、WebSocket、Broker、PythonRunner 等生产数据。</p>
+        </div>
+        
+        <div class="mobile-step" data-step="4">
+          <b>Cache / SQLite</b>
+          <p>承接历史数据、状态和本地上下文。</p>
+        </div>
+        
+        <div class="mobile-step" data-step="5">
+          <b>Python Scripts</b>
+          <p>提供分析、数据获取、agent 和量化能力。</p>
+        </div>
+        </div></div><div class="diagram-panel" data-diagram-panel="system" hidden>
+    <div class="svg-frame"><svg viewBox="0 0 1180 516" role="img" aria-label="FinceptTerminal system dynamics">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="514" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">系统动力学视角</tspan></text>
+<rect x="32" y="58" width="1116" height="206" rx="10" fill="#e8f4f2" stroke="#0f766e" stroke-opacity=".32"/>
+<text x="56.0" y="100.0" text-anchor="start" font-size="16" font-weight="900" fill="#17202b"><tspan x="56.0" dy="0">研究上下文存量</tspan></text>
+<text x="56.0" y="124.0" text-anchor="start" font-size="12" font-weight="700" fill="#65707d"><tspan x="56.0" dy="0">SFD：存量与流量</tspan></text>
+<path d="M190,180 H380" stroke="#0f766e" stroke-width="3" fill="none" marker-end="url(#arrow-teal)"/>
+<text x="285.0" y="165.0" text-anchor="middle" font-size="12" font-weight="700" fill="#0f766e"><tspan x="285.0" dy="0">行情/新闻/财务流入</tspan></text>
+<rect x="390" y="132" width="210" height="96" rx="8" fill="#fff" stroke="#0f766e" stroke-width="2"/>
+<ellipse cx="495" cy="132" rx="105" ry="16" fill="#fff" stroke="#0f766e" stroke-width="2"/>
+<ellipse cx="495" cy="228" rx="105" ry="16" fill="none" stroke="#0f766e" stroke-width="2"/>
+<text x="495.0" y="185.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="495.0" dy="0">缓存与本地状态增加</tspan></text>
+<path d="M610,180 H850" stroke="#0f766e" stroke-width="3" fill="none" marker-end="url(#arrow-teal)"/>
+<text x="730.0" y="165.0" text-anchor="middle" font-size="12" font-weight="700" fill="#0f766e"><tspan x="730.0" dy="0">研究页可复用上下文变多</tspan></text>
+<rect x="870" y="144" width="190" height="72" rx="8" fill="#fff" stroke="#0f766e" stroke-opacity=".42"/>
+<text x="965.0" y="178.0" text-anchor="middle" font-size="13" font-weight="850" fill="#29313c"><tspan x="965.0" dy="0">DataHub topic 聚合</tspan></text>
+<rect x="32" y="284" width="1116" height="206" rx="10" fill="#fff5dd" stroke="#a66f12" stroke-opacity=".32"/>
+<circle cx="86" cy="342" r="26" fill="#fff" stroke="#a66f12" stroke-width="2"/>
+<text x="86.0" y="350.0" text-anchor="middle" font-size="22" font-weight="900" fill="#a66f12"><tspan x="86.0" dy="0">B</tspan></text>
+<text x="126.0" y="330.0" text-anchor="start" font-size="16" font-weight="900" fill="#17202b"><tspan x="126.0" dy="0">机构采用控制回路</tspan></text>
+<text x="126.0" y="354.0" text-anchor="start" font-size="12" font-weight="700" fill="#65707d"><tspan x="126.0" dy="0">CLD 回路</tspan></text>
+<rect x="152.5" y="372" width="155.0" height="58" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".38"/>
+<text x="230.0" y="396.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="230.0" dy="0">功能覆盖扩大</tspan></text>
+<path d="M315.5,401 L397.8,401" stroke="#a66f12" stroke-width="2" fill="none" marker-end="url(#arrow-amber)"/>
+<text x="356.7" y="392.0" text-anchor="middle" font-size="12" font-weight="900" fill="#a66f12"><tspan x="356.7" dy="0">-</tspan></text>
+<rect x="405.8" y="372" width="155.0" height="58" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".38"/>
+<text x="483.3" y="396.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="483.3" dy="0">许可证/数据源/交易风险上</tspan><tspan x="483.3" dy="15">升</tspan></text>
+<path d="M568.8,401 L651.2,401" stroke="#a66f12" stroke-width="2" fill="none" marker-end="url(#arrow-amber)"/>
+<text x="610.0" y="392.0" text-anchor="middle" font-size="12" font-weight="900" fill="#a66f12"><tspan x="610.0" dy="0">-</tspan></text>
+<rect x="659.2" y="372" width="155.0" height="58" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".38"/>
+<text x="736.7" y="396.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="736.7" dy="0">审计和权限边界补齐</tspan></text>
+<path d="M822.2,401 L904.5,401" stroke="#a66f12" stroke-width="2" fill="none" marker-end="url(#arrow-amber)"/>
+<text x="863.3" y="392.0" text-anchor="middle" font-size="12" font-weight="900" fill="#a66f12"><tspan x="863.3" dy="0">-</tspan></text>
+<rect x="912.5" y="372" width="155.0" height="58" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".38"/>
+<text x="990.0" y="396.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="990.0" dy="0">可采用范围恢复可控</tspan></text>
+<path d="M990.0,442 C990.0,480 230.0,480 230.0,442" stroke="#a66f12" stroke-width="2.2" fill="none" marker-end="url(#arrow-amber)"/>
+</svg></div>
+    <p class="diagram-caption">系统动力学图只在反馈、存量或趋势能解释项目机制时使用。</p>
+    <div class="diagram-mobile">
+            <div class="mobile-loop">
+              <b>SFD · 研究上下文存量</b>
+              <p>行情/新闻/财务流入 -&gt; DataHub topic 聚合 -&gt; 缓存与本地状态增加 -&gt; 研究页可复用上下文变多</p>
+            </div>
+            
+            <div class="mobile-loop">
+              <b>B · 机构采用控制回路</b>
+              <p>功能覆盖扩大 -&gt; 许可证/数据源/交易风险上升 -&gt; 审计和权限边界补齐 -&gt; 可采用范围恢复可控</p>
+            </div>
+            </div></div><div class="diagram-panel" data-diagram-panel="source" hidden><pre class="mermaid-block">%% 主流程 / sequence
+sequenceDiagram
+    autonumber
+    participant P1 as 研究员
+    participant P2 as Qt Screen
+    participant P3 as DataHub Topic
+    participant P4 as Producer/Data Source
+    participant P5 as Cache/State
+    participant P6 as 研究视图
+    P1-&gt;&gt;P2: 选择 AAPL / 打开研究页
+    Note over P2: 形成研究任务
+    P2-&gt;&gt;P3: 订阅 quote/news/financials
+    Note over P3: 页面不直接管理所有数据源
+    P3-&gt;&gt;P4: 请求行情、新闻、财务数据
+    Note over P4: 多来源数据进入统一 topic
+    P4-&gt;&gt;P5: 写入缓存和状态
+    Note over P5: 减少重复请求并保留上下文
+    P5-&gt;&gt;P6: 发布更新
+    Note over P6: 图表、表格、新闻和组合影响同步刷新
+
+---
+
+%% 组件关系 / component
+flowchart LR
+    N1[Qt Screens&lt;br/&gt;承载用户交互和金融场景页面。]
+    N2[DataHub&lt;br/&gt;用 topic 统一 quote、news、economics、broker 等状态。]
+    N1 --&gt; N2
+    N3[Producers&lt;br/&gt;HTTP、WebSocket、Broker、PythonRunner 等生产数据。]
+    N2 --&gt; N3
+    N4[Cache / SQLite&lt;br/&gt;承接历史数据、状态和本地上下文。]
+    N3 --&gt; N4
+    N5[Python Scripts&lt;br/&gt;提供分析、数据获取、agent 和量化能力。]
+    N4 --&gt; N5
+
+---
+
+%% 系统动力学 / CLD-SFD-BOT
+SFD 研究上下文存量: 行情/新闻/财务流入 -&gt; DataHub topic 聚合 -&gt; 缓存与本地状态增加 -&gt; 研究页可复用上下文变多
+B 机构采用控制回路: 功能覆盖扩大 -&gt; 许可证/数据源/交易风险上升 -&gt; 审计和权限边界补齐 -&gt; 可采用范围恢复可控
+
+---
+
+%% 混合图说明
+中心使用一次任务/请求执行骨架；外圈只叠加有解释增益的 CLD/SFD/BOT 回路。</pre></div>
+    </div>
+    </div>
+    </section>
+    
+    <section id="views" class="section">
+      <div class="section-head">
+        <div class="section-index">04</div>
+        <h2>自适应架构视角</h2>
+        <p class="section-note">先判断复杂度，再裁剪 C4 / 4+1 / UML 组合；核心业务交互图必须优先。</p>
+      </div>
+      <div class="section-body">
+    <div class="arch-lens">
+      <div class="arch-head">
+        <span class="arch-kicker">Adaptive Architecture Lens</span>
+        <h3>自适应架构视角</h3>
+        <div class="arch-reason">先做复杂度评估，再选择 C4 或 4+1；无论框架如何，核心业务交互图优先。</div>
+      </div>
+      <div class="arch-decision"><div class="arch-kv"><b>项目复杂性评估</b><span>复杂 / 异构</span></div><div class="arch-kv"><b>选用框架</b><span>4+1 视图模型 + C4/UML 标注</span></div><div class="arch-kv"><b>裁剪策略</b><span>该项目横跨 Qt 桌面 UI、DataHub、Producer、缓存、Python runtime、外部数据源和潜在 broker。保留场景视图、过程视图、开发/实现视图和部署视图；不再输出五张孤立文字卡。</span></div><div class="arch-kv"><b>省略内容</b><span>省略单独 Logical 文字卡；逻辑对象已经合并进 C4 L1/L2 和核心过程图，避免重复解释。</span></div></div>
+      <div class="arch-views">
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div>
+                  <h4>1. 系统全貌</h4>
+                  <div class="arch-view-meta">
+                    <span><strong>视图类型：</strong>场景视图(+1) / C4 L1 Context</span>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="arch-view-body">
+                
+                <p>以 AAPL Equity Research 作为 Scenario，先界定研究员、桌面终端和外部数据源的系统边界。</p>
+                
+    <div class="svg-frame"><svg viewBox="0 0 1180 460" role="img" aria-label="系统全貌 architecture diagram">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="458" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">系统全貌</tspan></text>
+<text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">语义架构图</tspan></text>
+<rect x="60.0" y="190.0" width="150.0" height="70.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="135.0" y="217.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="135.0" dy="0">Researcher</tspan></text>
+<text x="135.0" y="247.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="135.0" dy="0">AAPL workflow</tspan></text>
+<rect x="265.0" y="170.0" width="190.0" height="100.0" rx="10" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="360.0" y="212.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="360.0" dy="0">Qt Desktop</tspan></text>
+<text x="360.0" y="242.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="360.0" dy="0">Equity Research UI</tspan></text>
+<rect x="520.0" y="160.0" width="210.0" height="120.0" rx="10" fill="#17202b" stroke="#17202b" filter="url(#soft-shadow)"/>
+<text x="625.0" y="212.0" text-anchor="middle" font-size="14" font-weight="900" fill="#ffffff"><tspan x="625.0" dy="0">DataHub Topic Bus</tspan></text>
+<text x="625.0" y="242.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="625.0" dy="0">quote / news /...</tspan></text>
+<rect x="820.0" y="90.0" width="210.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="925.0" y="113.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="925.0" dy="0">Market / News /</tspan><tspan x="925.0" dy="18">Financial APIs</tspan></text>
+<text x="925.0" y="143.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="925.0" dy="0">external sources</tspan></text>
+<rect x="820.0" y="190.0" width="180.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="910.0" y="213.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="910.0" dy="0">Python Analytics</tspan></text>
+<text x="910.0" y="243.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="910.0" dy="0">local runtime</tspan></text>
+<rect x="820.0" y="290.0" width="180.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="910.0" y="313.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="910.0" dy="0">Cache / State</tspan></text>
+<text x="910.0" y="343.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="910.0" dy="0">local context</tspan></text>
+<rect x="265.0" y="315.0" width="190.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="360.0" y="338.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="360.0" dy="0">Research Views</tspan></text>
+<text x="360.0" y="368.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="360.0" dy="0">charts / tables / news</tspan></text>
+<path d="M210.0,225.0 L265.0,220.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="183.5" y="205.5" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="237.5" y="222.5" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="237.5" dy="0">opens</tspan></text>
+<path d="M455.0,220.0 L520.0,220.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="433.5" y="203.0" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="487.5" y="220.0" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="487.5" dy="0">subscribe</tspan></text>
+<path d="M730.0,195.0 L820.0,121.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="721.0" y="141.0" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="775.0" y="158.0" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="775.0" dy="0">producers</tspan></text>
+<path d="M730.0,220.0 L820.0,221.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M730.0,245.0 L820.0,321.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M520.0,255.0 L455.0,346.0" stroke="#0f766e" stroke-width="2.3" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="433.5" y="283.5" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="487.5" y="300.5" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="487.5" dy="0">publish</tspan></text>
+</svg></div>
+    <p class="diagram-caption">系统全貌图突出研究场景边界：UI 通过 DataHub 组织外部数据、Python 分析和本地状态。</p>
+    
+                <div class="diagram-mobile">
+                <div class="mobile-step" data-step="1">
+                  <b>Researcher -> Qt</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="2">
+                  <b>Qt -> DataHub</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="3">
+                  <b>DataHub -> Producers</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="4">
+                  <b>Producers -> External Data Sources</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="5">
+                  <b>DataHub -> Python Analytics Runtime</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="6">
+                  <b>DataHub -> Local Cache and State</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="7">
+                  <b>Qt -> Research Views</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block"><code>flowchart LR
+    Researcher[Researcher] --&gt; Qt[FinceptTerminal Qt Desktop]
+    Qt --&gt; DataHub[DataHub Topic Bus]
+    DataHub --&gt; Producers[Market News Financial Producers]
+    Producers --&gt; Sources[External Data Sources]
+    DataHub --&gt; Python[Python Analytics Runtime]
+    DataHub --&gt; Cache[Local Cache and State]
+    Qt --&gt; Views[Research Views]</code></pre></details>
+              </div>
+            </article>
+            
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div>
+                  <h4>2. 核心业务流转</h4>
+                  <div class="arch-view-meta">
+                    <span><strong>视图类型：</strong>Process View / UML Sequence</span>
+                  </div>
+                </div>
+                <span class="priority-badge">Priority Interaction</span>
+              </div>
+              <div class="arch-view-body">
+                <p><strong>场景描述：</strong>研究员在 Equity Research 中查看 AAPL，并希望把行情、新闻、财务和组合影响放到同一上下文。</p>
+                <p>这是必须优先理解的交互图：Screen 不直接管理所有来源，而是通过 DataHub topic 组织数据流和状态刷新。</p>
+                
+    <div class="svg-frame"><svg viewBox="0 0 1180 498" role="img" aria-label="核心业务流转 sequence">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="496" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">核心业务流转</tspan></text>
+<text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">Mermaid sequenceDiagram 渲染图</tspan></text>
+<rect x="0.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="18.0" cy="79" r="11" fill="#17202b"/>
+<text x="18.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="18.0" dy="0">1</tspan></text>
+<text x="82.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">Researcher</tspan></text>
+<path d="M72.0,116 V464" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="207.2" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="225.2" cy="79" r="11" fill="#17202b"/>
+<text x="225.2" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="225.2" dy="0">2</tspan></text>
+<text x="289.2" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="289.2" dy="0">Qt Screen</tspan></text>
+<path d="M279.2,116 V464" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="414.4" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="432.4" cy="79" r="11" fill="#17202b"/>
+<text x="432.4" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="432.4" dy="0">3</tspan></text>
+<text x="496.4" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="496.4" dy="0">DataHub Topic</tspan></text>
+<path d="M486.4,116 V464" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="621.6" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="639.6" cy="79" r="11" fill="#17202b"/>
+<text x="639.6" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="639.6" dy="0">4</tspan></text>
+<text x="703.6" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="703.6" dy="0">Producer /</tspan><tspan x="703.6" dy="15">Data Source</tspan></text>
+<path d="M693.6,116 V464" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="828.8" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="846.8" cy="79" r="11" fill="#17202b"/>
+<text x="846.8" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="846.8" dy="0">5</tspan></text>
+<text x="910.8" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="910.8" dy="0">Cache / State</tspan></text>
+<path d="M900.8,116 V464" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="1036.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="1054.0" cy="79" r="11" fill="#17202b"/>
+<text x="1054.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="1054.0" dy="0">6</tspan></text>
+<text x="1118.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="1118.0" dy="0">Research View</tspan></text>
+<path d="M1108.0,116 V464" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<path d="M106.0,154 H237.2" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="96.6" y="126" width="150.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="171.6" y="143.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="171.6" dy="0">Open Equity Research and...</tspan></text>
+<path d="M313.2,212 H444.4" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="303.8" y="184" width="150.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="378.8" y="201.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="378.8" dy="0">subscribe...</tspan></text>
+<path d="M520.4,270 H651.6" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="511.0" y="242" width="150.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="586.0" y="259.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="586.0" dy="0">request market, news,...</tspan></text>
+<path d="M727.6,328 H858.8" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="718.2" y="300" width="150.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="793.2" y="317.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="793.2" dy="0">write fetched data and...</tspan></text>
+<path d="M866.8,386 H528.4" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="567.6" y="358" width="260.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="697.6" y="375.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="697.6" dy="0">publish state update</tspan></text>
+<path d="M520.4,444 H1066.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="663.2" y="416" width="260.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="793.2" y="433.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="793.2" dy="0">refresh charts, tables, n...</tspan></text>
+</svg></div>
+    <p class="diagram-caption">上图由架构视角的 Mermaid sequenceDiagram 源码静态渲染，源码保留在下方。</p>
+    
+                <div class="diagram-mobile">
+                <div class="mobile-step" data-step="1">
+                  <b>Researcher -> Qt Screen</b>
+                  <p>Open Equity Research and choose AAPL</p>
+                </div>
+                
+                <div class="mobile-step" data-step="2">
+                  <b>Qt Screen -> DataHub Topic</b>
+                  <p>subscribe quote/news/financials topics</p>
+                </div>
+                
+                <div class="mobile-step" data-step="3">
+                  <b>DataHub Topic -> Producer / Data Source</b>
+                  <p>request market, news, financial data</p>
+                </div>
+                
+                <div class="mobile-step" data-step="4">
+                  <b>Producer / Data Source -> Cache / State</b>
+                  <p>write fetched data and status</p>
+                </div>
+                
+                <div class="mobile-step" data-step="5">
+                  <b>Cache / State -> DataHub Topic</b>
+                  <p>publish state update</p>
+                </div>
+                
+                <div class="mobile-step" data-step="6">
+                  <b>DataHub Topic -> Research View</b>
+                  <p>refresh charts, tables, news and portfolio impact</p>
+                </div>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block"><code>sequenceDiagram
+    autonumber
+    actor U as Researcher
+    participant S as Qt Screen
+    participant H as DataHub Topic
+    participant P as Producer / Data Source
+    participant C as Cache / State
+    participant V as Research View
+    U-&gt;&gt;S: Open Equity Research and choose AAPL
+    S-&gt;&gt;H: subscribe quote/news/financials topics
+    H-&gt;&gt;P: request market, news, financial data
+    P-&gt;&gt;C: write fetched data and status
+    C--&gt;&gt;H: publish state update
+    H--&gt;&gt;V: refresh charts, tables, news and portfolio impact</code></pre></details>
+              </div>
+            </article>
+            
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div>
+                  <h4>3. 静态组织结构</h4>
+                  <div class="arch-view-meta">
+                    <span><strong>视图类型：</strong>Development / Implementation View with C4 L2/L3</span>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="arch-view-body">
+                
+                <p>静态组织结构只展示开发边界：UI 场景、应用装配、DataHub、Producer、缓存和 Python 脚本生态。</p>
+                
+    <div class="svg-frame"><svg viewBox="0 0 1180 470" role="img" aria-label="静态组织结构 architecture diagram">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="468" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">静态组织结构</tspan></text>
+<text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">语义架构图</tspan></text>
+<rect x="52" y="88" width="710" height="312" rx="14" fill="#fbfcfb" stroke="#cfd8d3"/>
+<text x="80.0" y="118.0" text-anchor="start" font-size="14" font-weight="900" fill="#0f766e"><tspan x="80.0" dy="0">Qt Desktop Application</tspan></text>
+<rect x="95.0" y="160.0" width="180.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="185.0" y="183.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="185.0" dy="0">src/screens</tspan></text>
+<text x="185.0" y="213.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="185.0" dy="0">UI scenes</tspan></text>
+<rect x="95.0" y="285.0" width="180.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="185.0" y="308.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="185.0" dy="0">src/app/main.cpp</tspan></text>
+<text x="185.0" y="338.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="185.0" dy="0">startup / wiring</tspan></text>
+<rect x="335.0" y="160.0" width="190.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="430.0" y="183.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="430.0" dy="0">Services / Producers</tspan></text>
+<text x="430.0" y="213.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="430.0" dy="0">HTTP / WS / broker</tspan></text>
+<rect x="335.0" y="285.0" width="190.0" height="62.0" rx="10" fill="#17202b" stroke="#17202b" filter="url(#soft-shadow)"/>
+<text x="430.0" y="308.0" text-anchor="middle" font-size="14" font-weight="900" fill="#ffffff"><tspan x="430.0" dy="0">DataHub</tspan></text>
+<text x="430.0" y="338.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="430.0" dy="0">topic contract</tspan></text>
+<rect x="585.0" y="225.0" width="130.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="650.0" y="248.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="650.0" dy="0">SQLite / Cache</tspan></text>
+<text x="650.0" y="278.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="650.0" dy="0">state</tspan></text>
+<rect x="845.0" y="190.0" width="220.0" height="74.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="955.0" y="219.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="955.0" dy="0">fincept-qt/scripts</tspan></text>
+<text x="955.0" y="249.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="955.0" dy="0">Python analytics /...</tspan></text>
+<path d="M275.0,191.0 L335.0,191.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="251.0" y="174.0" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="305.0" y="191.0" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="305.0" dy="0">events</tspan></text>
+<path d="M275.0,316.0 L335.0,316.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="251.0" y="299.0" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="305.0" y="316.0" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="305.0" dy="0">init</tspan></text>
+<path d="M525.0,191.0 L585.0,248.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="501.0" y="202.5" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="555.0" y="219.5" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="555.0" dy="0">state</tspan></text>
+<path d="M525.0,316.0 L585.0,265.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="501.0" y="273.5" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="555.0" y="290.5" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="555.0" dy="0">cache</tspan></text>
+<path d="M715.0,256.0 L845.0,227.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="726.0" y="224.5" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="780.0" y="241.5" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="780.0" dy="0">runtime</tspan></text>
+</svg></div>
+    <p class="diagram-caption">静态组织图用分层边界表达 C++/Qt、DataHub、缓存和 Python 运行时的职责。</p>
+    
+                <div class="diagram-mobile">
+                <div class="mobile-step" data-step="1">
+                  <b>Screens -> DataHub</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="2">
+                  <b>App -> Services</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="3">
+                  <b>Services -> DataHub</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="4">
+                  <b>DataHub -> Cache</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="5">
+                  <b>DataHub -> Scripts</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block"><code>flowchart TB
+    subgraph Desktop[Qt Desktop Application]
+      Screens[src/screens UI Scenes]
+      App[src/app main startup]
+      Services[Services and Producers]
+      DataHub[DataHub Topic Contract]
+      Cache[SQLite / Local Cache]
+    end
+    Scripts[fincept-qt/scripts Python Analytics]
+    Screens --&gt; DataHub
+    App --&gt; Services
+    Services --&gt; DataHub
+    DataHub --&gt; Cache
+    DataHub --&gt; Scripts</code></pre></details>
+              </div>
+            </article>
+            
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div>
+                  <h4>4. 物理 / 部署视图</h4>
+                  <div class="arch-view-meta">
+                    <span><strong>视图类型：</strong>C4 Deployment</span>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="arch-view-body">
+                
+                <p>机构采用前真正要确认的是运行节点、外部依赖、数据授权和真实账户边界，而不是把 README 截图当作可部署证明。</p>
+                
+    <div class="svg-frame"><svg viewBox="0 0 1180 430" role="img" aria-label="物理 / 部署视图 architecture diagram">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+    
+<rect x="1" y="1" width="1178" height="428" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">物理 / 部署视图</tspan></text>
+<text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">语义架构图</tspan></text>
+<rect x="70" y="100" width="500" height="255" rx="14" fill="#fbfcfb" stroke="#cfd8d3"/>
+<text x="96.0" y="130.0" text-anchor="start" font-size="14" font-weight="900" fill="#0f766e"><tspan x="96.0" dy="0">User Workstation</tspan></text>
+<rect x="115.0" y="165.0" width="170.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="200.0" y="188.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="200.0" dy="0">Qt App</tspan></text>
+<text x="200.0" y="218.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="200.0" dy="0">desktop runtime</tspan></text>
+<rect x="345.0" y="145.0" width="170.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="430.0" y="168.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="430.0" dy="0">Python Runtime</tspan></text>
+<text x="430.0" y="198.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="430.0" dy="0">local scripts</tspan></text>
+<rect x="345.0" y="250.0" width="170.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="430.0" y="273.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="430.0" dy="0">Local Cache</tspan></text>
+<text x="430.0" y="303.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="430.0" dy="0">profile / state</tspan></text>
+<rect x="690.0" y="105.0" width="210.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="795.0" y="128.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="795.0" dy="0">Market Data APIs</tspan></text>
+<text x="795.0" y="158.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="795.0" dy="0">licensed data</tspan></text>
+<rect x="690.0" y="210.0" width="210.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="795.0" y="233.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="795.0" dy="0">News / Financial</tspan><tspan x="795.0" dy="18">APIs</tspan></text>
+<text x="795.0" y="263.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="795.0" dy="0">external data</tspan></text>
+<rect x="690.0" y="315.0" width="210.0" height="62.0" rx="10" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="795.0" y="338.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="795.0" dy="0">Broker Connection</tspan></text>
+<text x="795.0" y="368.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="795.0" dy="0">optional / sensitive</tspan></text>
+<rect x="950.0" y="315.0" width="150.0" height="62.0" rx="10" fill="#fff5dd" stroke="#e6cf9f" filter="url(#soft-shadow)"/>
+<text x="1025.0" y="338.0" text-anchor="middle" font-size="14" font-weight="900" fill="#17202b"><tspan x="1025.0" dy="0">Real Account</tspan></text>
+<text x="1025.0" y="368.0" text-anchor="middle" font-size="11" font-weight="600" fill="#65707d"><tspan x="1025.0" dy="0">safety boundary</tspan></text>
+<path d="M285.0,196.0 L345.0,176.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M285.0,196.0 L345.0,281.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M570.0,196.0 L690.0,136.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="576.0" y="149.0" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="630.0" y="166.0" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="630.0" dy="0">fetch</tspan></text>
+<path d="M570.0,196.0 L690.0,241.0" stroke="#315c8f" stroke-width="2.3" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="576.0" y="201.5" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="630.0" y="218.5" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="630.0" dy="0">fetch</tspan></text>
+<path d="M570.0,196.0 L690.0,346.0" stroke="#315c8f" stroke-width="2.3" fill="none" stroke-dasharray="5 5" marker-end="url(#arrow-blue)"/>
+<rect x="576.0" y="254.0" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="630.0" y="271.0" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="630.0" dy="0">optional</tspan></text>
+<path d="M900.0,346.0 L950.0,346.0" stroke="#a66f12" stroke-width="2.3" fill="none" marker-end="url(#arrow-amber)"/>
+<rect x="871.0" y="329.0" width="108" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="925.0" y="346.0" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="925.0" dy="0">risk</tspan></text>
+</svg></div>
+    <p class="diagram-caption">部署视图强调机构采用前必须确认的本地运行、外部数据、broker 和真实账户边界。</p>
+    
+                <div class="diagram-mobile">
+                <div class="mobile-step" data-step="1">
+                  <b>App -> LocalStore</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="2">
+                  <b>App -> Py</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="3">
+                  <b>App -> Market Data APIs</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="4">
+                  <b>App -> News / Financial APIs</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                
+                <div class="mobile-step" data-step="5">
+                  <b>App -> Broker</b>
+                  <p>optional</p>
+                </div>
+                
+                <div class="mobile-step" data-step="6">
+                  <b>Broker -> Real Account Boundary</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block"><code>flowchart TB
+    subgraph Workstation[User Workstation]
+      App[FinceptTerminal Qt App]
+      LocalStore[Local Cache / Profile]
+      Py[Python Runtime]
+    end
+    App --&gt; LocalStore
+    App --&gt; Py
+    App --&gt; Market[Market Data APIs]
+    App --&gt; News[News / Financial APIs]
+    App -.optional.-&gt; Broker[Broker Connection]
+    Broker --&gt; Account[Real Account Boundary]</code></pre></details>
+              </div>
+            </article>
+            </div>
+    </div>
+    </div>
+    </section>
+    
+    <section id="assets" class="section">
+      <div class="section-head">
+        <div class="section-index">05</div>
+        <h2>核心资产与价值</h2>
+        <p class="section-note">只保留新用户和技术评估者需要理解的关键资产。</p>
+      </div>
+      <div class="section-body"><div class="asset-grid"><div class="asset"><h3>DataHub topic contract</h3><p>把 markets、news、economics、broker、agents 的数据状态统一到可订阅层。</p></div><div class="asset"><h3>原生终端框架</h3><p><code>src/app/main.cpp</code> 初始化 profile、crash、metatypes、DataHub producers 和服务。</p></div><div class="asset"><h3>Python 金融脚本</h3><p><code>fincept-qt/scripts/</code> 覆盖分析、agents、数据获取和量化模块。</p></div><div class="asset"><h3>桌面 UI 资产</h3><p><code>src/screens/</code> 下的金融场景页面形成 Bloomberg-like 工作台体验。</p></div></div></div>
+    </section>
+    
+    <section id="adopt" class="section">
+      <div class="section-head">
+        <div class="section-index">06</div>
+        <h2>采用前确认与证据边界</h2>
+        <p class="section-note">风险和工程化信息只保留会影响试用/采用决策的部分。</p>
+      </div>
+      <div class="section-body">
+    <div class="two-col">
+      <div class="check-card"><h3>采用前确认</h3><ul class="bullets"><li>学习和研究用途可先试用产品图对应的核心场景。</li><li>机构采用前必须确认 AGPL/商业许可、构建复现、数据源授权和交易安全。</li><li>不要先接真实账户；先验证 installer、market data、Python analytics 和 DataHub 行为。</li></ul></div>
+      <div class="evidence-card"><h3>DeepWiki / 证据边界</h3><ul class="bullets compact"><li>DeepWiki 将其拆到 data connectors 等专题，说明复杂度主要集中在数据源与终端集成。</li><li>本轮 DeepWiki 只作辅助理解；关键判断仍以 README、架构文档、DataHub 文档和源码入口为准。</li><li>README 本地图片包含 EquityResearch、Portfolio、News、NodeEditor 等产品截图。</li><li><code>docs/ARCHITECTURE.md</code> 与 <code>fincept-qt/DATAHUB_ARCHITECTURE.md</code> 支撑 Screen/Service/DataHub 判断。</li><li>未构建 Qt、未运行 installer、未连接真实数据源或 broker。</li></ul></div>
+    </div>
+    </div>
+    </section>
+    
+    <footer class="footer">
+      <div><strong>生成文件：</strong>site/projects/FinceptTerminal/index.html</div>
+      <div><strong>边界：</strong>静态分析，未真实运行目标项目。</div>
+    </footer>
+  </article>
+</main>
+<script>
+document.querySelectorAll('.diagram-shell').forEach((shell) => {
+  const buttons = Array.from(shell.querySelectorAll('[data-diagram-tab]'));
+  const panels = Array.from(shell.querySelectorAll('[data-diagram-panel]'));
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const target = button.getAttribute('data-diagram-tab');
+      buttons.forEach((item) => item.setAttribute('aria-selected', String(item === button)));
+      panels.forEach((panel) => {
+        panel.hidden = panel.getAttribute('data-diagram-panel') !== target;
+      });
+    });
+  });
+});
+</script>
+</body>
+</html>

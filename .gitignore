@@ -1,0 +1,30 @@
+# Local working archives and generated packages
+temp/
+dist/
+
+# Browser automation output
+.playwright-cli/
+output/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Node / package caches
+node_modules/
+.npm/
+.pnpm-store/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*~

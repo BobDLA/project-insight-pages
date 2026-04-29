@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>{{TITLE}} 项目洞察</title>
+<style>
+:root{--bg:#f3f0e8;--paper:#fffdf8;--ink:#151923;--muted:#65707d;--line:#d8ddd9;--line-strong:#bfc8c2;--teal:#0f766e;--blue:#315c8f;--amber:#a66f12;--red:#a13a32;--green:#147a47;--dark:#17202b;--soft-teal:#e8f4f2;--soft-blue:#edf3fb;--soft-amber:#fff5dd;--radius:8px;--shadow:0 18px 60px rgba(21,25,35,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:linear-gradient(90deg,rgba(21,25,35,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(21,25,35,.03) 1px,transparent 1px),var(--bg);background-size:32px 32px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;line-height:1.58;overflow-x:hidden}a{color:#0b5c55;text-decoration:none}strong{font-weight:850;color:#071018}code{padding:1px 5px;border:1px solid #d7dfdc;border-radius:5px;background:#f4f7f6;color:#183d39;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+.page{max-width:1280px;margin:0 auto;padding:28px}.topline{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:14px;color:var(--muted);font-size:13px}.brand{color:var(--teal);font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.hero{display:grid;grid-template-columns:minmax(0,1.22fr) minmax(330px,.78fr);border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);box-shadow:var(--shadow);overflow:hidden}.hero-main{min-width:0;padding:42px 46px 36px}.eyebrow{display:block;color:var(--muted);font-size:13px;font-weight:750;overflow-wrap:anywhere}.title{margin:14px 0 18px;font-size:clamp(36px,5vw,60px);line-height:1.02;letter-spacing:0;overflow-wrap:anywhere}
+.summary,.bullets{display:grid;gap:8px;margin:0;padding:0;list-style:none}.summary{max-width:78ch;font-size:17px}.summary li,.bullets li{position:relative;padding-left:18px;overflow-wrap:anywhere}.summary li:before,.bullets li:before{content:"";position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--teal)}
+.adoption{display:flex;flex-direction:column;justify-content:space-between;gap:26px;padding:34px;color:#fff;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 42%),var(--dark)}.adoption-label{color:#b9c6d6;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.adoption-title{margin-top:10px;font-size:28px;font-weight:900;line-height:1.16}.adoption-detail{margin:13px 0 0;color:#e2ebf3;font-size:14px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line-strong);border-top:0;background:#fbfcfb}.fact{min-width:0;min-height:102px;padding:18px 22px;border-right:1px solid var(--line)}.fact:last-child{border-right:0}.fact b{display:block;margin-bottom:7px;font-size:28px;font-weight:900;line-height:1;overflow-wrap:anywhere}.fact span{display:block;color:var(--muted);font-size:13px;overflow-wrap:anywhere}
+.nav{position:sticky;top:0;z-index:20;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;margin:18px 0 0;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--line);overflow:hidden}.nav a{display:flex;min-height:46px;align-items:center;justify-content:center;padding:8px 10px;background:var(--paper);color:#26313e;font-size:13px;font-weight:800;text-align:center}
+.section{display:block;margin-top:28px;padding:30px 0 0;border-top:1px solid var(--line-strong)}.section-head{display:block;margin-bottom:18px}.section-index{display:block;margin-bottom:6px;color:var(--teal);font-size:12px;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.section h2{margin:0;font-size:27px;line-height:1.18}.section-note{margin:8px 0 0;max-width:860px;color:var(--muted);font-size:14px}.section-body{min-width:0;display:grid;gap:18px}
+.lean-grid,.asset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.kv,.asset,.check-card,.evidence-card{min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:16px}.kv h3,.asset h3,.check-card h3,.evidence-card h3{margin:0 0 10px;font-size:16px;line-height:1.25}
+.demo-layout,.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.media-card{margin:0;border:1px solid var(--line-strong);border-radius:var(--radius);background:#fbfcfd;overflow:hidden}.media-card img{display:block;width:100%;height:auto;max-height:430px;object-fit:contain;background:#f7fafc}.media-caption{padding:12px 14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.diagram-shell,.arch-lens{border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);box-shadow:0 12px 34px rgba(21,25,35,.055);overflow:hidden}.diagram-header,.arch-head{display:block;padding:18px 20px 15px;border-bottom:1px solid var(--line);background:#fbfcfb}.scenario{margin:0 0 6px;color:#394656;font-size:14px}.type-row,.diagram-tabs{display:flex;flex-wrap:wrap;gap:8px}.type-chip{display:inline-flex;align-items:center;min-height:28px;padding:3px 8px;border:1px solid #b9cde5;border-radius:5px;background:var(--soft-blue);color:#254466;font-size:12px;font-weight:850}.diagram-tabs{padding:12px 20px;border-bottom:1px solid var(--line);background:#fff}.diagram-tabs button{min-height:34px;border:1px solid var(--line-strong);border-radius:6px;background:#f8fafb;color:#2f3b48;padding:5px 10px;font:inherit;font-size:13px;font-weight:800;cursor:pointer}.diagram-tabs button[aria-selected=true]{color:#fff;border-color:var(--teal);background:var(--teal)}.diagram-panel{padding:18px 20px 20px}.diagram-panel[hidden]{display:none}.svg-frame{width:100%;overflow:auto;border:1px solid #dce2df;border-radius:var(--radius);background:#fff}.svg-frame svg{display:block;width:100%;height:auto;min-width:960px}.diagram-mobile{display:none;gap:10px}
+.mermaid-block{margin:0;padding:14px;border:1px solid #dce2df;border-radius:var(--radius);background:#f8fafb;color:#26313e;font-size:12px;line-height:1.48;overflow:auto;white-space:pre-wrap}.arch-kicker{display:block;margin-bottom:6px;color:var(--teal);font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.arch-head h3{margin:0;font-size:20px;line-height:1.25}.arch-reason{display:block;max-width:100%;margin-top:12px;border-left:3px solid var(--teal);background:var(--soft-teal);padding:12px 14px;color:#24433f;font-size:13px}.arch-decision{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:20px;border-bottom:1px solid var(--line);background:#fffdf8}.arch-kv{min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:#fbfcfb;padding:13px 14px}.arch-kv b{display:block;margin-bottom:4px;color:var(--teal);font-size:12px;font-weight:900}.arch-kv span{display:block;color:#354252;font-size:14px;overflow-wrap:anywhere}.arch-views{display:grid;gap:14px;padding:20px;background:#fffdf8}.arch-view{min-width:0;border:1px solid #ccd7d2;border-radius:var(--radius);background:var(--paper);overflow:hidden}.arch-view-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;padding:15px 16px;border-bottom:1px solid var(--line);background:#fbfcfb}.arch-view h4{margin:0 0 6px;font-size:17px}.arch-view-meta{display:flex;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:13px}.priority-badge{display:inline-flex;align-items:center;min-height:28px;padding:3px 8px;border:1px solid #e6cf9f;border-radius:5px;background:var(--soft-amber);color:var(--amber);font-size:12px;font-weight:900}.arch-view-body{display:grid;gap:12px;padding:14px 16px 16px}.arch-view-body p{margin:0;color:#354252}.arch-source{border:1px solid #dce2df;border-radius:var(--radius);background:#fbfcfb;overflow:hidden}.arch-source summary{min-height:38px;padding:9px 12px;color:#26313e;cursor:pointer;font-size:13px;font-weight:850}.arch-source .mermaid-block{border:0;border-top:1px solid #dce2df;border-radius:0}
+.footer{margin-top:28px;padding:18px 0 4px;border-top:1px solid var(--line-strong);color:var(--muted);font-size:13px}
+@media(max-width:1180px) and (min-width:561px){.svg-frame svg{min-width:0}}
+@media(max-width:980px){.page{padding:16px}.hero,.demo-layout,.two-col{grid-template-columns:1fr}.nav{position:static;grid-template-columns:repeat(2,minmax(0,1fr))}.lean-grid,.asset-grid,.facts,.arch-decision{grid-template-columns:1fr}.fact{border-right:0;border-bottom:1px solid var(--line)}.fact:last-child{border-bottom:0}}
+@media(max-width:560px){body{font-size:15px}.page{padding:12px}.hero-main,.adoption{padding:24px 20px}.title{font-size:32px;overflow-wrap:break-word}.nav{grid-template-columns:1fr}.section h2{font-size:24px}.diagram-panel{padding:12px}.svg-frame{display:none}.diagram-mobile{display:grid}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="topline"><span class="brand">Project Insight</span><span>Lean · 自适应架构视角 · 图型按需选择 · 静态分析</span></div>
+  <article>
+    <header class="hero">
+      <div class="hero-main">
+        <div class="eyebrow">{{URL}}</div>
+        <h1 class="title">{{TITLE}}</h1>
+        {{SUMMARY_BULLETS}}
+      </div>
+      <aside class="adoption">
+        <div>
+          <div class="adoption-label">Adoption Read</div>
+          <div class="adoption-title">{{ADOPTION_LABEL}}</div>
+          <p class="adoption-detail">{{ADOPTION_DETAIL}}</p>
+        </div>
+        {{TAGS}}
+      </aside>
+    </header>
+    <section class="facts">{{FACTS}}</section>
+    <nav class="nav">{{NAV_ITEMS}}</nav>
+    <section id="lean" class="section"><div class="section-head"><div class="section-index">01</div><h2>新用户先看什么</h2><p class="section-note">适合谁、问题、差异、时机和最小验证。</p></div><div class="section-body lean-grid">{{LEAN_ITEMS}}</div></section>
+    <section id="demo" class="section"><div class="section-head"><div class="section-index">02</div><h2>Gold Example / Demo</h2><p class="section-note">优先真实媒体，其次仓库 example。</p></div><div class="section-body">{{DEMO}}</div></section>
+    {{OPTIONAL_DIAGRAM_SECTION}}
+    {{OPTIONAL_ARCHITECTURE_SECTION}}
+    <section id="assets" class="section"><div class="section-head"><div class="section-index">{{ASSETS_INDEX}}</div><h2>核心资产与价值</h2></div><div class="section-body asset-grid">{{ASSETS}}</div></section>
+    <section id="adopt" class="section"><div class="section-head"><div class="section-index">{{ADOPT_INDEX}}</div><h2>采用前确认与证据边界</h2></div><div class="section-body two-col">{{ADOPTION_AND_EVIDENCE}}</div></section>
+    <footer class="footer">{{FOOTER}}</footer>
+  </article>
+</main>
+<script>
+document.querySelectorAll('.diagram-shell').forEach((shell)=>{const buttons=[...shell.querySelectorAll('[data-diagram-tab]')];const panels=[...shell.querySelectorAll('[data-diagram-panel]')];buttons.forEach((button)=>{button.addEventListener('click',()=>{const target=button.getAttribute('data-diagram-tab');buttons.forEach((item)=>item.setAttribute('aria-selected',String(item===button)));panels.forEach((panel)=>{panel.hidden=panel.getAttribute('data-diagram-panel')!==target;});});});});
+</script>
+</body>
+</html>

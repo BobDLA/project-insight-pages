@@ -2,7 +2,7 @@
 
 ## 根目录
 
-- `README.md`：项目入口、复现、验证、发布和打包命令。
+- `README.md`：面向读者的项目说明和报告入口。
 - `.gitignore`：忽略本地缓存、打包产物、临时材料和密钥文件。
 
 ## 静态站点
@@ -28,6 +28,7 @@
 ## 文档
 
 - `docs/requirements.md`：用户要求整理。
+- `docs/development.md`：维护、生成、验证、发布和打包流程。
 - `docs/final-execution-report.md`：执行记录。
 - `docs/methodology/`：方法框架、报告模板、质量检查清单。
 - `docs/reference/`：早期输入草稿、建模风格和 UI 参考。

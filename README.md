@@ -96,7 +96,13 @@ bash "$PWCLI" run-code --filename tools/verify_reports.js --json
 
 ## 发布
 
-仓库包含 `.github/workflows/pages.yml`。推送到 GitHub 后，在仓库设置中启用 GitHub Pages 的 GitHub Actions 发布源即可发布 `site/`。
+当前 `gh` token 不需要 `workflow` scope。发布静态站点时，可以把 `site/` 推到 `gh-pages` 分支，然后在 GitHub Pages 设置中选择 `gh-pages` / root：
+
+```bash
+git subtree split --prefix site -b gh-pages
+git push -f origin gh-pages
+git branch -D gh-pages
+```
 
 ## 打包
 
@@ -106,7 +112,7 @@ bash "$PWCLI" run-code --filename tools/verify_reports.js --json
 rm -f dist/project-insight-analysis-skill.zip dist/project-insight-reports.zip
 mkdir -p dist
 zip -qr dist/project-insight-analysis-skill.zip .agents/skills/project-insight-analysis
-zip -qr dist/project-insight-reports.zip README.md docs site tools .github .gitignore
+zip -qr dist/project-insight-reports.zip README.md docs site tools .gitignore
 unzip -t dist/project-insight-analysis-skill.zip
 unzip -t dist/project-insight-reports.zip
 ```

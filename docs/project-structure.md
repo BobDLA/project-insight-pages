@@ -4,7 +4,6 @@
 
 - `README.md`：项目入口、复现、验证、发布和打包命令。
 - `.gitignore`：忽略本地缓存、打包产物、临时材料和密钥文件。
-- `.github/workflows/pages.yml`：GitHub Pages 发布 workflow。
 
 ## 静态站点
 
@@ -14,6 +13,8 @@
 - `site/projects/<slug>/analysis.md`：项目 Markdown 审计版。
 - `site/projects/<slug>/assets/`：项目自己的图片或媒体资产。
 - `site/.nojekyll`：禁用 Jekyll 处理，保持静态文件原样发布。
+
+发布到 GitHub Pages 时，将 `site/` 推到 `gh-pages` 分支，并在 Pages 设置中选择 `gh-pages` / root。
 
 ## 可复现材料
 

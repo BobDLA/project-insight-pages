@@ -25,7 +25,7 @@
 7. 根目录说明文档已收敛到 `docs/`，根目录只保留 `README.md`。
 8. `skills/project-insight-analysis/` 已改为 `.agents/skills/project-insight-analysis/`。
 9. 新增 `tools/project_report_manager.py`，支持检查已分析项目、注册新项目并重建索引。
-10. 新增 `.github/workflows/pages.yml`，用于发布 `site/`。
+10. 发布策略改为将 `site/` 推到 `gh-pages` 分支，避免当前 `gh` token 缺少 `workflow` scope 时无法推送 workflow 文件。
 
 ## 保留的分析口径
 

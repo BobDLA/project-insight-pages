@@ -1,51 +1,76 @@
 # Type Safety
 
-> Type safety patterns in this project.
+> Current state: frontend JavaScript is plain JavaScript embedded in generated
+> HTML. There is no TypeScript, schema validation library, or build step.
 
 ---
 
-## Overview
+## Current Runtime Guards
 
-<!--
-Document your project's type safety conventions here.
+Use small runtime guards where the current code already does so:
 
-Questions to answer:
-- What type system do you use?
-- How are types organized?
-- What validation library do you use?
-- How do you handle type inference?
--->
+```javascript
+if (Array.isArray(data) && data.length) projects = data;
+```
 
-(To be filled by the team)
+Use nullish fallback in escaping and rendering helpers:
 
----
+```javascript
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[char]));
+}
+```
 
-## Type Organization
+Use Python type hints in generator functions where they already exist:
 
-<!-- Where types are defined, shared types vs local types -->
-
-(To be filled by the team)
-
----
-
-## Validation
-
-<!-- Runtime validation patterns (Zod, Yup, io-ts, etc.) -->
-
-(To be filled by the team)
-
----
-
-## Common Patterns
-
-<!-- Type utilities, generics, type guards -->
-
-(To be filled by the team)
+```python
+def report_sections(project: dict) -> list[tuple[str, str, str, str, str]]:
+    ...
+```
 
 ---
 
-## Forbidden Patterns
+## Data Contract
 
-<!-- any, type assertions, etc. -->
+The frontend expects project objects to provide the registry fields documented in
+`../backend/database-guidelines.md`. The index renderer reads these keys:
 
-(To be filled by the team)
+- `title`
+- `slug`
+- `category`
+- `adoption`
+- `audience`
+- `summary`
+- `problem`
+- `difference`
+- `demo`
+- `architecture`
+- `tags`
+- `file`
+- `markdown`
+- `repo`
+- `updated`
+
+The index title area renders `summary` as the one-sentence functional
+highlight. `audience` remains searchable metadata and must not be used as the
+title-area subtitle.
+
+The index renderer accepts only lightweight inline markers in `summary`,
+`problem`, `difference`, and `demo`: `**...**` for emphasis and `` `...` `` for
+code spans. Treat those markers as display hints, not as trusted HTML. The
+rendered visible text should not expose raw marker characters.
+
+---
+
+## Not Supported
+
+- TypeScript interfaces.
+- Zod/Yup/io-ts schemas.
+- Generated client types.
+- Build-time type checking for frontend code.

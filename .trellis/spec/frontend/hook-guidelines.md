@@ -1,51 +1,70 @@
 # Hook Guidelines
 
-> How hooks are used in this project.
+> Current state: there are no framework hooks. Do not introduce React hooks or a
+> hook abstraction for ordinary changes.
 
 ---
 
-## Overview
+## Current Interaction Pattern
 
-<!--
-Document your project's hook conventions here.
+Use plain functions and event listeners in embedded JavaScript.
 
-Questions to answer:
-- What custom hooks do you have?
-- How do you handle data fetching?
-- What are the naming conventions?
-- How do you share stateful logic?
--->
+Supported examples:
 
-(To be filled by the team)
+```javascript
+el.search.addEventListener("input", renderAll);
+el.sort.addEventListener("change", renderAll);
+el.tagFilters.addEventListener("click", handleTagClick);
+el.list.addEventListener("click", handleTagClick);
+el.clearTag.addEventListener("click", () => {
+  activeTag = "";
+  renderAll();
+});
+```
 
----
-
-## Custom Hook Patterns
-
-<!-- How to create and structure custom hooks -->
-
-(To be filled by the team)
-
----
-
-## Data Fetching
-
-<!-- How data fetching is handled (React Query, SWR, etc.) -->
-
-(To be filled by the team)
-
----
-
-## Naming Conventions
-
-<!-- Hook naming rules (use*, etc.) -->
-
-(To be filled by the team)
+```javascript
+document.querySelectorAll('.diagram-shell').forEach((shell) => {
+  const buttons = Array.from(shell.querySelectorAll('[data-diagram-tab]'));
+  const panels = Array.from(shell.querySelectorAll('[data-diagram-panel]'));
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const target = button.dataset.diagramTab;
+      buttons.forEach((item) => item.setAttribute('aria-selected', String(item === button)));
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.diagramPanel !== target;
+      });
+    });
+  });
+});
+```
 
 ---
 
-## Common Mistakes
+## Data Loading
 
-<!-- Hook-related mistakes your team has made -->
+The overview page embeds project data at generation time and optionally refreshes
+from `projects.json` when served over HTTP.
 
-(To be filled by the team)
+Supported example:
+
+```javascript
+async function loadRuntimeData() {
+  if (location.protocol === "file:") return;
+  try {
+    const response = await fetch("projects.json", { cache: "no-store" });
+    if (!response.ok) return;
+    const data = await response.json();
+    if (Array.isArray(data) && data.length) projects = data;
+  } catch (error) {
+    console.warn("Using embedded project index data.", error);
+  }
+}
+```
+
+---
+
+## Not Supported
+
+- `use*` custom hooks.
+- React Query, SWR, or framework data-fetching hooks.
+- Shared hook libraries.

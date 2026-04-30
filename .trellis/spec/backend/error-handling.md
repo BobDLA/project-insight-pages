@@ -1,51 +1,83 @@
 # Error Handling
 
-> How errors are handled in this project.
+> Current project error handling is script/CLI oriented. There are no API error
+> responses or custom exception classes.
 
 ---
 
-## Overview
+## CLI Exit Behavior
 
-<!--
-Document your project's error handling conventions here.
+Use integer return codes for normal CLI command outcomes:
 
-Questions to answer:
-- What error types do you define?
-- How are errors propagated?
-- How are errors logged?
-- How are errors returned to clients?
--->
+- `0` for success.
+- `1` for a negative check result only when the command has a strict mode.
 
-(To be filled by the team)
+Supported example:
 
----
+```python
+def cmd_check(args: argparse.Namespace) -> int:
+    project = find_project(load_projects(), args.target)
+    if project:
+        print(json.dumps({"exists": True, "project": project}, ensure_ascii=False, indent=2))
+        return 0
+    print(json.dumps({"exists": False, "slug": slug_from(args.target)}, ensure_ascii=False, indent=2))
+    return 1 if args.strict else 0
+```
 
-## Error Types
+Use `raise SystemExit(...)` for hard validation failures that should stop a CLI
+command with a readable message.
 
-<!-- Custom error classes/types -->
+Supported examples:
 
-(To be filled by the team)
+```python
+if not source.exists():
+    raise SystemExit(f"missing source file: {source}")
+```
 
----
-
-## Error Handling Patterns
-
-<!-- Try-catch patterns, error propagation -->
-
-(To be filled by the team)
-
----
-
-## API Error Responses
-
-<!-- Standard error response format -->
-
-(To be filled by the team)
+```python
+if existing and not args.replace:
+    raise SystemExit(f"project already registered: {existing.get('slug')} (use --replace to update)")
+```
 
 ---
 
-## Common Mistakes
+## Subprocess Errors
 
-<!-- Error handling mistakes your team has made -->
+When a command depends on another local script, call it with `check=True` so
+failures propagate instead of silently producing stale output.
 
-(To be filled by the team)
+Supported example:
+
+```python
+subprocess.run([sys.executable, str(INDEX_SCRIPT)], cwd=ROOT, check=True)
+```
+
+---
+
+## Browser Verification Errors
+
+`tools/verify_reports.js` collects browser console warnings/errors and
+page-level errors into the returned JSON object. It also records layout and
+selector-level assertions for the caller to inspect.
+
+Supported example:
+
+```javascript
+const messages = [];
+const errors = [];
+page.on("console", msg => {
+  if (["warning", "error"].includes(msg.type())) {
+    messages.push({ type: msg.type(), text: msg.text() });
+  }
+});
+page.on("pageerror", err => errors.push(err.message));
+```
+
+---
+
+## Not Supported
+
+- Custom exception hierarchies.
+- API response envelopes.
+- Retry frameworks.
+- Centralized error middleware.

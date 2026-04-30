@@ -1,12 +1,22 @@
 # Backend Development Guidelines
 
-> Best practices for backend development in this project.
+> Current project reality: there is no long-running backend service. The
+> backend layer means repository automation under `tools/`: Python generators,
+> a Python report-registration CLI, and a Playwright verification script.
 
 ---
 
-## Overview
+## Scope
 
-This directory contains guidelines for backend development. Fill in each file with your project's specific conventions.
+Use these specs when a task changes:
+
+- `tools/*.py`
+- `tools/verify_reports.js`
+- generated artifacts under `site/`
+- report data copied into `site/projects/<slug>/`
+
+Do not use these specs as permission to introduce an API server, database, ORM,
+or background service. Those patterns are not present in the current codebase.
 
 ---
 
@@ -14,25 +24,22 @@ This directory contains guidelines for backend development. Fill in each file wi
 
 | Guide | Description | Status |
 |-------|-------------|--------|
-| [Directory Structure](./directory-structure.md) | Module organization and file layout | To fill |
-| [Database Guidelines](./database-guidelines.md) | ORM patterns, queries, migrations | To fill |
-| [Error Handling](./error-handling.md) | Error types, handling strategies | To fill |
-| [Quality Guidelines](./quality-guidelines.md) | Code standards, forbidden patterns | To fill |
-| [Logging Guidelines](./logging-guidelines.md) | Structured logging, log levels | To fill |
+| [Directory Structure](./directory-structure.md) | Static-site generation and CLI script layout | Current |
+| [Database Guidelines](./database-guidelines.md) | Documents the absence of DB/ORM patterns | Current |
+| [Error Handling](./error-handling.md) | Current CLI and generation error behavior | Current |
+| [Quality Guidelines](./quality-guidelines.md) | Regeneration and verification expectations | Current |
+| [Logging Guidelines](./logging-guidelines.md) | Current stdout/stderr conventions | Current |
 
 ---
 
-## How to Fill These Guidelines
+## Evidence Baseline
 
-For each guideline file:
-
-1. Document your project's **actual conventions** (not ideals)
-2. Include **code examples** from your codebase
-3. List **forbidden patterns** and why
-4. Add **common mistakes** your team has made
-
-The goal is to help AI assistants and new team members understand how YOUR project works.
-
----
-
-**Language**: All documentation should be written in **English**.
+- `tools/project_report_manager.py` owns project registration, copying report
+  files/assets, updating `site/projects.json`, and rebuilding `site/index.html`.
+- `tools/generate_project_index.py` reads `site/projects.json` and writes
+  `site/index.html`.
+- `tools/generate_final_insight_reports.py` and
+  `tools/generate_gbrain_insight_report.py` generate project report pages and
+  Markdown reports.
+- `tools/verify_reports.js` is executed by the Playwright CLI and validates the
+  rendered static pages.

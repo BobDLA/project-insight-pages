@@ -1,51 +1,54 @@
 # Logging Guidelines
 
-> How logging is done in this project.
+> Current state: the repo does not use Python `logging`, structured logs, or log
+> level conventions. Tools print concise command results to stdout.
 
 ---
 
-## Overview
+## Current Output Patterns
 
-<!--
-Document your project's logging conventions here.
+Use `print(...)` for successful script results and generated-file notices.
 
-Questions to answer:
-- What logging library do you use?
-- What are the log levels and when to use each?
-- What should be logged?
-- What should NOT be logged (PII, secrets)?
--->
+Supported examples:
 
-(To be filled by the team)
+```python
+print(json.dumps({"registered": slug, "file": record["file"], "markdown": record["markdown"]}, ensure_ascii=False, indent=2))
+```
 
----
+```python
+print(f"Generated {OUTPUT_PATH.relative_to(ROOT)}")
+```
 
-## Log Levels
+For browser runtime fallback, the generated static page uses `console.warn`
+only when `projects.json` cannot be loaded and embedded data is used instead.
 
-<!-- When to use each level: debug, info, warn, error -->
+Supported example:
 
-(To be filled by the team)
-
----
-
-## Structured Logging
-
-<!-- Log format, required fields -->
-
-(To be filled by the team)
-
----
-
-## What to Log
-
-<!-- Important events to log -->
-
-(To be filled by the team)
+```javascript
+try {
+  const response = await fetch("projects.json", { cache: "no-store" });
+  if (!response.ok) return;
+  const data = await response.json();
+  if (Array.isArray(data) && data.length) projects = data;
+} catch (error) {
+  console.warn("Using embedded project index data.", error);
+}
+```
 
 ---
 
-## What NOT to Log
+## Do Not Add Without A Requirement
 
-<!-- Sensitive data, PII, secrets -->
+- Global logging configuration.
+- JSON log schemas.
+- Log files.
+- Verbose progress logs in generated site scripts.
 
-(To be filled by the team)
+---
+
+## Sensitive Output
+
+Current scripts handle public report metadata and local file paths. If a future
+task adds tokens, credentials, private repository data, or user secrets, do not
+print those values. This is a new contract and should be documented in this file
+when introduced.

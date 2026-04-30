@@ -1,51 +1,98 @@
 # State Management
 
-> How state is managed in this project.
+> State is page-local vanilla JavaScript. There is no global store, URL state
+> router, or server-state cache.
 
 ---
 
-## Overview
+## Overview Page State
 
-<!--
-Document your project's state management conventions here.
+The overview page keeps a local `projects` array, initialized from embedded data
+and optionally replaced by `projects.json` at runtime.
 
-Questions to answer:
-- What state management solution do you use?
-- How is local vs global state decided?
-- How do you handle server state?
-- What are the patterns for derived state?
--->
+Supported example:
 
-(To be filled by the team)
+```javascript
+const EMBEDDED_PROJECTS = __EMBEDDED__;
+let projects = [...EMBEDDED_PROJECTS];
+```
+
+DOM references are grouped in a plain object:
+
+```javascript
+const el = {
+  search: document.querySelector("#search"),
+  sort: document.querySelector("#sort-by"),
+  tagFilters: document.querySelector("#tag-filters"),
+  clearTag: document.querySelector("#clear-tag"),
+  list: document.querySelector("#project-list"),
+  count: document.querySelector("#result-count"),
+  empty: document.querySelector("#empty-state"),
+  total: document.querySelector("#metric-total")
+};
+```
+
+Derived state is recomputed from DOM control values and the `projects` array:
+
+```javascript
+let activeTag = "";
+
+function visibleTags(project) {
+  return Array.isArray(project.tags) ? project.tags : [];
+}
+
+function projectFacets(project) {
+  return [project.category, project.adoption, ...visibleTags(project)].filter(Boolean).map(String);
+}
+
+function searchable(project) {
+  return [
+    project.title, project.slug, project.repo, project.summary, project.audience,
+    project.problem, project.difference, project.demo, project.architecture,
+    ...projectFacets(project)
+  ].join(" ").toLowerCase();
+}
+
+function filteredProjects() {
+  const query = el.search.value.trim().toLowerCase();
+  return sortProjects(projects.filter(project => {
+    const matchesSearch = !query || searchable(project).includes(query);
+    const matchesTag = !activeTag || projectFacets(project)
+      .some(value => value.trim().toLowerCase() === activeTag.trim().toLowerCase());
+    return matchesSearch && matchesTag;
+  }));
+}
+```
+
+Do not use `category` / `adoption` select dropdowns as the primary overview
+discovery model. Keep them searchable by including them in project facets, but
+derive visible chips from `tags`. Do not render category/adoption hero metrics,
+sort modes, or per-row badges; duplicate useful category/adoption concepts into
+`tags` when they should appear as chips.
 
 ---
 
-## State Categories
+## Diagram Tab State
 
-<!-- Local state, global state, server state, URL state -->
+Report pages store active diagram state in DOM attributes:
 
-(To be filled by the team)
+- active tab: `aria-selected="true"`
+- active panel: panel without `hidden`
+- tab/panel linkage: matching `data-diagram-tab` and `data-diagram-panel`
 
----
+Supported example:
 
-## When to Use Global State
-
-<!-- Criteria for promoting state to global -->
-
-(To be filled by the team)
-
----
-
-## Server State
-
-<!-- How server data is cached and synchronized -->
-
-(To be filled by the team)
+```javascript
+panels.forEach((panel) => {
+  panel.hidden = panel.dataset.diagramPanel !== target;
+});
+```
 
 ---
 
-## Common Mistakes
+## Not Supported
 
-<!-- State management mistakes your team has made -->
-
-(To be filled by the team)
+- Redux, Zustand, MobX, Pinia, Vuex, or context stores.
+- URL-synchronized filter state.
+- Client-side persistence in localStorage/sessionStorage.
+- Server-state caching.

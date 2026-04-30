@@ -514,6 +514,194 @@ PROJECTS = [
             "DeepWiki 页面补充了问题分类、原则映射和分发模型；未真实运行目标项目，也未做真实 AB eval。",
         ],
     },
+    {
+        "slug": "neat-freak",
+        "title": "neat-freak（洁癖）",
+        "url": "https://github.com/KKKKhazix/khazix-skills/tree/main/neat-freak",
+        "adoption_label": "适合作为会话收尾基线；团队推广前需试运行",
+        "adoption_detail": "适合已经依赖 coding agent 的个人或小团队，把文档、AGENTS/CLAUDE 和记忆同步变成固定收尾动作；团队强制前需要确认路径、删除策略和人工复核边界。",
+        "analysis_mode": "静态分析，DeepWiki/Zread 仅作为派生资源链接，未作为证据来源",
+        "summary": [
+            "一个端到端的 **知识卫生 skill**：在开发会话结束时盘点项目文档、根级 AI 指令和 agent 记忆，修正过期信息并输出变更摘要。",
+            "它的价值不是自动写更多文档，而是用强制盘点、影响矩阵和自检清单减少 stale docs / stale memory 对下一次 agent 协作的污染。",
+        ],
+        "lean": {
+            "适合谁": [
+                "已经把 Claude Code、Codex、OpenCode 或 OpenClaw 用在真实仓库里的个人开发者。",
+                "经常遇到 README、docs、AGENTS.md / CLAUDE.md 和 agent 记忆互相矛盾的小团队。",
+                "需要把阶段性交付变成可交接上下文，而不想每次手工梳理知识库的人。",
+            ],
+            "解决什么问题": [
+                "AI 协作中的文档和记忆会慢慢腐化：代码已改，README 还是旧版，agent 下次会基于错误前提继续工作。",
+                "普通收尾总结只会追加记录；neat-freak 把旧信息合并、修正、删除，并要求按受众同步到不同知识层。",
+            ],
+            "和别的方案哪里不同": [
+                "它明确区分三层受众：**agent 记忆**、项目根 `CLAUDE.md / AGENTS.md`、面向人的 `docs/ / README`。",
+                "它不是只更新 memory 的工具，而是先机械式枚举文件，再用 `sync-matrix.md` 判断每类代码变化要波及哪些文档。",
+            ],
+            "为什么现在值得看": [
+                "AI coding 已经进入多轮、多 agent、跨会话协作阶段，错误上下文会直接放大返工和误改风险。",
+                "项目用 3 个文件把触发词、执行流程、跨平台路径和变更影响矩阵压成可安装 skill，试用成本低。",
+            ],
+            "最小验证方式": [
+                "选一个低风险仓库，完成一次真实小任务后运行 `/neat` 或 `整理一下`。",
+                "重点观察它是否发现 README/docs/AGENTS/记忆里的过期内容，以及是否只改应该改的知识层。",
+                "第一次试运行后人工 review diff，再决定是否把它加入团队收尾流程。",
+            ],
+        },
+        "facts": [
+            ("3 files", "`SKILL.md` + `agent-paths.md` + `sync-matrix.md`，无运行时代码。"),
+            ("277 lines", "目标目录核心文本总行数；更像规则包而不是应用。"),
+            ("7.3k", "GitHub repo stars；1.1k forks，2026-04-30 采样。"),
+        ],
+        "tags": [("知识清理", "green"), ("跨平台 Skill", "blue"), ("需人工复核", "amber")],
+        "media": {
+            "kind": "example",
+            "caption": "示例来自 `neat-freak/SKILL.md` 的触发词和执行流程；本轮未安装或实际运行该 skill。",
+            "rows": [
+                {
+                    "label": "触发",
+                    "body": "`/neat`、`整理一下`、`同步一下`、`sync up` 等会话收尾短语。",
+                    "tone": "",
+                },
+                {
+                    "label": "核心动作",
+                    "body": "先枚举 agent 记忆、根级 markdown、README/docs，再判断每个文件该改还是不改。",
+                    "tone": "good",
+                },
+                {
+                    "label": "采用风险",
+                    "body": "它会真实编辑和清理知识文件；首次接入必须 review diff 和删除策略。",
+                    "tone": "bad",
+                },
+            ],
+        },
+        "demo": {
+            "title": "一次开发会话结束后的知识同步",
+            "source_label": "仓库 SKILL.md 流程 + 静态推演",
+            "points": [
+                "开发任务完成后，用户输入 `/neat` 或自然语言“整理一下”。",
+                "Agent 按 skill 要求列出 memory、项目根 markdown、README 和 docs，并标记评估过/要改/不用改。",
+                "Agent 用变更影响矩阵判断本次代码或流程变化该同步到哪些知识层。",
+                "Agent 真实修改 docs、AGENTS/CLAUDE 或记忆文件，删除过期项，最后输出变更摘要。",
+            ],
+        },
+        "diagrams": {
+            "selected_types": ["行为流程", "UML Component", "BOT"],
+            "mixed": True,
+            "reason": "这是文档/skill/rule-pack 项目，关键不是服务调用链，而是一次会话收尾如何从触发词走到文件盘点、影响矩阵、实际编辑和自检；长期价值只适合用概念 BOT 表达。",
+            "scenario": "用户完成一个开发阶段后，希望把代码变化同步到文档、根级 AI 指令和 agent 记忆。",
+            "sequence": [
+                ("用户", "Agent", "输入 `/neat` 或“整理一下”", "触发会话收尾同步"),
+                ("Agent", "盘点清单", "枚举 memory / 根 markdown / docs", "先 ls 再判断"),
+                ("盘点清单", "影响矩阵", "映射本次变更类型", "决定波及哪些知识层"),
+                ("影响矩阵", "知识文件", "编辑 docs / AGENTS / memory", "合并、修正、删除过期信息"),
+                ("知识文件", "变更摘要", "输出已改和未处理项", "给用户可审查结果"),
+            ],
+            "components": [
+                ("规则入口 SKILL.md", "触发词、角色定位、执行流程和自检清单。"),
+                ("agent-paths.md", "Claude Code、Codex、OpenCode、OpenClaw 的记忆/配置路径。"),
+                ("sync-matrix.md", "把代码层变化映射到 docs、root markdown 和 memory。"),
+                ("文件盘点流程", "强制枚举 README、docs、CLAUDE/AGENTS 和散落 markdown。"),
+                ("实际编辑要求", "要求真的修改、创建或删除知识文件，而不只是描述计划。"),
+                ("收尾摘要", "按记忆变更、文档变更和未处理项回报。"),
+            ],
+            "system": [
+                {
+                    "kind": "BOT",
+                    "title": "概念趋势：过期上下文下降",
+                    "items": ["收尾同步频率增加", "过期文档/记忆减少", "新会话误判风险下降", "需要真实任务验证"],
+                },
+                {
+                    "kind": "B",
+                    "title": "编辑风险控制回路",
+                    "items": ["可编辑知识层扩大", "误删/误同步风险上升", "人工 review 和路径约束", "团队试点范围回到可控"],
+                },
+            ],
+        },
+        "architecture": {
+            "label": "自适应架构视角",
+            "complexity": "简单",
+            "framework": "C4-light + 行为序列",
+            "tailoring": "这是 agent skill 和规则包，不是运行时系统。保留 Context、核心行为序列和静态组织/分发视图；用图解释职责边界和知识层，不画不存在的服务部署。",
+            "omitted": "省略 4+1、Deployment/Physical View、数据库和 API 视图；目标目录没有运行时代码、测试入口或部署单元。",
+            "views": [
+                {
+                    "title": "系统全貌",
+                    "view_type": "C4-light Context",
+                    "visual_kind": "neat_context",
+                    "description": "系统边界是开发者、coding agent、neat-freak skill 和被同步的三类知识文件。",
+                    "mermaid": """flowchart LR
+    Developer[Developer] --> Agent[Coding Agent]
+    Skill[neat-freak Skill] --> Agent
+    Agent --> Root[CLAUDE.md / AGENTS.md]
+    Agent --> Docs[README / docs]
+    Agent --> Memory[Agent memory]
+    Agent --> Summary[Change Summary]""",
+                },
+                {
+                    "title": "核心业务流转",
+                    "view_type": "C4 Dynamic / Behavior Sequence",
+                    "priority": True,
+                    "scenario": "开发任务结束后，用户运行 `/neat`。",
+                    "description": "重点是 skill 如何把一个收尾触发转成文件盘点、影响分析、真实编辑和可审查摘要。",
+                    "mermaid": """sequenceDiagram
+    autonumber
+    actor U as User
+    participant A as Agent
+    participant S as neat-freak Skill
+    participant I as Inventory
+    participant M as Sync Matrix
+    participant F as Knowledge Files
+    U->>A: /neat or tidy up docs
+    A->>S: load triggers and workflow
+    S->>I: enumerate memory, root markdown, docs
+    I->>M: classify changed knowledge impact
+    M->>F: update docs / root AI files / memory
+    F-->>A: diff and unresolved items
+    A-->>U: change summary""",
+                },
+                {
+                    "title": "静态组织结构",
+                    "view_type": "C4 L2 Container（规则分发结构）",
+                    "visual_kind": "neat_distribution",
+                    "description": "静态结构展示 `SKILL.md` 如何依赖两份 reference 文件，把触发、盘点、影响矩阵和平台路径连接起来。",
+                    "mermaid": """flowchart LR
+    Skill[neat-freak/SKILL.md] --> Triggers[Trigger phrases]
+    Skill --> Workflow[Inventory and edit workflow]
+    Skill --> Checklist[Self-check checklist]
+    Skill --> Paths[references/agent-paths.md]
+    Skill --> Matrix[references/sync-matrix.md]
+    Paths --> Platforms[Claude Code / Codex / OpenCode / OpenClaw]
+    Matrix --> Docs[Docs / root AI files / memory]""",
+                },
+            ],
+        },
+        "key_assets": [
+            ("neat-freak/SKILL.md", "核心资产：触发词、角色定位、强制盘点、实际编辑和最终摘要格式都在这里。"),
+            ("references/agent-paths.md", "跨平台路径速查，尤其明确 Codex 没有独立记忆索引，项目事实应进入 AGENTS.md。"),
+            ("references/sync-matrix.md", "把 API、环境变量、数据库、用户流程等变化映射到应同步的文档层。"),
+            ("README 集成说明", "仓库根 README 给出安装入口、触发方式、三层知识边界和 ClawHub/Tessl 分发信号。"),
+        ],
+        "adoption": [
+            "先在低风险仓库跑一次，并人工 review 所有 diff。",
+            "团队使用前要明确哪些 memory / docs / root markdown 可以由 agent 自动编辑，哪些必须人工确认。",
+            "不要把它当成架构审查或测试替代品；它解决的是知识同步，不保证代码正确。",
+            "对跨项目仓库尤其要检查 sync-matrix 的下游文档同步规则，避免只更新上游说明。",
+        ],
+        "deepwiki": [
+            "本轮未把 DeepWiki 或 Zread 作为事实依据；报告页面仅提供从 GitHub 仓库 URL 派生的外部阅读链接。",
+            "事实判断来自 GitHub README、`neat-freak/SKILL.md`、两份 references、MIT license 和 GitHub API 元数据。",
+        ],
+        "evidence": [
+            "`README.md` 说明 skills 遵循 Agent Skills 开放标准，支持 Claude Code、Codex、OpenCode、OpenClaw。",
+            "`README.md` 的 neat-freak 小节描述三层同步对象：项目根 AI 指令、docs/README、agent 记忆。",
+            "`neat-freak/SKILL.md` 要求先枚举再判断，并要求实际修改文件而不是只描述计划。",
+            "`references/agent-paths.md` 记录不同平台的记忆与配置路径差异。",
+            "`references/sync-matrix.md` 记录代码变化到文档层的映射和记忆清理规则。",
+            "未安装、未触发 `/neat`，未验证它在真实仓库中的自动编辑质量。",
+        ],
+    },
 ]
 
 
@@ -631,6 +819,25 @@ code {
   background: var(--teal);
 }
 .bullets.compact { gap: 6px; font-size: 14px; }
+.resource-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.resource-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 7px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fff;
+  color: #123d38;
+  font-size: 13px;
+  font-weight: 820;
+}
 .adoption {
   min-width: 0;
   display: flex;
@@ -1167,6 +1374,34 @@ def facts(project: dict) -> str:
     return "".join(f'<div class="fact"><b>{escape(k)}</b><span>{inline(v)}</span></div>' for k, v in project["facts"])
 
 
+def github_repo_parts(url: object) -> tuple[str, str] | None:
+    match = re.match(r"^https://(?:www\.)?github\.com/([^/\s]+)/([^/\s?#]+)(?:[/?#].*)?$", str(url or "").strip())
+    if not match:
+        return None
+    owner = match.group(1)
+    repo = match.group(2).removesuffix(".git")
+    if not owner or not repo:
+        return None
+    return owner, repo
+
+
+def resource_links(project: dict) -> str:
+    links = [("GitHub", project["url"])]
+    repo = github_repo_parts(project.get("url"))
+    if repo:
+        owner, name = repo
+        links.extend([
+            ("DeepWiki", f"https://deepwiki.com/{owner}/{name}"),
+            ("Zread", f"https://zread.ai/{owner}/{name}"),
+        ])
+    items = "".join(
+        f'<a class="resource-link" href="{escape(url)}" target="_blank" rel="noreferrer" '
+        f'aria-label="打开 {escape(project["title"])} {escape(label)} 页面">{escape(label)}</a>'
+        for label, url in links
+    )
+    return f'<div class="resource-links" aria-label="外部资源">{items}</div>'
+
+
 def lean_html(project: dict) -> str:
     return '<div class="lean-grid">' + "".join(
         f'<div class="kv"><h3>{escape(label)}</h3>{bullets(items)}</div>'
@@ -1187,6 +1422,17 @@ def media_html(project: dict) -> str:
           <img src="{escape(media_asset_path(project) or '')}" alt="{escape(project['title'])} demo image">
           <figcaption class="media-caption">{inline(media['caption'])}</figcaption>
         </figure>
+        """
+    if media.get("rows"):
+        rows = "".join(
+            f'<div class="example-row {escape(row.get("tone", ""))}"><b>{inline(row["label"])}</b><p>{inline(row["body"])}</p></div>'
+            for row in media["rows"]
+        )
+        return f"""
+        <div class="example-card">
+          {rows}
+          <div class="media-caption">{inline(media['caption'])}</div>
+        </div>
         """
     return f"""
     <div class="example-card">
@@ -2050,6 +2296,45 @@ def semantic_skill_distribution_svg(title: str) -> str:
     return diagram_svg_shell("\n".join(parts), "分发结构图把核心原则和多种落地格式分开，避免画成不存在的系统组件网络。")
 
 
+def semantic_neat_context_svg(title: str) -> str:
+    parts = arch_svg_canvas(title, 430)
+    arch_box(parts, 75, 175, 170, 70, "Developer", "end-of-session")
+    arch_box(parts, 340, 150, 205, 118, "Coding Agent", "loads neat-freak", fill="#e8f4f2", stroke="#8ac7bd")
+    arch_box(parts, 650, 60, 230, 62, "Root AI Files", "CLAUDE.md / AGENTS.md")
+    arch_box(parts, 650, 180, 230, 62, "Project Docs", "README / docs")
+    arch_box(parts, 650, 300, 230, 62, "Agent Memory", "platform-specific")
+    arch_box(parts, 940, 176, 170, 74, "Change Summary", "what changed / skipped")
+    arch_arrow(parts, 245, 210, 340, 208, "/neat")
+    arch_arrow(parts, 545, 198, 650, 91, "sync")
+    arch_arrow(parts, 545, 205, 650, 211, "sync")
+    arch_arrow(parts, 545, 212, 650, 331, "sync")
+    arch_arrow(parts, 880, 211, 940, 213, "report", color="#0f766e", marker="arrow-teal")
+    parts.append("</svg>")
+    return diagram_svg_shell("\n".join(parts), "上下文图强调 neat-freak 的边界：它不是运行服务，而是会话收尾时同步文档、根级 AI 指令和平台记忆的规则包。")
+
+
+def semantic_neat_distribution_svg(title: str) -> str:
+    parts = arch_svg_canvas(title, 430)
+    arch_box(parts, 90, 172, 210, 92, "neat-freak/SKILL.md", "triggers + workflow", fill="#17202b", stroke="#17202b", title_fill="#ffffff")
+    outputs = [
+        (460, 80, "Trigger Phrases", "/neat / sync up / 整理一下"),
+        (460, 165, "Inventory Workflow", "ls + read + classify"),
+        (460, 250, "sync-matrix.md", "change impact mapping"),
+        (460, 335, "agent-paths.md", "platform memory paths"),
+    ]
+    for x, y, name, note in outputs:
+        arch_box(parts, x, y, 235, 58, name, note)
+        arch_arrow(parts, 300, 218, x, y + 29)
+    arch_box(parts, 835, 95, 230, 72, "Docs First", "README / docs")
+    arch_box(parts, 835, 215, 230, 72, "AI Context Next", "AGENTS / CLAUDE / memory")
+    arch_box(parts, 835, 335, 230, 58, "Self-check", "paths / dates / contradictions")
+    arch_arrow(parts, 695, 194, 835, 131)
+    arch_arrow(parts, 695, 279, 835, 251)
+    arch_arrow(parts, 695, 364, 835, 364)
+    parts.append("</svg>")
+    return diagram_svg_shell("\n".join(parts), "静态组织图把触发词、盘点流程、影响矩阵和平台路径分开，说明它如何把一次收尾动作拆成可审查步骤。")
+
+
 SEMANTIC_ARCH_RENDERERS = {
     "proxy_context": semantic_proxy_context_svg,
     "proxy_static": semantic_proxy_static_svg,
@@ -2058,6 +2343,8 @@ SEMANTIC_ARCH_RENDERERS = {
     "fincept_deployment": semantic_fincept_deployment_svg,
     "skill_context": semantic_skill_context_svg,
     "skill_distribution": semantic_skill_distribution_svg,
+    "neat_context": semantic_neat_context_svg,
+    "neat_distribution": semantic_neat_distribution_svg,
 }
 
 
@@ -2324,6 +2611,7 @@ def page(project: dict) -> str:
         <div class="eyebrow">{escape(project['url'])}</div>
         <h1 class="title">{escape(project['title'])}</h1>
         {bullets(project['summary']).replace('class="bullets"', 'class="summary"')}
+        {resource_links(project)}
       </div>
       <aside class="adoption">
         <div>
@@ -2361,7 +2649,7 @@ def markdown_report(project: dict) -> str:
         f"- URL：{project['url']}",
         f"- 采用判断：{project['adoption_label']}",
         f"- 判断说明：{strip_md(project['adoption_detail'])}",
-        "- 分析方式：静态分析，DeepWiki 仅作辅助理解",
+        f"- 分析方式：{project.get('analysis_mode', '静态分析，DeepWiki 仅作辅助理解')}",
         "",
         "## 1. 新用户先看什么",
         "",
@@ -2373,6 +2661,7 @@ def markdown_report(project: dict) -> str:
         "",
         f"- 示例：{project['demo']['title']}",
         f"- 来源：{project['demo']['source_label']}",
+        "- Demo 状态：静态推演，未运行",
         *[f"- {strip_md(x)}" for x in project["demo"]["points"]],
         "",
         "## 3. 项目机制图",
@@ -2445,6 +2734,10 @@ def cleanup_old_secondary_pages() -> None:
         old.unlink()
 
 
+def clean_output(text: str) -> str:
+    return "\n".join(line.rstrip() for line in text.splitlines()) + "\n"
+
+
 def main() -> None:
     SITE_DIR.mkdir(parents=True, exist_ok=True)
     PROJECTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -2453,8 +2746,8 @@ def main() -> None:
     for project in PROJECTS:
         out = PROJECTS_DIR / project["slug"]
         out.mkdir(parents=True, exist_ok=True)
-        (out / "index.html").write_text(page(project), encoding="utf-8")
-        (out / "analysis.md").write_text(markdown_report(project), encoding="utf-8")
+        (out / "index.html").write_text(clean_output(page(project)), encoding="utf-8")
+        (out / "analysis.md").write_text(clean_output(markdown_report(project)), encoding="utf-8")
 
 
 if __name__ == "__main__":

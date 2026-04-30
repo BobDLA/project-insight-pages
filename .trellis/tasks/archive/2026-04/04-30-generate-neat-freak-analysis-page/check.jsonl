@@ -1,0 +1,6 @@
+{"_example": "Fill with {\"file\": \"<path>\", \"reason\": \"<why>\"}. Put spec/research files only — no code paths. Run `python3 .trellis/scripts/get_context.py --mode packages` to list available specs. Delete this line once real entries are added."}
+{"file": ".trellis/spec/frontend/index.md", "reason": "Static report page and generated index guidelines"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "Generated HTML component and escaping review contract"}
+{"file": ".trellis/spec/frontend/quality-guidelines.md", "reason": "Browser/layout verification expectations"}
+{"file": ".trellis/spec/backend/database-guidelines.md", "reason": "projects.json registry data contract"}
+{"file": ".trellis/tasks/04-30-generate-neat-freak-analysis-page/research/evidence.md", "reason": "Evidence boundary for report review"}

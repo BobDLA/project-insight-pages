@@ -11,6 +11,7 @@
 .page{max-width:1280px;margin:0 auto;padding:28px}.topline{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:14px;color:var(--muted);font-size:13px}.brand{color:var(--teal);font-weight:900;letter-spacing:.08em;text-transform:uppercase}
 .hero{display:grid;grid-template-columns:minmax(0,1.22fr) minmax(330px,.78fr);border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);box-shadow:var(--shadow);overflow:hidden}.hero-main{min-width:0;padding:42px 46px 36px}.eyebrow{display:block;color:var(--muted);font-size:13px;font-weight:750;overflow-wrap:anywhere}.title{margin:14px 0 18px;font-size:clamp(36px,5vw,60px);line-height:1.02;letter-spacing:0;overflow-wrap:anywhere}
 .summary,.bullets{display:grid;gap:8px;margin:0;padding:0;list-style:none}.summary{max-width:78ch;font-size:17px}.summary li,.bullets li{position:relative;padding-left:18px;overflow-wrap:anywhere}.summary li:before,.bullets li:before{content:"";position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--teal)}
+.resource-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.resource-link{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:7px 11px;border:1px solid var(--line-strong);border-radius:var(--radius);background:#fff;color:#123d38;font-size:13px;font-weight:820}
 .adoption{display:flex;flex-direction:column;justify-content:space-between;gap:26px;padding:34px;color:#fff;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 42%),var(--dark)}.adoption-label{color:#b9c6d6;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.adoption-title{margin-top:10px;font-size:28px;font-weight:900;line-height:1.16}.adoption-detail{margin:13px 0 0;color:#e2ebf3;font-size:14px}
 .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line-strong);border-top:0;background:#fbfcfb}.fact{min-width:0;min-height:102px;padding:18px 22px;border-right:1px solid var(--line)}.fact:last-child{border-right:0}.fact b{display:block;margin-bottom:7px;font-size:28px;font-weight:900;line-height:1;overflow-wrap:anywhere}.fact span{display:block;color:var(--muted);font-size:13px;overflow-wrap:anywhere}
 .nav{position:sticky;top:0;z-index:20;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;margin:18px 0 0;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--line);overflow:hidden}.nav a{display:flex;min-height:46px;align-items:center;justify-content:center;padding:8px 10px;background:var(--paper);color:#26313e;font-size:13px;font-weight:800;text-align:center}
@@ -35,6 +36,7 @@
         <div class="eyebrow">{{URL}}</div>
         <h1 class="title">{{TITLE}}</h1>
         {{SUMMARY_BULLETS}}
+        {{RESOURCE_LINKS}}
       </div>
       <aside class="adoption">
         <div>

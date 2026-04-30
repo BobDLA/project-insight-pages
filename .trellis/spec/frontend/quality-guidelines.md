@@ -25,6 +25,7 @@ projectRows: document.querySelectorAll(".project-row").length,
 topLineRows: document.querySelectorAll(".topline").length,
 controls: document.querySelectorAll(".toolbar input, .toolbar select").length,
 tagChips: document.querySelectorAll("#tag-filters [data-tag]").length,
+tableHeadColumns: document.querySelectorAll(".project-table-head span").length,
 projectSlugSubtitles: document.querySelectorAll(".project-row .project-slug").length,
 audienceSubtitles: document.querySelectorAll(".project-row .audience").length,
 summarySubtitles: document.querySelectorAll(".project-row .project-summary").length,
@@ -125,6 +126,8 @@ The verifier checks:
 - Are standalone project slug subtitles absent from report rows?
 - Does each report row render `.project-summary` from explicit `summary` data,
   with no `.audience` subtitle under the title?
+- Does the desktop report list keep the three-column table header and row
+  structure (`工具与简介`, `核心要点`, `资源与链接`) while stacking on mobile?
 - Do important report-list phrases render through `<strong>` emphasis without
   exposing raw `**` markers in visible text?
 - Do `解决问题`, `差异点`, and `Demo / 机制` render as one cohesive analysis group

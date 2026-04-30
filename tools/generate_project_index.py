@@ -310,136 +310,219 @@ select:focus,
   font-weight: 760;
 }
 .project-list { display: grid; }
+.project-table-head {
+  display: grid;
+  grid-template-columns: minmax(320px, .95fr) minmax(420px, 1.45fr) 260px;
+  min-width: 0;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #fbfcfc, #f6f8f9);
+}
+.project-table-head span {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-right: 1px solid #e2e8e4;
+  color: #101927;
+  font-size: 14px;
+  font-weight: 880;
+  letter-spacing: 0;
+}
+.project-table-head span:last-child { border-right: 0; }
 .project-row {
   display: grid;
-  grid-template-columns: minmax(230px, .34fr) minmax(0, 1fr) minmax(124px, auto);
-  gap: 22px;
-  align-items: start;
-  padding: 22px 24px;
+  grid-template-columns: minmax(320px, .95fr) minmax(420px, 1.45fr) 260px;
+  gap: 0;
+  align-items: stretch;
+  padding: 0;
   border-bottom: 1px solid var(--line);
   background: #fff;
 }
 .project-row:last-child { border-bottom: 0; }
-.project-title { min-width: 0; }
+.project-title {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 16px;
+  padding: 26px 28px 24px;
+  border-right: 1px solid #e2e8e4;
+}
+.project-icon {
+  display: inline-flex;
+  width: 46px;
+  height: 46px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d5ede8;
+  border-radius: 50%;
+  background: #e9f8f5;
+  color: #0f766e;
+}
+.project-row:nth-child(2n) .project-icon {
+  border-color: #e1dcff;
+  background: #f0edff;
+  color: #5748d8;
+}
+.project-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+}
+.project-copy { min-width: 0; }
 .project-title h3 {
   margin: 0 0 6px;
-  font-size: 24px;
+  font-size: 23px;
   line-height: 1.22;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 .project-summary {
   margin-top: 10px;
-  padding-left: 10px;
-  border-left: 3px solid #d8e0dc;
-  color: #4b5965;
+  padding: 0;
+  border-left: 0;
+  color: #2f3d4c;
   font-size: 14px;
-  line-height: 1.55;
+  line-height: 1.62;
   overflow-wrap: anywhere;
 }
 .project-summary strong { color: #24313c; font-weight: 830; }
 .summary-stack {
   display: grid;
   margin: 0;
-  padding: 8px 14px;
+  padding: 20px 28px;
   min-width: 0;
-  border: 1px solid #e2e8e4;
-  border-radius: var(--radius);
-  background: #fcfdfc;
+  border-right: 1px solid #e2e8e4;
+  border-radius: 0;
+  background: #fff;
 }
 .summary-line {
   --accent: #a7b3ae;
   display: grid;
-  grid-template-columns: 86px minmax(0, 1fr);
-  gap: 14px;
+  grid-template-columns: 124px minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
   min-width: 0;
-  padding: 9px 0;
+  min-height: 78px;
+  padding: 14px 0;
   border-top: 1px solid #edf1ee;
 }
 .summary-line:first-child {
-  padding-top: 4px;
+  padding-top: 2px;
   border-top: 0;
 }
-.summary-line:last-child { padding-bottom: 4px; }
+.summary-line:last-child { padding-bottom: 2px; }
 .summary-label {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 10px;
   color: var(--muted);
-  font-size: 12px;
-  font-weight: 860;
+  font-size: 14px;
+  font-weight: 880;
   white-space: nowrap;
 }
-.summary-label::before {
-  content: "";
-  width: 6px;
-  height: 6px;
+.summary-icon {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
   flex: 0 0 auto;
-  border-radius: 999px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
   background: var(--accent);
+}
+.summary-icon svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
 }
 .summary-text {
   margin: 0;
-  color: #384451;
-  line-height: 1.52;
+  color: #263447;
+  line-height: 1.62;
   overflow-wrap: anywhere;
 }
 .summary-text strong { font-weight: 840; }
 .summary-line.primary {
-  --accent: #8fb6ae;
+  --accent: #2ca58d;
 }
 .summary-line.difference {
-  --accent: #9eacbf;
+  --accent: #2f80ed;
 }
 .summary-line.mechanism {
-  --accent: #c0ad87;
+  --accent: #ff6b1a;
 }
 .summary-line.primary .summary-label {
-  color: #4f6e68;
+  color: #0f8a75;
 }
 .summary-line.difference .summary-label {
-  color: #53657a;
+  color: #1c73d8;
 }
 .summary-line.mechanism .summary-label {
-  color: #756844;
+  color: #e75b08;
 }
 .summary-line .summary-text strong {
   color: #22313d;
 }
 .summary-line.primary .summary-text {
-  color: #17242a;
-  font-size: 15.5px;
-  font-weight: 700;
+  color: #263447;
+  font-size: 14px;
+  font-weight: 500;
 }
 .tag-row {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 10px;
+  margin-top: 14px;
 }
 .actions {
   display: grid;
-  gap: 8px;
-  min-width: 124px;
+  grid-template-columns: 1fr;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+  padding: 22px 28px;
   justify-items: stretch;
 }
 .button {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-height: 40px;
-  padding: 8px 12px;
-  border: 1px solid var(--line-strong);
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 42px;
+  padding: 8px 18px;
+  border: 1px solid #dce4df;
   border-radius: var(--radius);
   background: #fff;
-  color: #123d38;
+  color: #182538;
   font-size: 14px;
   font-weight: 780;
+  text-align: left;
   white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(21, 25, 35, .04);
 }
 .button.primary {
+  justify-content: center;
   border-color: #0f766e;
-  background: #0f766e;
+  background: linear-gradient(180deg, #0b9282, #08786d);
   color: #fff;
+  font-weight: 840;
+  box-shadow: 0 8px 22px rgba(15, 118, 110, .18);
+}
+.button-icon {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+}
+.button-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
 }
 .empty {
   padding: 40px 24px;
@@ -452,8 +535,15 @@ select:focus,
   .hero-side { border-left: 0; border-top: 1px solid var(--line); }
   .toolbar { position: static; grid-template-columns: 1fr 1fr; }
   .tag-filter-panel { grid-column: 1 / -1; }
+  .project-table-head { display: none; }
   .project-row { grid-template-columns: 1fr; }
-  .actions { display: flex; flex-wrap: wrap; }
+  .project-title,
+  .summary-stack {
+    border-right: 0;
+    border-bottom: 1px solid #edf1ee;
+  }
+  .actions { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .button.primary { justify-content: center; }
 }
 @media (max-width: 620px) {
   .page { padding: 12px; }
@@ -462,10 +552,13 @@ select:focus,
   .toolbar { grid-template-columns: 1fr; }
   .section-head { display: block; padding: 18px; }
   .count-pill { display: inline-flex; margin-top: 10px; }
-  .project-row { padding: 18px; }
-  .summary-line { grid-template-columns: 1fr; gap: 3px; }
-  .actions { display: grid; grid-template-columns: 1fr; }
-  .button { width: 100%; }
+  .project-title { grid-template-columns: 38px minmax(0, 1fr); padding: 18px; gap: 12px; }
+  .project-icon { width: 38px; height: 38px; }
+  .summary-stack { padding: 12px 18px; }
+  .summary-line { grid-template-columns: 1fr; gap: 8px; min-height: 0; }
+  .actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .button.primary { grid-column: 1 / -1; }
+  .button { width: 100%; justify-content: center; padding: 8px 10px; }
 }
   </style>
 </head>
@@ -512,6 +605,11 @@ select:focus,
           <p>每份报告围绕问题、差异、机制、架构和采用判断展开；可用关键词或标签收窄列表。</p>
         </div>
         <span class="count-pill" id="result-count">__TOTAL__ 个项目</span>
+      </div>
+      <div class="project-table-head" aria-hidden="true">
+        <span>工具与简介</span>
+        <span>核心要点</span>
+        <span>资源与链接</span>
       </div>
       <div class="project-list" id="project-list"></div>
       <div class="empty" id="empty-state" hidden>没有匹配的项目。请放宽搜索或标签。</div>
@@ -648,32 +746,110 @@ function renderTags(tags) {
     .join("");
 }
 
+function iconSvg(name) {
+  const icons = {
+    brain: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 5.5a3 3 0 0 0-3 3v7a3 3 0 0 0 5.2 2.05M8.5 5.5A3.3 3.3 0 0 1 12 3a3.3 3.3 0 0 1 3.5 2.5m-7 0v12.05m7-12.05a3 3 0 0 1 3 3v7a3 3 0 0 1-5.2 2.05M15.5 5.5v12.05M8.5 10H6m12 0h-2.5M8.5 14H6m12 0h-2.5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    broom: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 4l6 6m-7.5-4.5L18.5 11 13 16.5 7 10.5 12.5 5.5zM5 12.5l6.5 6.5M3.5 16l4.5 4.5M6.5 13.5l-3 3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    rules: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 5h12M6 12h12M6 19h12M4 5h.01M4 12h.01M4 19h.01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    terminal: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16v12H4zM7 10l3 2-3 2m5 1h5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    chart: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19V5m0 14h16M8 16v-4m4 4V8m4 8v-6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    target: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="7" stroke-width="1.9"/><circle cx="12" cy="12" r="2.5" stroke-width="1.9"/><path d="M12 2v3m0 14v3m10-10h-3M5 12H2" stroke-width="1.9" stroke-linecap="round"/></svg>',
+    code: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 8l-4 4 4 4m8-8l4 4-4 4m-2-10l-4 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    file: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3h7l4 4v14H7zM14 3v5h5M9.5 12h5M9.5 16h5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    markdown: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2" stroke-width="1.8"/><path d="M7 15V9l2.5 3 2.5-3v6m4-6v6m-2-2l2 2 2-2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    github: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 19c-4 1-4-2-5-2m10 4v-3.5c0-1 .2-1.4-.5-2 2.7-.3 5.5-1.3 5.5-6A4.6 4.6 0 0 0 18 6.3a4.2 4.2 0 0 0-.1-3.2s-1-.3-3.3 1.2a11.4 11.4 0 0 0-6 0C6.3 2.8 5.3 3.1 5.3 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.7 2.8 5.7 5.5 6-.6.5-.7 1.1-.7 2V21" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    book: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H7a3 3 0 0 0-3 3V5.5zM4 5.5V22m4-15h8m-8 4h8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    zread: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2" stroke-width="1.8"/><path d="M9 9h6l-6 6h6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  };
+  return icons[name] || "";
+}
+
+function projectIcon(project) {
+  const slug = normalize(project.slug || project.title);
+  if (slug.includes("gbrain")) return iconSvg("brain");
+  if (slug.includes("neat")) return iconSvg("broom");
+  if (slug.includes("fincept")) return iconSvg("chart");
+  if (slug.includes("free-claude")) return iconSvg("terminal");
+  return iconSvg("rules");
+}
+
+function summaryLabel(label, iconName) {
+  return `<span class="summary-icon">${iconSvg(iconName)}</span><span>${escapeHtml(label)}</span>`;
+}
+
+function actionButton(label, href, iconName, options = {}) {
+  const target = options.external ? ' target="_blank" rel="noreferrer"' : "";
+  const primary = options.primary ? " primary" : "";
+  return `<a class="button${primary}" href="${escapeHtml(href)}"${target} aria-label="${escapeHtml(options.aria || label)}"><span class="button-icon">${iconSvg(iconName)}</span><span>${escapeHtml(label)}</span></a>`;
+}
+
+function githubRepoParts(value) {
+  try {
+    const url = new URL(String(value ?? ""));
+    const host = url.hostname.toLowerCase();
+    if (host !== "github.com" && host !== "www.github.com") return null;
+    const parts = url.pathname.split("/").filter(Boolean);
+    if (parts.length < 2) return null;
+    const owner = parts[0];
+    const repo = parts[1].replace(/\.git$/i, "");
+    if (!owner || !repo) return null;
+    return { owner, repo };
+  } catch (error) {
+    return null;
+  }
+}
+
+function externalResourceLinks(project) {
+  const repo = githubRepoParts(project.repo);
+  if (!repo) return [];
+  const owner = encodeURIComponent(repo.owner);
+  const name = encodeURIComponent(repo.repo);
+  return [
+    { label: "DeepWiki", href: `https://deepwiki.com/${owner}/${name}` },
+    { label: "Zread", href: `https://zread.ai/${owner}/${name}` },
+  ];
+}
+
+function renderExternalResourceLinks(project) {
+  return externalResourceLinks(project)
+    .map(link => actionButton(link.label, link.href, link.label === "DeepWiki" ? "book" : "zread", {
+      external: true,
+      aria: `打开 ${project.title} ${link.label} 页面`,
+    }))
+    .join("");
+}
+
 function renderList(items) {
   el.list.innerHTML = items.map(project => `
     <article class="project-row" aria-label="${escapeHtml(project.title)}">
       <div class="project-title">
-        <h3>${escapeHtml(project.title)}</h3>
-        <div class="project-summary">${renderInline(project.summary)}</div>
-        <div class="tag-row">${renderTags(project.tags)}</div>
+        <span class="project-icon" aria-hidden="true">${projectIcon(project)}</span>
+        <div class="project-copy">
+          <h3>${escapeHtml(project.title)}</h3>
+          <div class="project-summary">${renderInline(project.summary)}</div>
+          <div class="tag-row">${renderTags(project.tags)}</div>
+        </div>
       </div>
       <dl class="summary-stack">
         <div class="summary-line primary">
-          <dt class="summary-label">解决问题</dt>
+          <dt class="summary-label">${summaryLabel("解决问题", "check")}</dt>
           <dd class="summary-text">${renderInline(project.problem)}</dd>
         </div>
         <div class="summary-line difference">
-          <dt class="summary-label">差异点</dt>
+          <dt class="summary-label">${summaryLabel("差异点", "target")}</dt>
           <dd class="summary-text">${renderInline(project.difference)}</dd>
         </div>
         <div class="summary-line mechanism">
-          <dt class="summary-label">Demo / 机制</dt>
+          <dt class="summary-label">${summaryLabel("Demo / 机制", "code")}</dt>
           <dd class="summary-text">${renderInline(project.demo)}</dd>
         </div>
       </dl>
       <div class="actions">
-        <a class="button primary" href="${escapeHtml(project.file)}" aria-label="打开 ${escapeHtml(project.title)} 报告">报告</a>
-        <a class="button" href="${escapeHtml(project.markdown)}" aria-label="打开 ${escapeHtml(project.title)} Markdown">Markdown</a>
-        <a class="button" href="${escapeHtml(project.repo)}" target="_blank" rel="noreferrer" aria-label="打开 ${escapeHtml(project.title)} GitHub 仓库">GitHub</a>
+        ${actionButton("报告", project.file, "file", { primary: true, aria: `打开 ${project.title} 报告` })}
+        ${actionButton("Markdown", project.markdown, "markdown", { aria: `打开 ${project.title} Markdown` })}
+        ${actionButton("GitHub", project.repo, "github", { external: true, aria: `打开 ${project.title} GitHub 仓库` })}
+        ${renderExternalResourceLinks(project)}
       </div>
     </article>
   `).join("");

@@ -64,6 +64,21 @@ Under each project title, render the explicit `project.summary` one-sentence
 functional highlight. Do not infer this title-area subtitle from
 `project.audience`; audience can remain searchable metadata.
 
+Project row actions may include derived external reading resources. Keep these
+as compact action buttons alongside `报告`, `Markdown`, and `GitHub`; do not
+promote them into new row metadata fields or separate badges.
+
+Supported example:
+
+```javascript
+<div class="actions">
+  <a class="button primary" href="${escapeHtml(project.file)}">报告</a>
+  <a class="button" href="${escapeHtml(project.markdown)}">Markdown</a>
+  <a class="button" href="${escapeHtml(project.repo)}">GitHub</a>
+  ${renderExternalResourceLinks(project)}
+</div>
+```
+
 ### Index List Summary Pattern
 
 When a generated list item shows labeled facts, render them as a compact
@@ -91,6 +106,20 @@ stack of competing colored bars. `解决问题` is the primary scan target; `差
 and `Demo / 机制` should remain distinct but quieter. Prefer a light bordered
 panel, thin separators, small accent markers, and neutral dark emphasis text
 over broad saturated color blocks or many competing text colors.
+
+For the overview report directory, preserve the table-like desktop row
+structure:
+
+- `project-table-head` labels the three scan columns: `工具与简介`, `核心要点`,
+  and `资源与链接`.
+- Each `.project-row` remains a three-column grid on desktop: project identity
+  and summary, the `<dl class="summary-stack">`, then `.actions`.
+- Project identity uses a circular `.project-icon` plus title, explicit
+  `.project-summary`, and tags.
+- Summary labels include compact icons inside `.summary-icon`; keep the labels
+  text-visible for accessibility.
+- Hide the table header and stack row columns on narrow screens instead of
+  allowing horizontal overflow.
 
 ---
 

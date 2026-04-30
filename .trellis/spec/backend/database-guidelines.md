@@ -54,6 +54,31 @@ Project records currently use these fields:
 New feature work that reads or writes registry data must preserve this contract
 unless the task explicitly changes it.
 
+## Derived External Resource Links
+
+Do not add persistent `deepwiki` or `zread` fields for standard GitHub-backed
+projects. The existing `repo` field is the source of truth for the overview
+page, and generated final report pages use their project `url` field.
+
+For valid GitHub repository URLs, derive external resources at render time:
+
+```text
+https://github.com/<owner>/<repo> -> https://deepwiki.com/<owner>/<repo>
+https://github.com/<owner>/<repo> -> https://zread.ai/<owner>/<repo>
+```
+
+Strip a trailing `.git` suffix from the repository segment. If a URL is not a
+GitHub repository URL, omit the derived links rather than writing empty fields
+or rendering broken anchors.
+
+Validation expectations:
+
+- `site/projects.json` keeps the registry contract above unchanged.
+- `tools/generate_project_index.py` derives DeepWiki/Zread from `repo`.
+- Final report generators derive DeepWiki/Zread from the report project `url`.
+- Browser verification should assert one DeepWiki and one Zread link per
+  GitHub project row and final report page.
+
 ## Scenario: Project Registration And Index Registry Contract
 
 ### 1. Scope / Trigger

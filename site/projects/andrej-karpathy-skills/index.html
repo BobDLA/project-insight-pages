@@ -119,6 +119,25 @@ code {
   background: var(--teal);
 }
 .bullets.compact { gap: 6px; font-size: 14px; }
+.resource-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.resource-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 7px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fff;
+  color: #123d38;
+  font-size: 13px;
+  font-weight: 820;
+}
 .adoption {
   min-width: 0;
   display: flex;
@@ -618,6 +637,7 @@ code {
         <div class="eyebrow">https://github.com/forrestchang/andrej-karpathy-skills</div>
         <h1 class="title">andrej-karpathy-skills</h1>
         <ul class="summary"><li>极轻量 coding agent 行为规则包，把 Karpathy 对 LLM 编码失败模式的观察压缩成 <strong>CLAUDE.md、Claude plugin skill 和 Cursor rule</strong>。</li><li>它不是开发框架，而是减少 agent 误判、过度设计和无关改动的行为约束。</li></ul>
+        <div class="resource-links" aria-label="外部资源"><a class="resource-link" href="https://github.com/forrestchang/andrej-karpathy-skills" target="_blank" rel="noreferrer" aria-label="打开 andrej-karpathy-skills GitHub 页面">GitHub</a><a class="resource-link" href="https://deepwiki.com/forrestchang/andrej-karpathy-skills" target="_blank" rel="noreferrer" aria-label="打开 andrej-karpathy-skills DeepWiki 页面">DeepWiki</a><a class="resource-link" href="https://zread.ai/forrestchang/andrej-karpathy-skills" target="_blank" rel="noreferrer" aria-label="打开 andrej-karpathy-skills Zread 页面">Zread</a></div>
       </div>
       <aside class="adoption">
         <div>
@@ -632,7 +652,7 @@ code {
     <nav class="nav">
       <a href="#lean">Lean 判断</a><a href="#demo">Demo</a><a href="#diagram">机制图</a><a href="#views">架构视角</a><a href="#assets">资产</a><a href="#adopt">采用确认</a>
     </nav>
-    
+
     <section id="lean" class="section">
       <div class="section-head">
         <div class="section-index">01</div>
@@ -641,7 +661,7 @@ code {
       </div>
       <div class="section-body"><div class="lean-grid"><div class="kv"><h3>适合谁</h3><ul class="bullets"><li>Claude Code / Cursor 用户。</li><li>维护团队级 agent 指令、想减少返工和无关 diff 的工程团队。</li><li>正在整理 AI coding 规范、但不想维护长篇流程文档的团队。</li></ul></div><div class="kv"><h3>解决什么问题</h3><ul class="bullets"><li>Coding agent 容易隐藏假设、过度抽象、顺手改无关代码、没有明确验收目标。</li><li>团队需要短、硬、可复制的行为规则，而不是长篇抽象建议。</li></ul></div><div class="kv"><h3>和别的方案哪里不同</h3><ul class="bullets"><li>四条原则足够短：<strong>先澄清、简单优先、外科式修改、目标驱动执行</strong>。</li><li>同一规则被分发为 CLAUDE.md、Skill、Cursor rule 和 plugin manifest，降低采用成本。</li></ul></div><div class="kv"><h3>为什么现在值得看</h3><ul class="bullets"><li>Agent coding 已经成为日常开发入口，团队开始需要稳定行为基线。</li><li>项目传播势能强，说明这类“短规则 + 多分发格式”的需求真实存在。</li></ul></div><div class="kv"><h3>最小验证方式</h3><ul class="bullets"><li>把规则加入一个真实 repo，选择 5-10 个历史小任务做前后对照。</li><li>观察 agent 是否减少无关 diff、是否更早澄清目标、是否更少过度设计。</li></ul></div></div></div>
     </section>
-    
+
     <section id="demo" class="section">
       <div class="section-head">
         <div class="section-index">02</div>
@@ -650,14 +670,14 @@ code {
       </div>
       <div class="section-body">
     <div class="demo-layout">
-      
+
     <div class="example-card">
       <div class="example-row"><b>User</b><p>“Make the search faster”</p></div>
       <div class="example-row bad"><b>错误做法</b><p>静默选择缓存、索引、异步处理，然后开始大范围修改。</p></div>
       <div class="example-row good"><b>正确做法</b><p>先澄清：响应时间、吞吐量、还是感知速度？再选最小修改路径。</p></div>
       <div class="media-caption">来自 <code>EXAMPLES.md</code> 的 “Make the search faster” 示例。它比抽象描述更能说明该项目如何改变 agent 行为。</div>
     </div>
-    
+
       <div class="kv">
         <h3>Make the search faster</h3>
         <p class="section-note">仓库 EXAMPLES.md 示例</p>
@@ -666,7 +686,7 @@ code {
     </div>
     </div>
     </section>
-    
+
     <section id="diagram" class="section">
       <div class="section-head">
         <div class="section-index">03</div>
@@ -702,7 +722,7 @@ code {
         <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
       </filter>
     </defs>
-    
+
 <rect x="1" y="1" width="1178" height="468" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
 <text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">运行主链路</tspan></text>
 <text x="185.0" y="38.0" text-anchor="start" font-size="13" font-weight="500" fill="#65707d"><tspan x="185.0" dy="0">用户给 agent 一个模糊请求：Make the search faster。</tspan></text>
@@ -765,25 +785,25 @@ code {
               <p>提出模糊目标</p>
               <small>Make the search faster</small>
             </div>
-            
+
             <div class="mobile-step" data-step="2">
               <b>Agent -> 规则基线</b>
               <p>触发先澄清原则</p>
               <small>列出 latency / throughput / UX</small>
             </div>
-            
+
             <div class="mobile-step" data-step="3">
               <b>用户 -> Agent</b>
               <p>确认优化目标</p>
               <small>锁定成功标准</small>
             </div>
-            
+
             <div class="mobile-step" data-step="4">
               <b>Agent -> 代码修改</b>
               <p>执行最小路径修改</p>
               <small>避免顺手重构</small>
             </div>
-            
+
             <div class="mobile-step" data-step="5">
               <b>Agent -> 验证</b>
               <p>运行测试或基准</p>
@@ -806,7 +826,7 @@ code {
         <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
       </filter>
     </defs>
-    
+
 <rect x="1" y="1" width="1178" height="498" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
 <text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">组件关系</tspan></text>
 <rect x="210" y="218" width="760" height="78" rx="12" fill="#17202b" stroke="#17202b"/>
@@ -839,17 +859,17 @@ code {
           <b>CLAUDE.md</b>
           <p>项目根目录规则入口。</p>
         </div>
-        
+
         <div class="mobile-step" data-step="2">
           <b>SKILL.md</b>
           <p>Claude plugin 兼容分发。</p>
         </div>
-        
+
         <div class="mobile-step" data-step="3">
           <b>Cursor Rule</b>
           <p>Cursor 项目级 alwaysApply 规则。</p>
         </div>
-        
+
         <div class="mobile-step" data-step="4">
           <b>EXAMPLES.md</b>
           <p>用 before/after 降低误用概率。</p>
@@ -871,7 +891,7 @@ code {
         <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
       </filter>
     </defs>
-    
+
 <rect x="1" y="1" width="1178" height="308" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
 <text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">系统动力学视角</tspan></text>
 <rect x="32" y="58" width="1116" height="226" rx="10" fill="#e8f4f2" stroke="#0f766e" stroke-opacity=".32"/>
@@ -934,7 +954,7 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
     </div>
     </div>
     </section>
-    
+
     <section id="views" class="section">
       <div class="section-head">
         <div class="section-index">04</div>
@@ -958,12 +978,12 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
                     <span><strong>视图类型：</strong>C4 L1 Context</span>
                   </div>
                 </div>
-                
+
               </div>
               <div class="arch-view-body">
-                
+
                 <p>系统边界是开发者、coding agent 和规则包之间的行为约束关系。</p>
-                
+
     <div class="svg-frame"><svg viewBox="0 0 1180 390" role="img" aria-label="系统全貌 architecture diagram">
 
     <defs>
@@ -980,7 +1000,7 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
         <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
       </filter>
     </defs>
-    
+
 <rect x="1" y="1" width="1178" height="388" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
 <text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">系统全貌</tspan></text>
 <text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">语义架构图</tspan></text>
@@ -1013,23 +1033,23 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
 <text x="400.0" y="274.5" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="400.0" dy="0">examples</tspan></text>
 </svg></div>
     <p class="diagram-caption">上下文图表达规则包的真实作用：它约束 agent 行为，而不是作为运行服务参与调用链。</p>
-    
+
                 <div class="diagram-mobile">
                 <div class="mobile-step" data-step="1">
                   <b>Developer -> Agent</b>
                   <p>结构依赖 / 数据流向</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="2">
                   <b>andrej-karpathy-skills Rule Pack -> Agent</b>
                   <p>结构依赖 / 数据流向</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="3">
                   <b>Agent -> Target Repository</b>
                   <p>结构依赖 / 数据流向</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="4">
                   <b>EXAMPLES.md -> Developer</b>
                   <p>结构依赖 / 数据流向</p>
@@ -1042,7 +1062,7 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
     Examples[EXAMPLES.md] --&gt; Developer</code></pre></details>
               </div>
             </article>
-            
+
             <article class="arch-view">
               <div class="arch-view-head">
                 <div>
@@ -1056,7 +1076,7 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
               <div class="arch-view-body">
                 <p><strong>场景描述：</strong>用户提出 Make the search faster 这类模糊请求。</p>
                 <p>规则包的价值体现在 agent 如何先暴露假设、确认目标，再最小修改并验证结果。</p>
-                
+
     <div class="svg-frame"><svg viewBox="0 0 1180 556" role="img" aria-label="核心业务流转 sequence">
 
     <defs>
@@ -1073,7 +1093,7 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
         <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
       </filter>
     </defs>
-    
+
 <rect x="1" y="1" width="1178" height="554" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
 <text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">核心业务流转</tspan></text>
 <text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">Mermaid sequenceDiagram 渲染图</tspan></text>
@@ -1125,38 +1145,38 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
 <text x="715.5" y="491.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="715.5" dy="0">run test or benchmark</tspan></text>
 </svg></div>
     <p class="diagram-caption">上图由架构视角的 Mermaid sequenceDiagram 源码静态渲染，源码保留在下方。</p>
-    
+
                 <div class="diagram-mobile">
                 <div class="mobile-step" data-step="1">
                   <b>User -> Agent</b>
                   <p>Make the search faster</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="2">
                   <b>Agent -> Rule Pack</b>
                   <p>apply clarify-first rule</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="3">
                   <b>Rule Pack -> Agent</b>
                   <p>expose latency / throughput / UX assumptions</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="4">
                   <b>Agent -> User</b>
                   <p>ask for target and success criteria</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="5">
                   <b>User -> Agent</b>
                   <p>confirm objective</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="6">
                   <b>Agent -> Codebase</b>
                   <p>make smallest relevant change</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="7">
                   <b>Agent -> Validation</b>
                   <p>run test or benchmark</p>
@@ -1178,7 +1198,7 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
     A-&gt;&gt;V: run test or benchmark</code></pre></details>
               </div>
             </article>
-            
+
             <article class="arch-view">
               <div class="arch-view-head">
                 <div>
@@ -1187,12 +1207,12 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
                     <span><strong>视图类型：</strong>C4 L2 Container（分发结构）</span>
                   </div>
                 </div>
-                
+
               </div>
               <div class="arch-view-body">
-                
+
                 <p>静态结构是多分发格式，而不是服务容器。</p>
-                
+
     <div class="svg-frame"><svg viewBox="0 0 1180 430" role="img" aria-label="静态组织结构 architecture diagram">
 
     <defs>
@@ -1209,7 +1229,7 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
         <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
       </filter>
     </defs>
-    
+
 <rect x="1" y="1" width="1178" height="428" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
 <text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">静态组织结构</tspan></text>
 <text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">语义架构图</tspan></text>
@@ -1243,28 +1263,28 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
 <text x="762.5" y="295.0" text-anchor="middle" font-size="10" font-weight="800" fill="#254466"><tspan x="762.5" dy="0">calibrate</tspan></text>
 </svg></div>
     <p class="diagram-caption">分发结构图把核心原则和多种落地格式分开，避免画成不存在的系统组件网络。</p>
-    
+
                 <div class="diagram-mobile">
                 <div class="mobile-step" data-step="1">
                   <b>Core -> CLAUDE.md</b>
                   <p>结构依赖 / 数据流向</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="2">
                   <b>Core -> Claude Skill SKILL.md</b>
                   <p>结构依赖 / 数据流向</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="3">
                   <b>Core -> Cursor Rule</b>
                   <p>结构依赖 / 数据流向</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="4">
                   <b>Core -> Examples</b>
                   <p>结构依赖 / 数据流向</p>
                 </div>
-                
+
                 <div class="mobile-step" data-step="5">
                   <b>Examples -> Core</b>
                   <p>calibrate</p>
@@ -1282,7 +1302,7 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
     </div>
     </div>
     </section>
-    
+
     <section id="assets" class="section">
       <div class="section-head">
         <div class="section-index">05</div>
@@ -1291,7 +1311,7 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
       </div>
       <div class="section-body"><div class="asset-grid"><div class="asset"><h3>CLAUDE.md</h3><p>适合直接复制到项目根的核心单文件指令。</p></div><div class="asset"><h3>SKILL.md</h3><p>Claude plugin 兼容版本，便于作为 skill 分发。</p></div><div class="asset"><h3>Cursor Rule</h3><p><code>alwaysApply: true</code>，适合 Cursor 项目级规则。</p></div><div class="asset"><h3>EXAMPLES.md</h3><p>用真实反例和正确行为解释四原则，降低误用概率。</p></div></div></div>
     </section>
-    
+
     <section id="adopt" class="section">
       <div class="section-head">
         <div class="section-index">06</div>
@@ -1305,7 +1325,7 @@ BOT 概念趋势：返工率下降: 澄清目标增加 -&gt; 无关 diff 减少 
     </div>
     </div>
     </section>
-    
+
     <footer class="footer">
       <div><strong>生成文件：</strong>site/projects/andrej-karpathy-skills/index.html</div>
       <div><strong>边界：</strong>静态分析，未真实运行目标项目。</div>

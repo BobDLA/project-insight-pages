@@ -4,6 +4,7 @@ async page => {
     "FinceptTerminal",
     "andrej-karpathy-skills",
     "gbrain",
+    "neat-freak",
   ];
   const indexPages = ["index.html"];
   const viewports = [
@@ -89,8 +90,8 @@ async page => {
             const primary = document.querySelectorAll(".summary-line.primary").length;
             const difference = document.querySelectorAll(".summary-line.difference").length;
             const mechanism = document.querySelectorAll(".summary-line.mechanism").length;
-            const panels = [...document.querySelectorAll(".project-row .summary-stack")]
-              .filter(panel => getComputedStyle(panel).borderTopWidth !== "0px").length;
+            const panels = document.querySelectorAll(".project-row .summary-stack").length;
+            const summaryIcons = document.querySelectorAll(".summary-label .summary-icon svg").length;
             const accentMarkers = new Set([...document.querySelectorAll(".summary-line")]
               .map(row => getComputedStyle(row).getPropertyValue("--accent").trim()));
             const strongColors = new Set([...document.querySelectorAll(".summary-line .summary-text strong")]
@@ -100,10 +101,12 @@ async page => {
               difference,
               mechanism,
               panels,
+              summaryIcons,
               accentColorCount: accentMarkers.size,
               strongColorCount: strongColors.size,
               works: primary === rows && difference === rows && mechanism === rows
                 && panels === rows
+                && summaryIcons === rows * 3
                 && accentMarkers.size >= 3
                 && strongColors.size <= 2,
             };
@@ -142,6 +145,31 @@ async page => {
               tags: text.includes("tagprobe"),
             };
           })(),
+          externalResources: {
+            deepwiki: document.querySelectorAll('.project-row .actions a[href^="https://deepwiki.com/"]').length,
+            zread: document.querySelectorAll('.project-row .actions a[href^="https://zread.ai/"]').length,
+          },
+          actionLayout: (() => {
+            const actions = document.querySelector(".project-row .actions");
+            if (!actions) return { works: false };
+            const buttons = [...actions.querySelectorAll(".button")];
+            const primary = actions.querySelector(".button.primary");
+            const columns = getComputedStyle(actions).gridTemplateColumns
+              .split(" ")
+              .filter(Boolean).length;
+            const icons = actions.querySelectorAll(".button-icon svg").length;
+            return {
+              columns,
+              buttons: buttons.length,
+              icons,
+              primaryFirst: buttons[0] === primary,
+              hasTableHead: document.querySelectorAll(".project-table-head span").length === 3,
+              works: buttons.length >= 5
+                && icons === buttons.length
+                && buttons[0] === primary
+                && document.querySelectorAll(".project-table-head span").length === 3,
+            };
+          })(),
           links: [...document.querySelectorAll('a[href^="projects/"]')].map(link => link.getAttribute("href")),
         };
       });
@@ -166,7 +194,10 @@ async page => {
         && layout.copyChecks.hasHeroTitle
         && layout.copyChecks.hasHeroCopy
         && layout.copyChecks.hasListCopy
-        && !layout.copyChecks.hasMaintenanceCopy;
+        && !layout.copyChecks.hasMaintenanceCopy
+        && layout.externalResources.deepwiki === layout.projectRows
+        && layout.externalResources.zread === layout.projectRows
+        && layout.actionLayout.works;
       const mcpChip = page.locator('#tag-filters [data-tag="MCP"]').first();
       layout.tagFilterWorks = false;
       if (await mcpChip.count()) {
@@ -192,9 +223,9 @@ async page => {
       layout.searchWorks = await checkSearch("gbrain", "GBrain");
       layout.repoSearchWorks = await checkSearch("garrytan/gbrain", "GBrain");
       layout.categorySearchWorks = await checkSearch("接口代理", "free-claude-code");
-      layout.adoptionSearchWorks = await checkSearch("团队基线", "andrej-karpathy-skills");
+      layout.adoptionSearchWorks = await checkSearch("本地试点", "free-claude-code");
       layout.summarySearchWorks = await checkSearch("provider 适配链路", "free-claude-code");
-      layout.tagSearchWorks = await checkSearch("Knowledge", "GBrain");
+      layout.tagSearchWorks = await checkSearch("Writeback", "GBrain");
       layout.indexDiscoveryWorks = layout.discoveryModelWorks
         && layout.tagFilterWorks
         && layout.searchWorks
@@ -253,6 +284,11 @@ async page => {
           hasOld4p1CardLayout: document.querySelectorAll("#views .view-card").length > 0,
           hasOldStatus: body.innerText.includes("适合观察与场景试用"),
           hasScoreText: /85\/100|78\/100|82\/100|综合评分|综合判断分|score-value|verdict-score/i.test(body.innerText),
+          externalResources: {
+            github: document.querySelectorAll('.resource-links a[href^="https://github.com/"]').length,
+            deepwiki: document.querySelectorAll('.resource-links a[href^="https://deepwiki.com/"]').length,
+            zread: document.querySelectorAll('.resource-links a[href^="https://zread.ai/"]').length,
+          },
         };
       });
       await page.locator('[data-diagram-tab="component"]').first().click();
@@ -261,6 +297,9 @@ async page => {
         return Boolean(panel && !panel.hidden && panel.querySelector("svg"));
       });
       layout.componentTabWorks = componentVisible;
+      layout.externalResourcesWork = layout.externalResources.github === 1
+        && layout.externalResources.deepwiki === 1
+        && layout.externalResources.zread === 1;
       results.push({ file, viewport, layout });
     }
   }

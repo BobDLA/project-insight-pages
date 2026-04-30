@@ -1,0 +1,5 @@
+{"file": ".trellis/spec/frontend/quality-guidelines.md", "reason": "Frontend verification selectors and generated HTML quality checks"}
+{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "Tool compilation and regeneration checks"}
+{"file": ".trellis/spec/backend/database-guidelines.md", "reason": "Registry contract should remain stable"}
+{"file": ".trellis/tasks/04-30-add-deepwiki-zread-links/research/external-link-patterns.md", "reason": "Expected external URL patterns"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "External resource link placement convention"}

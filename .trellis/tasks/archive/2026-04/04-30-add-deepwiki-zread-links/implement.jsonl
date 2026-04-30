@@ -1,0 +1,7 @@
+{"file": ".trellis/spec/frontend/index.md", "reason": "Generated static overview and report page guidelines"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "HTML section and escaping patterns for generated pages"}
+{"file": ".trellis/spec/frontend/quality-guidelines.md", "reason": "Regeneration and browser verification expectations"}
+{"file": ".trellis/spec/frontend/type-safety.md", "reason": "Plain JS runtime guards and index data contract"}
+{"file": ".trellis/spec/backend/database-guidelines.md", "reason": "Static registry contract and migration cautions"}
+{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "Tool compilation and generation checks"}
+{"file": ".trellis/tasks/04-30-add-deepwiki-zread-links/research/external-link-patterns.md", "reason": "External DeepWiki and Zread URL derivation"}

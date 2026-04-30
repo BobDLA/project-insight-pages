@@ -58,6 +58,7 @@ python3 tools/project_report_manager.py register \
   --category "API / Tool" \
   --adoption "适合本地试点" \
   --audience "目标用户" \
+  --summary "一句话功能亮点" \
   --problem "解决的问题" \
   --difference "差异点" \
   --demo "核心 demo 或机制" \

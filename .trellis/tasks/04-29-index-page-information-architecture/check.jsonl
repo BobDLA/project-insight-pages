@@ -1,0 +1,7 @@
+{"file": ".trellis/spec/frontend/index.md", "reason": "Verify implementation stays within static-site frontend scope."}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "Verify generated HTML/CSS follows current escaping, layout, and accessibility conventions."}
+{"file": ".trellis/spec/frontend/state-management.md", "reason": "Verify filtering/rendering remains consistent with the vanilla JS state model."}
+{"file": ".trellis/spec/frontend/quality-guidelines.md", "reason": "Verify browser behavior, selector expectations, and responsive layout checks."}
+{"file": ".trellis/spec/frontend/type-safety.md", "reason": "Verify project record fields and runtime guards remain coherent."}
+{"file": ".trellis/spec/backend/database-guidelines.md", "reason": "Verify any taxonomy/data changes preserve the static registry contract."}
+{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "Verify generator output, py_compile, and static artifacts are in sync."}

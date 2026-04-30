@@ -111,6 +111,7 @@ def cmd_register(args: argparse.Namespace) -> int:
         "category": args.category,
         "adoption": args.adoption,
         "audience": args.audience,
+        "summary": args.summary,
         "problem": args.problem,
         "difference": args.difference,
         "demo": args.demo,
@@ -153,6 +154,7 @@ def build_parser() -> argparse.ArgumentParser:
     register.add_argument("--category", required=True)
     register.add_argument("--adoption", required=True)
     register.add_argument("--audience", required=True)
+    register.add_argument("--summary", required=True)
     register.add_argument("--problem", required=True)
     register.add_argument("--difference", required=True)
     register.add_argument("--demo", required=True)

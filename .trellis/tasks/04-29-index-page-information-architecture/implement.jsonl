@@ -1,0 +1,9 @@
+{"file": ".trellis/spec/frontend/index.md", "reason": "Defines current static-site frontend scope and affected index files."}
+{"file": ".trellis/spec/frontend/directory-structure.md", "reason": "Documents ownership of site/index.html, projects.json, and project assets."}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "Documents generated HTML/CSS section patterns, escaping, styling, and accessibility conventions."}
+{"file": ".trellis/spec/frontend/state-management.md", "reason": "Documents the current vanilla JS filtering/rendering state model used by the index page."}
+{"file": ".trellis/spec/frontend/quality-guidelines.md", "reason": "Documents browser verification expectations and selectors for index changes."}
+{"file": ".trellis/spec/frontend/type-safety.md", "reason": "Documents current runtime guards and project record fields consumed by the frontend."}
+{"file": ".trellis/spec/backend/directory-structure.md", "reason": "Documents generator and static artifact ownership for tools/generate_project_index.py."}
+{"file": ".trellis/spec/backend/database-guidelines.md", "reason": "Documents site/projects.json as the static registry contract."}
+{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "Documents regeneration, py_compile, and generated artifact sync requirements."}

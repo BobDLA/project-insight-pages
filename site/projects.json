@@ -1,5 +1,32 @@
 [
   {
+    "slug": "OpenViking",
+    "title": "OpenViking",
+    "file": "projects/OpenViking/",
+    "markdown": "projects/OpenViking/analysis.md",
+    "repo": "https://github.com/volcengine/OpenViking",
+    "category": "AI Agent Infrastructure",
+    "adoption": "适合技术试点；生产采用需审计",
+    "audience": "AI Agent 平台团队、长任务 Agent 开发者、context engineering 研究者",
+    "summary": "面向 AI Agent 的上下文数据库，将资源、记忆、技能和会话历史统一到 `viking://` 层级文件系统。",
+    "problem": "Agent 上下文散落在 prompt、向量库和聊天历史中，缺少可解释、可审计、可迭代的统一管理面。",
+    "difference": "L0/L1/L2 分层、目录递归检索、VikingFS/RAGFS + Vector Index 分离、session memory lifecycle 和多插件集成。",
+    "demo": "静态推演 quick_start：导入资源、生成 L0/L1、find/search 返回 URI/provenance；未运行。",
+    "architecture": "4+1 裁剪：C4 L1/L2 + UML Sequence + Deployment，覆盖服务层、VikingFS、检索、队列、存储和插件边界。",
+    "tags": [
+      "Context DB",
+      "AI Agent",
+      "RAG",
+      "Memory",
+      "CLI",
+      "FastAPI",
+      "Rust",
+      "多租户",
+      "静态分析"
+    ],
+    "updated": "2026-05-06"
+  },
+  {
     "slug": "andrej-karpathy-skills",
     "title": "andrej-karpathy-skills",
     "file": "projects/andrej-karpathy-skills/",

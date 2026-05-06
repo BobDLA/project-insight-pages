@@ -1,0 +1,1907 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>OpenViking 项目洞察</title>
+  <style>
+:root {
+  --bg: #f3f0e8;
+  --paper: #fffdf8;
+  --sheet: #f8fafb;
+  --ink: #151923;
+  --muted: #65707d;
+  --line: #d8ddd9;
+  --line-strong: #bfc8c2;
+  --teal: #0f766e;
+  --blue: #315c8f;
+  --amber: #a66f12;
+  --red: #a13a32;
+  --green: #147a47;
+  --dark: #17202b;
+  --soft-teal: #e8f4f2;
+  --soft-blue: #edf3fb;
+  --soft-amber: #fff5dd;
+  --soft-red: #fff0ee;
+  --radius: 8px;
+  --shadow: 0 18px 60px rgba(21, 25, 35, .08);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, rgba(21,25,35,.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21,25,35,.03) 1px, transparent 1px),
+    var(--bg);
+  background-size: 32px 32px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.58;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+a { color: #0b5c55; text-decoration: none; }
+strong { color: #071018; font-weight: 850; }
+code {
+  padding: 1px 5px;
+  border: 1px solid #d7dfdc;
+  border-radius: 5px;
+  background: #f4f7f6;
+  color: #183d39;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .92em;
+}
+.page { width: 100%; max-width: 1280px; margin: 0 auto; padding: 28px; }
+.topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.brand {
+  color: var(--teal);
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.22fr) minmax(330px, .78fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.hero-main { min-width: 0; padding: 42px 46px 36px; }
+.eyebrow {
+  display: block;
+  max-width: 100%;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+.title {
+  margin: 14px 0 18px;
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.02;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+.summary, .bullets {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.summary { max-width: 78ch; font-size: 17px; }
+.summary li, .bullets li {
+  position: relative;
+  padding-left: 18px;
+  overflow-wrap: anywhere;
+}
+.summary li::before, .bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .72em;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--teal);
+}
+.bullets.compact { gap: 6px; font-size: 14px; }
+.resource-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.resource-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 7px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fff;
+  color: #123d38;
+  font-size: 13px;
+  font-weight: 820;
+}
+.adoption {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 26px;
+  padding: 34px;
+  color: #fff;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), transparent 42%),
+    var(--dark);
+}
+.adoption-label {
+  color: #b9c6d6;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.adoption-title {
+  margin-top: 10px;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.16;
+}
+.adoption-detail { margin: 13px 0 0; color: #e2ebf3; font-size: 14px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 1px solid #aab6c4;
+  border-radius: 5px;
+  background: #f8fafb;
+  color: #394557;
+  font-size: 12px;
+  font-weight: 850;
+}
+.tag.green { color: var(--green); border-color: #b8dfc9; background: #eef8f2; }
+.tag.blue { color: #254466; border-color: #b9cde5; background: var(--soft-blue); }
+.tag.amber { color: var(--amber); border-color: #e6cf9f; background: var(--soft-amber); }
+.tag.red { color: var(--red); border-color: #e3b9b4; background: var(--soft-red); }
+.adoption .tag { color: #e9f1fb; border-color: #3d4e61; background: #202c3a; }
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--line-strong);
+  border-top: 0;
+  background: #fbfcfb;
+}
+.fact {
+  min-width: 0;
+  min-height: 102px;
+  padding: 18px 22px;
+  border-right: 1px solid var(--line);
+}
+.fact:last-child { border-right: 0; }
+.fact b {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+.fact span { display: block; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1px;
+  margin: 18px 0 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--line);
+  overflow: hidden;
+}
+.nav a {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  background: var(--paper);
+  color: #26313e;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+}
+.section {
+  display: block;
+  margin-top: 28px;
+  padding: 30px 0 0;
+  border-top: 1px solid var(--line-strong);
+}
+.section-head {
+  min-width: 0;
+  display: block;
+  margin-bottom: 18px;
+}
+.section-index {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.section h2 { margin: 0; font-size: 27px; line-height: 1.18; }
+.section-note { margin: 8px 0 0; max-width: 860px; color: var(--muted); font-size: 14px; }
+.section-body { min-width: 0; display: grid; gap: 18px; }
+.lean-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+}
+.kv, .asset, .check-card, .evidence-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  padding: 16px;
+}
+.kv h3, .asset h3, .check-card h3, .evidence-card h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  line-height: 1.25;
+}
+.kv p, .asset p { margin: 0; color: #364150; overflow-wrap: anywhere; }
+.demo-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr);
+  gap: 18px;
+  align-items: start;
+}
+.media-card {
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fbfcfd;
+  overflow: hidden;
+}
+.media-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 430px;
+  object-fit: contain;
+  background: #f7fafc;
+}
+.media-caption {
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.example-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fbfcfd;
+  padding: 14px;
+}
+.example-row {
+  padding: 12px 14px;
+  border-left: 4px solid var(--blue);
+  background: #fff;
+}
+.example-row.bad { border-left-color: var(--red); background: var(--soft-red); }
+.example-row.good { border-left-color: var(--teal); background: var(--soft-teal); }
+.example-row b { display: block; margin-bottom: 4px; }
+.example-row p { margin: 0; color: #35414f; }
+.diagram-shell {
+  min-width: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: 0 12px 34px rgba(21,25,35,.055);
+  overflow: hidden;
+}
+.diagram-header {
+  display: block;
+  padding: 18px 20px 15px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfb;
+}
+.type-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.type-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 1px solid #b9cde5;
+  border-radius: 5px;
+  background: var(--soft-blue);
+  color: #254466;
+  font-size: 12px;
+  font-weight: 850;
+}
+.scenario {
+  margin: 0 0 6px;
+  color: #394656;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.diagram-header .type-row { margin-top: 12px; }
+.diagram-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+.diagram-tabs button {
+  min-height: 34px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: #f8fafb;
+  color: #2f3b48;
+  padding: 5px 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.diagram-tabs button[aria-selected="true"] {
+  color: #fff;
+  border-color: var(--teal);
+  background: var(--teal);
+}
+.diagram-panel { padding: 18px 20px 20px; }
+.diagram-panel[hidden] { display: none; }
+.svg-frame {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #dce2df;
+  border-radius: var(--radius);
+  background:
+    linear-gradient(90deg, rgba(21,25,35,.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21,25,35,.035) 1px, transparent 1px),
+    #fff;
+  background-size: 28px 28px;
+}
+.svg-frame svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 960px;
+}
+.diagram-caption { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
+.diagram-mobile {
+  display: none;
+  gap: 10px;
+}
+.mobile-step, .mobile-loop {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  padding: 12px 13px 12px 42px;
+}
+.mobile-step::before {
+  content: attr(data-step);
+  position: absolute;
+  left: 12px;
+  top: 13px;
+  display: flex;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--dark);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+}
+.mobile-step b, .mobile-loop b { display: block; margin-bottom: 4px; line-height: 1.3; }
+.mobile-step p, .mobile-step small, .mobile-loop p {
+  display: block;
+  margin: 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.mobile-step p, .mobile-loop p { color: #35414f; }
+.mermaid-block {
+  margin: 0;
+  padding: 14px;
+  border: 1px solid #dce2df;
+  border-radius: var(--radius);
+  background: #f8fafb;
+  color: #26313e;
+  font-size: 12px;
+  line-height: 1.48;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+.asset-grid, .view-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.arch-lens {
+  min-width: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  overflow: hidden;
+  box-shadow: 0 12px 34px rgba(21,25,35,.045);
+}
+.arch-head {
+  display: block;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfb;
+}
+.arch-kicker {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.arch-head h3 { margin: 0; font-size: 20px; line-height: 1.25; }
+.arch-reason {
+  display: block;
+  max-width: 100%;
+  margin-top: 12px;
+  border-left: 3px solid var(--teal);
+  background: var(--soft-teal);
+  padding: 12px 14px;
+  color: #24433f;
+  font-size: 13px;
+}
+.arch-decision {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fffdf8;
+}
+.arch-kv {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fbfcfb;
+  padding: 13px 14px;
+}
+.arch-kv b {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 900;
+}
+.arch-kv span {
+  display: block;
+  color: #354252;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.arch-views {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  background:
+    linear-gradient(90deg, rgba(21,25,35,.026) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21,25,35,.022) 1px, transparent 1px),
+    #fffdf8;
+  background-size: 24px 24px;
+}
+.arch-view {
+  min-width: 0;
+  border: 1px solid #ccd7d2;
+  border-radius: var(--radius);
+  background: var(--paper);
+  overflow: hidden;
+}
+.arch-view-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfb;
+}
+.arch-view h4 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  line-height: 1.25;
+}
+.arch-view-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.priority-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 1px solid #e6cf9f;
+  border-radius: 5px;
+  background: var(--soft-amber);
+  color: var(--amber);
+  font-size: 12px;
+  font-weight: 900;
+}
+.arch-view-body {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px 16px;
+}
+.arch-view-body p {
+  margin: 0;
+  color: #354252;
+}
+.arch-source {
+  border: 1px solid #dce2df;
+  border-radius: var(--radius);
+  background: #fbfcfb;
+  overflow: hidden;
+}
+.arch-source summary {
+  min-height: 38px;
+  padding: 9px 12px;
+  color: #26313e;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 850;
+}
+.arch-source .mermaid-block {
+  border: 0;
+  border-top: 1px solid #dce2df;
+  border-radius: 0;
+}
+.two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.footer {
+  margin-top: 28px;
+  padding: 18px 0 4px;
+  border-top: 1px solid var(--line-strong);
+  color: var(--muted);
+  font-size: 13px;
+}
+@media (max-width: 980px) {
+  .page { padding: 16px; }
+  .hero, .demo-layout, .two-col { grid-template-columns: 1fr; }
+  .nav { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lean-grid, .asset-grid, .view-grid, .facts, .arch-decision { grid-template-columns: 1fr; }
+  .fact { border-right: 0; border-bottom: 1px solid var(--line); }
+  .fact:last-child { border-bottom: 0; }
+  .media-card img { max-height: none; }
+}
+@media (max-width: 1180px) and (min-width: 561px) {
+  .svg-frame svg { min-width: 0; }
+}
+@media (max-width: 560px) {
+  body { font-size: 15px; }
+  .page { padding: 12px; }
+  .topline { align-items: flex-start; }
+  .hero-main, .adoption { padding: 24px 20px; }
+  .title {
+    font-size: 32px;
+    overflow-wrap: break-word;
+  }
+  .nav { grid-template-columns: 1fr; }
+  .section h2 { font-size: 24px; }
+  .diagram-tabs { padding: 10px 12px; }
+  .diagram-panel { padding: 12px; }
+  .svg-frame { display: none; }
+  .diagram-mobile { display: grid; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="topline"><span class="brand">Project Insight</span><span>Lean · 自适应架构视角 · 图型按需选择 · 静态分析</span></div>
+  <article aria-label="OpenViking 项目洞察">
+    <header class="hero">
+      <div class="hero-main">
+        <div class="eyebrow">https://github.com/volcengine/OpenViking</div>
+        <h1 class="title">OpenViking</h1>
+        <ul class="summary"><li>OpenViking 把 <strong>资源、记忆、技能和会话历史</strong> 统一进 <code>viking://</code> 虚拟文件系统，目标是做 AI Agent 的上下文数据库。</li><li>它的差异点不是单纯向量召回，而是 <strong>L0/L1/L2 分层 + 目录递归检索 + 会话记忆迭代 + 插件集成</strong> 的组合。</li></ul>
+        <div class="resource-links" aria-label="外部资源"><a class="resource-link" href="https://github.com/volcengine/OpenViking" target="_blank" rel="noreferrer" aria-label="打开 OpenViking GitHub 页面">GitHub</a><a class="resource-link" href="https://deepwiki.com/volcengine/OpenViking" target="_blank" rel="noreferrer" aria-label="打开 OpenViking DeepWiki 页面">DeepWiki</a><a class="resource-link" href="https://zread.ai/volcengine/OpenViking" target="_blank" rel="noreferrer" aria-label="打开 OpenViking Zread 页面">Zread</a></div>
+      </div>
+      <aside class="adoption">
+        <div>
+          <div class="adoption-label">Adoption Read</div>
+          <div class="adoption-title">适合技术试点；生产采用需审计</div>
+          <p class="adoption-detail">适合先在低风险 Agent 工作流中验证资源导入、记忆提交、分层检索和可观测性；生产采用前必须确认 AGPL 边界、模型服务成本、数据隔离、密钥/隐私配置和运维复杂度。</p>
+        </div>
+        <div class="tags"><span class="tag green">Context DB</span><span class="tag blue">Agent 记忆</span><span class="tag red">生产需审计</span></div>
+      </aside>
+    </header>
+    <section class="facts"><div class="fact"><b>23.5k</b><span>GitHub stars at 2026-05-06 API sample；forks 1.7k，open issues 248。</span></div><div class="fact"><b>v0.3.13</b><span>Latest GitHub release observed: 2026-04-29；default branch latest clone commit 44d3cc4。</span></div><div class="fact"><b>AGPL-3.0</b><span>Main project license；Rust crates and examples separately include Apache-2.0 license files。</span></div></section>
+    <nav class="nav">
+      <a href="#lean">Lean 判断</a><a href="#demo">Demo</a><a href="#diagram">机制图</a><a href="#views">架构视角</a><a href="#assets">资产</a><a href="#adopt">采用确认</a>
+    </nav>
+
+    <section id="lean" class="section">
+      <div class="section-head">
+        <div class="section-index">01</div>
+        <h2>新用户先看什么</h2>
+        <p class="section-note">保留精益创业视角：适合谁、问题、差异、时机和最小验证。</p>
+      </div>
+      <div class="section-body"><div class="lean-grid"><div class="kv"><h3>适合谁</h3><ul class="bullets"><li>正在构建长任务 AI Agent、编码 Agent、研究 Agent 或企业内部助理的团队。</li><li>需要把文档、代码仓库、用户偏好、工具经验和 Agent 技能长期管理起来的平台工程团队。</li><li>想研究 context engineering、agentic RAG、记忆生命周期和多租户上下文隔离的技术读者。</li></ul></div><div class="kv"><h3>解决什么问题</h3><ul class="bullets"><li>Agent 上下文常散落在 prompt、向量库、文件、插件和聊天历史里，缺少统一读写与审计边界。</li><li>传统 RAG 往往是平铺 chunk 检索，难以解释“为什么命中这里”，也难以让 Agent 逐层读取细节。</li><li>长会话会产生大量可沉淀经验，简单截断或压缩会丢失可复用记忆。</li></ul></div><div class="kv"><h3>和别的方案哪里不同</h3><ul class="bullets"><li>它把上下文映射到 <code>viking://resources</code>、<code>viking://user/memories</code>、<code>viking://agent/skills</code> 等目录，而不是只暴露向量搜索 API。</li><li>写入后异步生成 L0 摘要、L1 overview 和 L2 原文，检索时先定位目录再递归下钻，并保留 retrieval provenance。</li><li>项目同时提供 Python SDK、HTTP API、Rust CLI、MCP/WebDAV、Claude Code/OpenClaw/OpenCode 插件、VikingBot 和 Docker/Helm 部署资产。</li></ul></div><div class="kv"><h3>为什么现在值得看</h3><ul class="bullets"><li>Agent 应用从“单次问答”转向长期任务后，上下文治理、记忆复用和检索可观测性会成为工程瓶颈。</li><li>仓库在 2026-05-06 仍非常活跃，最近提交涉及 memory isolation，说明多用户/多 Agent 场景正在快速演进。</li><li>它已经把概念文档、API、测试、CI、观测面板、插件示例和发布流程都放进仓库，足够做技术试点评估。</li></ul></div><div class="kv"><h3>最小验证方式</h3><ul class="bullets"><li>本地或 Docker 启动 server，配置 embedding 与 VLM，先导入一个小型代码仓库或文档目录。</li><li>用 <code>ov ls/tree/find/grep</code> 或 Python <code>client.find()</code> 验证 <code>viking://</code> 目录、L0/L1/L2 和检索命中是否可解释。</li><li>再接入一个 Claude Code/OpenClaw/OpenCode 低风险会话，验证自动 recall、session commit、memory diff 和隐私边界。</li></ul></div></div></div>
+    </section>
+
+    <section id="demo" class="section">
+      <div class="section-head">
+        <div class="section-index">02</div>
+        <h2>Gold Example / Demo</h2>
+        <p class="section-note">优先使用真实项目图片或仓库 example；未运行时明确标注静态推演。</p>
+      </div>
+      <div class="section-body">
+    <div class="demo-layout">
+
+        <figure class="media-card">
+          <img src="assets/ov-provenance-example.png" alt="OpenViking demo image">
+          <figcaption class="media-caption">仓库 <code>docs/images/ov-provenance-example.png</code> 展示 <code>include_provenance=True</code> 时的搜索结果、searched directories、matched contexts 和 thinking trace；它直接对应 OpenViking 的核心卖点：可解释的上下文检索。</figcaption>
+        </figure>
+
+      <div class="kv">
+        <h3>导入 OpenViking README 后做可解释检索</h3>
+        <p class="section-note">仓库 `examples/quick_start.py` + README CLI quick start + provenance 示例图；Demo 状态：静态推演，未运行</p>
+        <ul class="bullets"><li>用 Python SDK 或 <code>ov add-resource</code> 导入一个 URL、文件或目录，目标落到 <code>viking://resources/...</code>。</li><li>ResourceProcessor 解析内容，TreeBuilder 写入 AGFS/RAGFS，SemanticQueue 异步生成 <code>.abstract.md</code> 与 <code>.overview.md</code> 并写入向量索引。</li><li>Agent 用 <code>find</code> 做简单语义检索，或用 <code>search</code> 结合 session context 生成 typed queries。</li><li>检索结果返回 URI、层级、摘要、相关上下文和可选 provenance，Agent 再按需读取 L1/L2 细节。</li></ul>
+      </div>
+    </div>
+    </div>
+    </section>
+
+    <section id="diagram" class="section">
+      <div class="section-head">
+        <div class="section-index">03</div>
+        <h2>项目机制图</h2>
+        <p class="section-note">图表是可选组件；只在 UML / 系统动力学等表达方式能带来解释增益时使用。</p>
+      </div>
+      <div class="section-body">
+    <div class="diagram-shell">
+      <div class="diagram-header">
+        <div>
+          <p class="scenario"><strong>选择理由：</strong>OpenViking 的关键机制横跨资源导入、语义队列、向量索引、会话记忆和插件消费；用一次检索任务的 UML 主链路解释执行边界，再用 CLD/SFD 表达上下文积累、信任和风险控制。</p>
+          <p class="scenario"><strong>场景：</strong>Agent 导入一个代码仓库/文档资源，随后在长任务中检索相关上下文并把会话经验沉淀为记忆。</p>
+        </div>
+        <div class="type-row" aria-label="diagram model types"><span class="type-chip">UML Sequence</span><span class="type-chip">UML Component</span><span class="type-chip">CLD</span><span class="type-chip">SFD</span></div>
+      </div>
+      <div class="diagram-tabs" role="tablist" aria-label="diagram views">
+        <button type="button" data-diagram-tab="mixed" aria-selected="true">混合图</button><button type="button" data-diagram-tab="flow" aria-selected="false">主流程</button><button type="button" data-diagram-tab="component" aria-selected="false">组件关系</button><button type="button" data-diagram-tab="system" aria-selected="false">系统动力学</button><button type="button" data-diagram-tab="source" aria-selected="false">图源</button>
+      </div>
+      <div class="diagram-panel" data-diagram-panel="mixed" >
+    <div class="svg-frame"><svg viewBox="0 0 1180 620" role="img" aria-label="OpenViking mixed behavior and dynamics">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+
+<rect x="1" y="1" width="1178" height="618" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">UML + 系统动力学混合视角</tspan></text>
+<text x="292.0" y="38.0" text-anchor="start" font-size="13" font-weight="500" fill="#65707d"><tspan x="292.0" dy="0">Agent 导入一个代码仓库/文档资源，随后在长任务中检索相关上下文并把会话经验沉淀为记忆。</tspan></text>
+<rect x="52" y="212" width="1076" height="156" rx="12" fill="#f8fafb" stroke="#d8ddd9"/>
+<text x="78.0" y="238.0" text-anchor="start" font-size="13" font-weight="850" fill="#17202b"><tspan x="78.0" dy="0">微观执行骨架</tspan></text>
+<rect x="12.0" y="258" width="132" height="62" rx="8" fill="#e8f4f2" stroke="#cfd8d3"/>
+<text x="28.0" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="28.0" dy="0">1</tspan></text>
+<text x="78.0" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="78.0" dy="0">Agent / CLI /</tspan><tspan x="78.0" dy="15">Plugin</tspan></text>
+<path d="M152.0,289 L150.3,289" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="158.3" y="258" width="132" height="62" rx="8" fill="#fff" stroke="#cfd8d3"/>
+<text x="174.3" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="174.3" dy="0">2</tspan></text>
+<text x="224.3" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="224.3" dy="0">ResourceServi</tspan><tspan x="224.3" dy="15">ce</tspan></text>
+<path d="M298.3,289 L296.6,289" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="304.6" y="258" width="132" height="62" rx="8" fill="#fff" stroke="#cfd8d3"/>
+<text x="320.6" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="320.6" dy="0">3</tspan></text>
+<text x="370.6" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="370.6" dy="0">Parser +</tspan><tspan x="370.6" dy="15">TreeBuilder</tspan></text>
+<path d="M444.6,289 L442.9,289" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="450.9" y="258" width="132" height="62" rx="8" fill="#fff" stroke="#cfd8d3"/>
+<text x="466.9" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="466.9" dy="0">4</tspan></text>
+<text x="516.9" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="516.9" dy="0">SemanticQueue</tspan></text>
+<path d="M590.9,289 L589.1,289" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="597.1" y="258" width="132" height="62" rx="8" fill="#fff" stroke="#cfd8d3"/>
+<text x="613.1" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="613.1" dy="0">5</tspan></text>
+<text x="663.1" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="663.1" dy="0">Vector Index</tspan></text>
+<path d="M737.1,289 L735.4,289" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="743.4" y="258" width="132" height="62" rx="8" fill="#fff" stroke="#cfd8d3"/>
+<text x="759.4" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="759.4" dy="0">6</tspan></text>
+<text x="809.4" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="809.4" dy="0">SearchService</tspan><tspan x="809.4" dy="15">+ VikingFS</tspan></text>
+<path d="M883.4,289 L881.7,289" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="889.7" y="258" width="132" height="62" rx="8" fill="#fff" stroke="#cfd8d3"/>
+<text x="905.7" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="905.7" dy="0">7</tspan></text>
+<text x="955.7" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="955.7" dy="0">HierarchicalR</tspan><tspan x="955.7" dy="15">etriever</tspan></text>
+<path d="M1029.7,289 L1028.0,289" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="1036.0" y="258" width="132" height="62" rx="8" fill="#fff" stroke="#cfd8d3"/>
+<text x="1052.0" y="282.0" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e"><tspan x="1052.0" dy="0">8</tspan></text>
+<text x="1102.0" y="300.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="1102.0" dy="0">Memory</tspan><tspan x="1102.0" dy="15">Extractor</tspan></text>
+<rect x="72" y="82" width="1036" height="94" rx="12" fill="#edf3fb" stroke="#315c8f" stroke-opacity=".36"/>
+<text x="96.0" y="114.0" text-anchor="start" font-size="15" font-weight="900" fill="#315c8f"><tspan x="96.0" dy="0">R · 上下文质量增强回路</tspan></text>
+<rect x="252" y="112" width="116" height="34" rx="17" fill="#fff" stroke="#315c8f" stroke-opacity=".34"/>
+<text x="310.0" y="134.0" text-anchor="middle" font-size="10" font-weight="700" fill="#29313c"><tspan x="310.0" dy="0">统一导入资源/记忆/技能</tspan></text>
+<path d="M372,129 H396" stroke="#315c8f" stroke-width="1.8" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="402" y="112" width="116" height="34" rx="17" fill="#fff" stroke="#315c8f" stroke-opacity=".34"/>
+<text x="460.0" y="134.0" text-anchor="middle" font-size="10" font-weight="700" fill="#29313c"><tspan x="460.0" dy="0">L0/L1/L2 可导航</tspan></text>
+<path d="M522,129 H546" stroke="#315c8f" stroke-width="1.8" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="552" y="112" width="116" height="34" rx="17" fill="#fff" stroke="#315c8f" stroke-opacity=".34"/>
+<text x="610.0" y="134.0" text-anchor="middle" font-size="10" font-weight="700" fill="#29313c"><tspan x="610.0" dy="0">检索结果更可解释</tspan></text>
+<path d="M672,129 H696" stroke="#315c8f" stroke-width="1.8" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="702" y="112" width="116" height="34" rx="17" fill="#fff" stroke="#315c8f" stroke-opacity=".34"/>
+<text x="760.0" y="134.0" text-anchor="middle" font-size="10" font-weight="700" fill="#29313c"><tspan x="760.0" dy="0">Agent...</tspan></text>
+<path d="M822,129 H846" stroke="#315c8f" stroke-width="1.8" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="852" y="112" width="116" height="34" rx="17" fill="#fff" stroke="#315c8f" stroke-opacity=".34"/>
+<text x="910.0" y="134.0" text-anchor="middle" font-size="10" font-weight="700" fill="#29313c"><tspan x="910.0" dy="0">更多上下文被沉淀</tspan></text>
+<path d="M980,154 C930,206 820,222 700,232" stroke="#315c8f" stroke-width="2.2" fill="none" stroke-dasharray="5 5" marker-end="url(#arrow-blue)"/>
+<rect x="72" y="430" width="1036" height="124" rx="12" fill="#fff5dd" stroke="#a66f12" stroke-opacity=".36"/>
+<text x="96.0" y="464.0" text-anchor="start" font-size="15" font-weight="900" fill="#a66f12"><tspan x="96.0" dy="0">B · 生产采用约束回路</tspan></text>
+<rect x="258" y="480" width="144" height="42" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".34"/>
+<text x="330.0" y="505.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="330.0" dy="0">上下文变敏感</tspan></text>
+<path d="M408,501 H435" stroke="#a66f12" stroke-width="1.8" fill="none" marker-end="url(#arrow-amber)"/>
+<rect x="443" y="480" width="144" height="42" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".34"/>
+<text x="515.0" y="505.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="515.0" dy="0">多租户/密钥/隐私风险上升</tspan></text>
+<path d="M593,501 H620" stroke="#a66f12" stroke-width="1.8" fill="none" marker-end="url(#arrow-amber)"/>
+<rect x="628" y="480" width="144" height="42" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".34"/>
+<text x="700.0" y="505.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="700.0" dy="0">启用鉴权/加密/审计</tspan></text>
+<path d="M778,501 H805" stroke="#a66f12" stroke-width="1.8" fill="none" marker-end="url(#arrow-amber)"/>
+<rect x="813" y="480" width="144" height="42" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".34"/>
+<text x="885.0" y="505.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="885.0" dy="0">部署边界收紧</tspan></text>
+<path d="M270,480 C240,416 288,382 382,356" stroke="#a66f12" stroke-width="2.2" fill="none" stroke-dasharray="5 5" marker-end="url(#arrow-amber)"/>
+<text x="590.0" y="594.0" text-anchor="middle" font-size="12" font-weight="550" fill="#4b5563"><tspan x="590.0" dy="0">读图方式：中心看一次任务如何完成；外圈只保留对采用、信任、风险或存量变化有解释增益的反馈回路。</tspan></text>
+</svg></div>
+    <p class="diagram-caption">参考 docs/reference/image.md 的思路：中心是一次任务执行，外圈只保留有解释增益的动力回路。</p>
+    <div class="diagram-mobile">
+        <div class="mobile-loop">
+          <b>混合图读法</b>
+          <p>先看任务执行步骤，再看哪些反馈回路会改变长期采用、风险或上下文存量。</p>
+        </div>
+
+            <div class="mobile-step" data-step="1">
+              <b>Agent / CLI / Plugin -> ResourceService</b>
+              <p>add_resource 或 add_skill</p>
+              <small>入口可以是 SDK、HTTP、Rust CLI 或插件</small>
+            </div>
+
+            <div class="mobile-step" data-step="2">
+              <b>ResourceService -> Parser + TreeBuilder</b>
+              <p>解析文件/URL/目录并写入 <code>viking://</code></p>
+              <small>Parser 不直接调用 LLM，先建立目录树</small>
+            </div>
+
+            <div class="mobile-step" data-step="3">
+              <b>Parser + TreeBuilder -> SemanticQueue</b>
+              <p>提交 L0/L1 生成任务</p>
+              <small>bottom-up 生成摘要和 overview</small>
+            </div>
+
+            <div class="mobile-step" data-step="4">
+              <b>SemanticQueue -> Vector Index</b>
+              <p>embedding + metadata records</p>
+              <small>索引保存 URI、向量和摘要，不保存完整文件内容</small>
+            </div>
+
+            <div class="mobile-step" data-step="5">
+              <b>Agent / CLI / Plugin -> SearchService + VikingFS</b>
+              <p>find/search 查询</p>
+              <small><code>search</code> 可结合 session context 做 intent analysis</small>
+            </div>
+
+            <div class="mobile-step" data-step="6">
+              <b>SearchService + VikingFS -> HierarchicalRetriever</b>
+              <p>目录定位 + 递归下钻 + rerank</p>
+              <small>返回 matched contexts、relations 和可选 provenance</small>
+            </div>
+
+            <div class="mobile-step" data-step="7">
+              <b>SessionService -> Memory Extractor</b>
+              <p>commit 后抽取长期记忆</p>
+              <small>异步写入 user/agent memory 并记录 memory diff</small>
+            </div>
+
+            <div class="mobile-loop">
+              <b>R · 上下文质量增强回路</b>
+              <p>统一导入资源/记忆/技能 -&gt; L0/L1/L2 可导航 -&gt; 检索结果更可解释 -&gt; Agent 任务成功率提高 -&gt; 更多上下文被沉淀</p>
+            </div>
+
+            <div class="mobile-loop">
+              <b>B · 生产采用约束回路</b>
+              <p>上下文变敏感 -&gt; 多租户/密钥/隐私风险上升 -&gt; 启用鉴权/加密/审计 -&gt; 部署边界收紧</p>
+            </div>
+
+            <div class="mobile-loop">
+              <b>SFD · 上下文库存量</b>
+              <p>导入文档/会话/技能 -&gt; 检索与读取 -&gt; L0/L1/L2 上下文库存 -&gt; 过期、删除或再索引</p>
+            </div>
+            </div></div><div class="diagram-panel" data-diagram-panel="flow" hidden>
+    <div class="svg-frame"><svg viewBox="0 0 1180 470" role="img" aria-label="OpenViking runtime flow">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+
+<rect x="1" y="1" width="1178" height="468" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">运行主链路</tspan></text>
+<text x="185.0" y="38.0" text-anchor="start" font-size="13" font-weight="500" fill="#65707d"><tspan x="185.0" dy="0">Agent 导入一个代码仓库/文档资源，随后在长任务中检索相关上下文并把会话经验沉淀为记忆。</tspan></text>
+<rect x="-12.0" y="82" width="148" height="66" rx="8" fill="#e8f4f2" stroke="#0f766e" filter="url(#soft-shadow)"/>
+<circle cx="10.0" cy="104" r="12" fill="#17202b"/>
+<text x="10.0" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="10.0" dy="0">1</tspan></text>
+<text x="62.0" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="62.0" dy="0">Agent / CLI /</tspan><tspan x="62.0" dy="18">Plugin</tspan></text>
+<rect x="138.9" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="160.9" cy="104" r="12" fill="#17202b"/>
+<text x="160.9" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="160.9" dy="0">2</tspan></text>
+<text x="212.9" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="212.9" dy="0">ResourceServic</tspan><tspan x="212.9" dy="18">e</tspan></text>
+<rect x="289.7" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="311.7" cy="104" r="12" fill="#17202b"/>
+<text x="311.7" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="311.7" dy="0">3</tspan></text>
+<text x="363.7" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="363.7" dy="0">Parser +</tspan><tspan x="363.7" dy="18">TreeBuilder</tspan></text>
+<rect x="440.6" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="462.6" cy="104" r="12" fill="#17202b"/>
+<text x="462.6" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="462.6" dy="0">4</tspan></text>
+<text x="514.6" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="514.6" dy="0">SemanticQueue</tspan></text>
+<rect x="591.4" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="613.4" cy="104" r="12" fill="#17202b"/>
+<text x="613.4" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="613.4" dy="0">5</tspan></text>
+<text x="665.4" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="665.4" dy="0">Vector Index</tspan></text>
+<rect x="742.3" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="764.3" cy="104" r="12" fill="#17202b"/>
+<text x="764.3" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="764.3" dy="0">6</tspan></text>
+<text x="816.3" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="816.3" dy="0">SearchService</tspan><tspan x="816.3" dy="18">+ VikingFS</tspan></text>
+<rect x="893.1" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="915.1" cy="104" r="12" fill="#17202b"/>
+<text x="915.1" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="915.1" dy="0">7</tspan></text>
+<text x="967.1" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="967.1" dy="0">HierarchicalRe</tspan><tspan x="967.1" dy="18">triever</tspan></text>
+<rect x="1044.0" y="82" width="148" height="66" rx="8" fill="#f8fafb" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<circle cx="1066.0" cy="104" r="12" fill="#17202b"/>
+<text x="1066.0" y="109.0" text-anchor="middle" font-size="12" font-weight="850" fill="#ffffff"><tspan x="1066.0" dy="0">8</tspan></text>
+<text x="1118.0" y="124.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="1118.0" dy="0">Memory</tspan><tspan x="1118.0" dy="18">Extractor</tspan></text>
+<path d="M144.0,115 L130.9,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M137.4,125 V180" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="73.4" y="190" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="137.4" y="217.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="137.4" dy="0">add_resource 或</tspan><tspan x="137.4" dy="15">add_skill</tspan></text>
+<text x="137.4" y="245.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="137.4" dy="0">入口可以是</tspan><tspan x="137.4" dy="14">SDK、HTTP、Rust...</tspan></text>
+<path d="M294.9,115 L281.7,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M288.3,125 V272" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="224.3" y="282" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="288.3" y="309.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="288.3" dy="0">解析文件/URL/目录并写入</tspan><tspan x="288.3" dy="15">viking://</tspan></text>
+<text x="288.3" y="337.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="288.3" dy="0">Parser 不直接调用</tspan><tspan x="288.3" dy="14">LLM，先建立目录树</tspan></text>
+<path d="M445.7,115 L432.6,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M439.1,125 V180" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="375.1" y="190" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="439.1" y="217.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="439.1" dy="0">提交 L0/L1 生成任务</tspan></text>
+<text x="439.1" y="245.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="439.1" dy="0">bottom-up 生成摘要和</tspan><tspan x="439.1" dy="14">overview</tspan></text>
+<path d="M596.6,115 L583.4,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M590.0,125 V272" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="526.0" y="282" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="590.0" y="309.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="590.0" dy="0">embedding +</tspan><tspan x="590.0" dy="15">metadata...</tspan></text>
+<text x="590.0" y="337.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="590.0" dy="0">索引保存</tspan><tspan x="590.0" dy="14">URI、向量和摘要，不保存完整文件内容</tspan></text>
+<path d="M747.4,115 L734.3,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M740.9,125 V180" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="676.9" y="190" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="740.9" y="217.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="740.9" dy="0">find/search 查询</tspan></text>
+<text x="740.9" y="245.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="740.9" dy="0">search 可结合</tspan><tspan x="740.9" dy="14">session conte...</tspan></text>
+<path d="M898.3,115 L885.1,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M891.7,125 V272" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="827.7" y="282" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="891.7" y="309.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="891.7" dy="0">目录定位 + 递归下钻 +</tspan><tspan x="891.7" dy="15">rerank</tspan></text>
+<text x="891.7" y="337.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="891.7" dy="0">返回 matched</tspan><tspan x="891.7" dy="14">contexts、rela...</tspan></text>
+<path d="M1049.1,115 L1036.0,115" stroke="#315c8f" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M1042.6,125 V180" stroke="#9fb3c7" stroke-width="1.4" stroke-dasharray="4 5"/>
+<rect x="978.6" y="190" width="128.0" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="1042.6" y="217.0" text-anchor="middle" font-size="12" font-weight="800" fill="#1f3f65"><tspan x="1042.6" dy="0">commit 后抽取长期记忆</tspan></text>
+<text x="1042.6" y="245.0" text-anchor="middle" font-size="11" font-weight="500" fill="#586879"><tspan x="1042.6" dy="0">异步写入 user/agent</tspan><tspan x="1042.6" dy="14">memory 并记录...</tspan></text>
+<rect x="62" y="408" width="1056" height="28" rx="14" fill="#f4f7f6" stroke="#d8ddd9"/>
+<text x="590.0" y="427.0" text-anchor="middle" font-size="12" font-weight="550" fill="#4b5563"><tspan x="590.0" dy="0">读图方式：从左到右看一次真实任务如何通过项目核心机制完成；下方蓝色框是每一步的关键协议、数据或行为转换。</tspan></text>
+</svg></div>
+    <p class="diagram-caption">主流程图把一次典型任务拆成角色、协议/数据转换和关键交接点。</p>
+    <div class="diagram-mobile">
+            <div class="mobile-step" data-step="1">
+              <b>Agent / CLI / Plugin -> ResourceService</b>
+              <p>add_resource 或 add_skill</p>
+              <small>入口可以是 SDK、HTTP、Rust CLI 或插件</small>
+            </div>
+
+            <div class="mobile-step" data-step="2">
+              <b>ResourceService -> Parser + TreeBuilder</b>
+              <p>解析文件/URL/目录并写入 <code>viking://</code></p>
+              <small>Parser 不直接调用 LLM，先建立目录树</small>
+            </div>
+
+            <div class="mobile-step" data-step="3">
+              <b>Parser + TreeBuilder -> SemanticQueue</b>
+              <p>提交 L0/L1 生成任务</p>
+              <small>bottom-up 生成摘要和 overview</small>
+            </div>
+
+            <div class="mobile-step" data-step="4">
+              <b>SemanticQueue -> Vector Index</b>
+              <p>embedding + metadata records</p>
+              <small>索引保存 URI、向量和摘要，不保存完整文件内容</small>
+            </div>
+
+            <div class="mobile-step" data-step="5">
+              <b>Agent / CLI / Plugin -> SearchService + VikingFS</b>
+              <p>find/search 查询</p>
+              <small><code>search</code> 可结合 session context 做 intent analysis</small>
+            </div>
+
+            <div class="mobile-step" data-step="6">
+              <b>SearchService + VikingFS -> HierarchicalRetriever</b>
+              <p>目录定位 + 递归下钻 + rerank</p>
+              <small>返回 matched contexts、relations 和可选 provenance</small>
+            </div>
+
+            <div class="mobile-step" data-step="7">
+              <b>SessionService -> Memory Extractor</b>
+              <p>commit 后抽取长期记忆</p>
+              <small>异步写入 user/agent memory 并记录 memory diff</small>
+            </div>
+            </div></div><div class="diagram-panel" data-diagram-panel="component" hidden>
+    <div class="svg-frame"><svg viewBox="0 0 1180 500" role="img" aria-label="OpenViking component map">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+
+<rect x="1" y="1" width="1178" height="498" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">组件关系</tspan></text>
+<rect x="210" y="218" width="760" height="78" rx="12" fill="#17202b" stroke="#17202b"/>
+<text x="590.0" y="251.0" text-anchor="middle" font-size="19" font-weight="900" fill="#ffffff"><tspan x="590.0" dy="0">核心机制契约</tspan></text>
+<text x="590.0" y="276.0" text-anchor="middle" font-size="12" font-weight="500" fill="#dbe7ef"><tspan x="590.0" dy="0">让模块、数据和外部系统形成可复用的协作边界</tspan></text>
+<path d="M220.0,176.0 L220.0,226.0" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="95.0" y="82" width="250" height="94" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="111.0" y="112.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="111.0" dy="0">FastAPI / SDK / Rust...</tspan></text>
+<text x="111.0" y="137.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="111.0" dy="0">统一暴露资源、文件系统、检索、会话、隐私和管理</tspan><tspan x="111.0" dy="15">API。</tspan></text>
+<path d="M220.0,352.0 L220.0,304.0" stroke="#0f766e" stroke-width="2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="95.0" y="352" width="250" height="94" rx="8" fill="#e8f4f2" stroke="#b8d8d3"/>
+<text x="111.0" y="382.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="111.0" dy="0">Service Layer</tspan></text>
+<text x="111.0" y="407.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="111.0" dy="0">FS/Search/Resource/Session/Pack/Debug</tspan><tspan x="111.0" dy="15">等业务服务复用同一 VikingFS。</tspan></text>
+<path d="M466.7,176.0 L466.7,226.0" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="341.7" y="82" width="250" height="94" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="357.7" y="112.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="357.7" dy="0">Parser + TreeBuilder</tspan></text>
+<text x="357.7" y="137.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="357.7" dy="0">把文档、代码、媒体、URL 和目录转成</tspan><tspan x="357.7" dy="15">viking:// 层级树。</tspan></text>
+<path d="M466.7,352.0 L466.7,304.0" stroke="#0f766e" stroke-width="2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="341.7" y="352" width="250" height="94" rx="8" fill="#e8f4f2" stroke="#b8d8d3"/>
+<text x="357.7" y="382.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="357.7" dy="0">SemanticQueue</tspan></text>
+<text x="357.7" y="407.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="357.7" dy="0">异步生成 L0/L1，控制 VLM/embedding</tspan><tspan x="357.7" dy="15">并发并写入索引。</tspan></text>
+<path d="M713.3,176.0 L713.3,226.0" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="588.3" y="82" width="250" height="94" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="604.3" y="112.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="604.3" dy="0">VikingFS</tspan></text>
+<text x="604.3" y="137.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="604.3" dy="0">URI</tspan><tspan x="604.3" dy="15">规范、读写、关系、访问控制、加密透明化和向量同步的核心边界。</tspan></text>
+<path d="M713.3,352.0 L713.3,304.0" stroke="#0f766e" stroke-width="2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="588.3" y="352" width="250" height="94" rx="8" fill="#e8f4f2" stroke="#b8d8d3"/>
+<text x="604.3" y="382.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="604.3" dy="0">RAGFS + VectorDB</tspan></text>
+<text x="604.3" y="407.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="604.3" dy="0">内容存储和语义索引分离，支持</tspan><tspan x="604.3" dy="15">local/S3/memory 与...</tspan></text>
+<path d="M960.0,176.0 L960.0,226.0" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="835.0" y="82" width="250" height="94" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<text x="851.0" y="112.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="851.0" dy="0">Retriever +...</tspan></text>
+<text x="851.0" y="137.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="851.0" dy="0">find/search 的语义召回、typed</tspan><tspan x="851.0" dy="15">queries、递归检索和 rerank。</tspan></text>
+<path d="M960.0,352.0 L960.0,304.0" stroke="#0f766e" stroke-width="2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="835.0" y="352" width="250" height="94" rx="8" fill="#e8f4f2" stroke="#b8d8d3"/>
+<text x="851.0" y="382.0" text-anchor="start" font-size="14" font-weight="900" fill="#17202b"><tspan x="851.0" dy="0">Agent Integrations</tspan></text>
+<text x="851.0" y="407.0" text-anchor="start" font-size="12" font-weight="500" fill="#53606d"><tspan x="851.0" dy="0">Claude</tspan><tspan x="851.0" dy="15">Code、OpenClaw、OpenCode、M...</tspan></text>
+<path d="M120,257 H206" stroke="#a66f12" stroke-width="2.4" fill="none" marker-end="url(#arrow-amber)"/>
+<path d="M974,257 H1060" stroke="#a66f12" stroke-width="2.4" fill="none" marker-end="url(#arrow-amber)"/>
+<text x="96.0" y="263.0" text-anchor="middle" font-size="13" font-weight="800" fill="#a66f12"><tspan x="96.0" dy="0">输入</tspan></text>
+<text x="1084.0" y="263.0" text-anchor="middle" font-size="13" font-weight="800" fill="#a66f12"><tspan x="1084.0" dy="0">输出</tspan></text>
+</svg></div>
+    <p class="diagram-caption">组件图强调核心契约：哪个模块承接输入，哪些模块围绕它提供数据、适配或规则。</p>
+    <div class="diagram-mobile">
+        <div class="mobile-step" data-step="1">
+          <b>FastAPI / SDK / Rust CLI</b>
+          <p>统一暴露资源、文件系统、检索、会话、隐私和管理 API。</p>
+        </div>
+
+        <div class="mobile-step" data-step="2">
+          <b>Service Layer</b>
+          <p>FS/Search/Resource/Session/Pack/Debug 等业务服务复用同一 VikingFS。</p>
+        </div>
+
+        <div class="mobile-step" data-step="3">
+          <b>Parser + TreeBuilder</b>
+          <p>把文档、代码、媒体、URL 和目录转成 <code>viking://</code> 层级树。</p>
+        </div>
+
+        <div class="mobile-step" data-step="4">
+          <b>SemanticQueue</b>
+          <p>异步生成 L0/L1，控制 VLM/embedding 并发并写入索引。</p>
+        </div>
+
+        <div class="mobile-step" data-step="5">
+          <b>VikingFS</b>
+          <p>URI 规范、读写、关系、访问控制、加密透明化和向量同步的核心边界。</p>
+        </div>
+
+        <div class="mobile-step" data-step="6">
+          <b>RAGFS + VectorDB</b>
+          <p>内容存储和语义索引分离，支持 local/S3/memory 与 local/http/VikingDB。</p>
+        </div>
+
+        <div class="mobile-step" data-step="7">
+          <b>Retriever + IntentAnalyzer</b>
+          <p>find/search 的语义召回、typed queries、递归检索和 rerank。</p>
+        </div>
+
+        <div class="mobile-step" data-step="8">
+          <b>Agent Integrations</b>
+          <p>Claude Code、OpenClaw、OpenCode、MCP、VikingBot 等消费同一上下文能力。</p>
+        </div>
+        </div></div><div class="diagram-panel" data-diagram-panel="system" hidden>
+    <div class="svg-frame"><svg viewBox="0 0 1180 742" role="img" aria-label="OpenViking system dynamics">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+
+<rect x="1" y="1" width="1178" height="740" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">系统动力学视角</tspan></text>
+<rect x="32" y="58" width="1116" height="206" rx="10" fill="#edf3fb" stroke="#315c8f" stroke-opacity=".32"/>
+<circle cx="86" cy="116" r="26" fill="#fff" stroke="#315c8f" stroke-width="2"/>
+<text x="86.0" y="124.0" text-anchor="middle" font-size="22" font-weight="900" fill="#315c8f"><tspan x="86.0" dy="0">R</tspan></text>
+<text x="126.0" y="104.0" text-anchor="start" font-size="16" font-weight="900" fill="#17202b"><tspan x="126.0" dy="0">上下文质量增强回路</tspan></text>
+<text x="126.0" y="128.0" text-anchor="start" font-size="12" font-weight="700" fill="#65707d"><tspan x="126.0" dy="0">CLD 回路</tspan></text>
+<rect x="152.5" y="146" width="155.0" height="58" rx="8" fill="#fff" stroke="#315c8f" stroke-opacity=".38"/>
+<text x="230.0" y="170.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="230.0" dy="0">统一导入资源/记忆/技能</tspan></text>
+<path d="M315.5,175 L334.5,175" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<text x="325.0" y="166.0" text-anchor="middle" font-size="12" font-weight="900" fill="#315c8f"><tspan x="325.0" dy="0">+</tspan></text>
+<rect x="342.5" y="146" width="155.0" height="58" rx="8" fill="#fff" stroke="#315c8f" stroke-opacity=".38"/>
+<text x="420.0" y="170.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="420.0" dy="0">L0/L1/L2 可导航</tspan></text>
+<path d="M505.5,175 L524.5,175" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<text x="515.0" y="166.0" text-anchor="middle" font-size="12" font-weight="900" fill="#315c8f"><tspan x="515.0" dy="0">+</tspan></text>
+<rect x="532.5" y="146" width="155.0" height="58" rx="8" fill="#fff" stroke="#315c8f" stroke-opacity=".38"/>
+<text x="610.0" y="170.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="610.0" dy="0">检索结果更可解释</tspan></text>
+<path d="M695.5,175 L714.5,175" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<text x="705.0" y="166.0" text-anchor="middle" font-size="12" font-weight="900" fill="#315c8f"><tspan x="705.0" dy="0">+</tspan></text>
+<rect x="722.5" y="146" width="155.0" height="58" rx="8" fill="#fff" stroke="#315c8f" stroke-opacity=".38"/>
+<text x="800.0" y="170.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="800.0" dy="0">Agent 任务成功率提高</tspan></text>
+<path d="M885.5,175 L904.5,175" stroke="#315c8f" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+<text x="895.0" y="166.0" text-anchor="middle" font-size="12" font-weight="900" fill="#315c8f"><tspan x="895.0" dy="0">+</tspan></text>
+<rect x="912.5" y="146" width="155.0" height="58" rx="8" fill="#fff" stroke="#315c8f" stroke-opacity=".38"/>
+<text x="990.0" y="170.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="990.0" dy="0">更多上下文被沉淀</tspan></text>
+<path d="M990.0,216 C990.0,254 230.0,254 230.0,216" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="32" y="284" width="1116" height="206" rx="10" fill="#fff5dd" stroke="#a66f12" stroke-opacity=".32"/>
+<circle cx="86" cy="342" r="26" fill="#fff" stroke="#a66f12" stroke-width="2"/>
+<text x="86.0" y="350.0" text-anchor="middle" font-size="22" font-weight="900" fill="#a66f12"><tspan x="86.0" dy="0">B</tspan></text>
+<text x="126.0" y="330.0" text-anchor="start" font-size="16" font-weight="900" fill="#17202b"><tspan x="126.0" dy="0">生产采用约束回路</tspan></text>
+<text x="126.0" y="354.0" text-anchor="start" font-size="12" font-weight="700" fill="#65707d"><tspan x="126.0" dy="0">CLD 回路</tspan></text>
+<rect x="152.5" y="372" width="155.0" height="58" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".38"/>
+<text x="230.0" y="396.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="230.0" dy="0">上下文变敏感</tspan></text>
+<path d="M315.5,401 L397.8,401" stroke="#a66f12" stroke-width="2" fill="none" marker-end="url(#arrow-amber)"/>
+<text x="356.7" y="392.0" text-anchor="middle" font-size="12" font-weight="900" fill="#a66f12"><tspan x="356.7" dy="0">-</tspan></text>
+<rect x="405.8" y="372" width="155.0" height="58" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".38"/>
+<text x="483.3" y="396.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="483.3" dy="0">多租户/密钥/隐私风险上升</tspan></text>
+<path d="M568.8,401 L651.2,401" stroke="#a66f12" stroke-width="2" fill="none" marker-end="url(#arrow-amber)"/>
+<text x="610.0" y="392.0" text-anchor="middle" font-size="12" font-weight="900" fill="#a66f12"><tspan x="610.0" dy="0">-</tspan></text>
+<rect x="659.2" y="372" width="155.0" height="58" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".38"/>
+<text x="736.7" y="396.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="736.7" dy="0">启用鉴权/加密/审计</tspan></text>
+<path d="M822.2,401 L904.5,401" stroke="#a66f12" stroke-width="2" fill="none" marker-end="url(#arrow-amber)"/>
+<text x="863.3" y="392.0" text-anchor="middle" font-size="12" font-weight="900" fill="#a66f12"><tspan x="863.3" dy="0">-</tspan></text>
+<rect x="912.5" y="372" width="155.0" height="58" rx="8" fill="#fff" stroke="#a66f12" stroke-opacity=".38"/>
+<text x="990.0" y="396.0" text-anchor="middle" font-size="12" font-weight="700" fill="#29313c"><tspan x="990.0" dy="0">部署边界收紧</tspan></text>
+<path d="M990.0,442 C990.0,480 230.0,480 230.0,442" stroke="#a66f12" stroke-width="2.2" fill="none" marker-end="url(#arrow-amber)"/>
+<rect x="32" y="510" width="1116" height="206" rx="10" fill="#e8f4f2" stroke="#0f766e" stroke-opacity=".32"/>
+<text x="56.0" y="552.0" text-anchor="start" font-size="16" font-weight="900" fill="#17202b"><tspan x="56.0" dy="0">上下文库存量</tspan></text>
+<text x="56.0" y="576.0" text-anchor="start" font-size="12" font-weight="700" fill="#65707d"><tspan x="56.0" dy="0">SFD：存量与流量</tspan></text>
+<path d="M190,632 H380" stroke="#0f766e" stroke-width="3" fill="none" marker-end="url(#arrow-teal)"/>
+<text x="285.0" y="617.0" text-anchor="middle" font-size="12" font-weight="700" fill="#0f766e"><tspan x="285.0" dy="0">导入文档/会话/技能</tspan></text>
+<rect x="390" y="584" width="210" height="96" rx="8" fill="#fff" stroke="#0f766e" stroke-width="2"/>
+<ellipse cx="495" cy="584" rx="105" ry="16" fill="#fff" stroke="#0f766e" stroke-width="2"/>
+<ellipse cx="495" cy="680" rx="105" ry="16" fill="none" stroke="#0f766e" stroke-width="2"/>
+<text x="495.0" y="637.0" text-anchor="middle" font-size="14" font-weight="850" fill="#17202b"><tspan x="495.0" dy="0">L0/L1/L2 上下文库存</tspan></text>
+<path d="M610,632 H850" stroke="#0f766e" stroke-width="3" fill="none" marker-end="url(#arrow-teal)"/>
+<text x="730.0" y="617.0" text-anchor="middle" font-size="12" font-weight="700" fill="#0f766e"><tspan x="730.0" dy="0">过期、删除或再索引</tspan></text>
+<rect x="870" y="596" width="190" height="72" rx="8" fill="#fff" stroke="#0f766e" stroke-opacity=".42"/>
+<text x="965.0" y="630.0" text-anchor="middle" font-size="13" font-weight="850" fill="#29313c"><tspan x="965.0" dy="0">检索与读取</tspan></text>
+</svg></div>
+    <p class="diagram-caption">系统动力学图只在反馈、存量或趋势能解释项目机制时使用。</p>
+    <div class="diagram-mobile">
+            <div class="mobile-loop">
+              <b>R · 上下文质量增强回路</b>
+              <p>统一导入资源/记忆/技能 -&gt; L0/L1/L2 可导航 -&gt; 检索结果更可解释 -&gt; Agent 任务成功率提高 -&gt; 更多上下文被沉淀</p>
+            </div>
+
+            <div class="mobile-loop">
+              <b>B · 生产采用约束回路</b>
+              <p>上下文变敏感 -&gt; 多租户/密钥/隐私风险上升 -&gt; 启用鉴权/加密/审计 -&gt; 部署边界收紧</p>
+            </div>
+
+            <div class="mobile-loop">
+              <b>SFD · 上下文库存量</b>
+              <p>导入文档/会话/技能 -&gt; 检索与读取 -&gt; L0/L1/L2 上下文库存 -&gt; 过期、删除或再索引</p>
+            </div>
+            </div></div><div class="diagram-panel" data-diagram-panel="source" hidden><pre class="mermaid-block">%% 主流程 / sequence
+sequenceDiagram
+    autonumber
+    participant P1 as Agent / CLI / Plugin
+    participant P2 as ResourceService
+    participant P3 as Parser + TreeBuilder
+    participant P4 as SemanticQueue
+    participant P5 as Vector Index
+    participant P6 as SearchService + VikingFS
+    participant P7 as HierarchicalRetriever
+    participant P8 as SessionService
+    participant P9 as Memory Extractor
+    P1-&gt;&gt;P2: add_resource 或 add_skill
+    Note over P2: 入口可以是 SDK、HTTP、Rust CLI 或插件
+    P2-&gt;&gt;P3: 解析文件/URL/目录并写入 `viking://`
+    Note over P3: Parser 不直接调用 LLM，先建立目录树
+    P3-&gt;&gt;P4: 提交 L0/L1 生成任务
+    Note over P4: bottom-up 生成摘要和 overview
+    P4-&gt;&gt;P5: embedding + metadata records
+    Note over P5: 索引保存 URI、向量和摘要，不保存完整文件内容
+    P1-&gt;&gt;P6: find/search 查询
+    Note over P6: `search` 可结合 session context 做 intent analysis
+    P6-&gt;&gt;P7: 目录定位 + 递归下钻 + rerank
+    Note over P7: 返回 matched contexts、relations 和可选 provenance
+    P8-&gt;&gt;P9: commit 后抽取长期记忆
+    Note over P9: 异步写入 user/agent memory 并记录 memory diff
+
+---
+
+%% 组件关系 / component
+flowchart LR
+    N1[FastAPI / SDK / Rust CLI&lt;br/&gt;统一暴露资源、文件系统、检索、会话、隐私和管理 API。]
+    N2[Service Layer&lt;br/&gt;FS/Search/Resource/Session/Pack/Debug 等业务服务复用同一 VikingFS。]
+    N1 --&gt; N2
+    N3[Parser + TreeBuilder&lt;br/&gt;把文档、代码、媒体、URL 和目录转成 `viking://` 层级树。]
+    N2 --&gt; N3
+    N4[SemanticQueue&lt;br/&gt;异步生成 L0/L1，控制 VLM/embedding 并发并写入索引。]
+    N3 --&gt; N4
+    N5[VikingFS&lt;br/&gt;URI 规范、读写、关系、访问控制、加密透明化和向量同步的核心边界。]
+    N4 --&gt; N5
+    N6[RAGFS + VectorDB&lt;br/&gt;内容存储和语义索引分离，支持 local/S3/memory 与 local/http/VikingDB。]
+    N5 --&gt; N6
+    N7[Retriever + IntentAnalyzer&lt;br/&gt;find/search 的语义召回、typed queries、递归检索和 rerank。]
+    N6 --&gt; N7
+    N8[Agent Integrations&lt;br/&gt;Claude Code、OpenClaw、OpenCode、MCP、VikingBot 等消费同一上下文能力。]
+    N7 --&gt; N8
+
+---
+
+%% 系统动力学 / CLD-SFD-BOT
+R 上下文质量增强回路: 统一导入资源/记忆/技能 -&gt; L0/L1/L2 可导航 -&gt; 检索结果更可解释 -&gt; Agent 任务成功率提高 -&gt; 更多上下文被沉淀
+B 生产采用约束回路: 上下文变敏感 -&gt; 多租户/密钥/隐私风险上升 -&gt; 启用鉴权/加密/审计 -&gt; 部署边界收紧
+SFD 上下文库存量: 导入文档/会话/技能 -&gt; 检索与读取 -&gt; L0/L1/L2 上下文库存 -&gt; 过期、删除或再索引
+
+---
+
+%% 混合图说明
+中心使用一次任务/请求执行骨架；外圈只叠加有解释增益的 CLD/SFD/BOT 回路。</pre></div>
+    </div>
+    </div>
+    </section>
+
+    <section id="views" class="section">
+      <div class="section-head">
+        <div class="section-index">04</div>
+        <h2>4+1 裁剪的上下文数据库架构视角</h2>
+        <p class="section-note">先判断复杂度，再裁剪 C4 / 4+1 / UML 组合；核心业务交互图必须优先。</p>
+      </div>
+      <div class="section-body">
+    <div class="arch-lens">
+      <div class="arch-head">
+        <span class="arch-kicker">Adaptive Architecture Lens</span>
+        <h3>4+1 裁剪的上下文数据库架构视角</h3>
+        <div class="arch-reason">先做复杂度评估，再选择 C4 或 4+1；无论框架如何，核心业务交互图优先。</div>
+      </div>
+      <div class="arch-decision"><div class="arch-kv"><b>项目复杂性评估</b><span>高：Python 服务、Rust CLI/RAGFS、C++ 扩展、向量索引、异步队列、插件、Bot、Docker/Helm、多租户/加密/观测同时存在。</span></div><div class="arch-kv"><b>选用框架</b><span>4+1 作为判断框架，具体图用 C4 L1/L2、UML Sequence 和 Deployment flowchart 表达。</span></div><div class="arch-kv"><b>裁剪策略</b><span>完整 4+1 会过重；本报告保留 Scenario、Process、Development/Implementation 和 Deployment/Physical。Logical view 合并到 C4 容器/组件图中，重点解释上下文写入、检索、记忆和部署边界。</span></div><div class="arch-kv"><b>省略内容</b><span>未画数据库 ERD 和每个 API router 细节；静态分析无法确认真实运行性能、模型调用质量和云端商业服务边界。</span></div></div>
+      <div class="arch-views">
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div>
+                  <h4>1. 系统全貌</h4>
+                  <div class="arch-view-meta">
+                    <span><strong>视图类型：</strong>C4 L1 Context / Scenario View</span>
+                  </div>
+                </div>
+
+              </div>
+              <div class="arch-view-body">
+
+                <p>OpenViking 位于 Agent runtime 与模型/存储基础设施之间，向 CLI、SDK、HTTP、MCP、WebDAV 和插件提供同一套上下文数据库能力。</p>
+
+    <div class="svg-frame"><svg viewBox="0 0 1180 558" role="img" aria-label="系统全貌 architecture flow">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+
+<rect x="1" y="1" width="1178" height="556" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">系统全貌</tspan></text>
+<text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">Mermaid flowchart 渲染图</tspan></text>
+<path d="M177.0,297.0 C205.0,297.0 205.0,297.0 233.0,297.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M431.0,297.0 C459.0,297.0 459.0,297.0 487.0,297.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M685.0,297.0 C713.0,297.0 713.0,297.0 741.0,297.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M939.0,297.0 C967.0,297.0 967.0,139.5 995.0,139.5" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M939.0,297.0 C967.0,297.0 967.0,244.5 995.0,244.5" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M939.0,297.0 C967.0,297.0 967.0,349.5 995.0,349.5" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M939.0,297.0 C967.0,297.0 967.0,454.5 995.0,454.5" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="-13.0" y="260.0" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="82.0" y="293.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">Agent Runtime /</tspan><tspan x="82.0" dy="17">Developer</tspan></text>
+<rect x="241.0" y="260.0" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="336.0" y="293.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="336.0" dy="0">SDK</tspan></text>
+<rect x="495.0" y="260.0" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="590.0" y="293.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="590.0" dy="0">API</tspan></text>
+<rect x="749.0" y="260.0" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="844.0" y="293.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="844.0" dy="0">Service</tspan></text>
+<rect x="1003.0" y="102.5" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="1098.0" y="135.5" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="1098.0" dy="0">VLM / Embedding /</tspan><tspan x="1098.0" dy="17">Rerank Providers</tspan></text>
+<rect x="1003.0" y="207.5" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="1098.0" y="240.5" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="1098.0" dy="0">RAGFS Content Store</tspan><tspan x="1098.0" dy="17">+ Vector Index</tspan></text>
+<rect x="1003.0" y="312.5" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="1098.0" y="345.5" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="1098.0" dy="0">Observer / Metrics</tspan><tspan x="1098.0" dy="17">/ Grafana</tspan></text>
+<rect x="1003.0" y="417.5" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="1098.0" y="450.5" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="1098.0" dy="0">Auth / Multi-tenant</tspan><tspan x="1098.0" dy="17">/ Privacy /...</tspan></text>
+</svg></div>
+    <p class="diagram-caption">上图由架构视角的 Mermaid flowchart 源码静态渲染，源码保留在下方。</p>
+
+                <div class="diagram-mobile">
+                <div class="mobile-step" data-step="1">
+                  <b>Agent Runtime / Developer -> SDK</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="2">
+                  <b>SDK -> API</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="3">
+                  <b>API -> Service</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="4">
+                  <b>Service -> VLM / Embedding / Rerank Providers</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="5">
+                  <b>Service -> RAGFS Content Store + Vector Index</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="6">
+                  <b>Service -> Observer / Metrics / Grafana</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="7">
+                  <b>Service -> Auth / Multi-tenant / Privacy / Encryption</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block"><code>flowchart LR
+    Agent[Agent Runtime / Developer] --&gt; SDK[Python SDK / Rust CLI / Plugins]
+    SDK --&gt; API[OpenViking HTTP API or Embedded Client]
+    API --&gt; Service[OpenViking Service Layer]
+    Service --&gt; Model[VLM / Embedding / Rerank Providers]
+    Service --&gt; Storage[RAGFS Content Store + Vector Index]
+    Service --&gt; Obs[Observer / Metrics / Grafana]
+    Service --&gt; Admin[Auth / Multi-tenant / Privacy / Encryption]</code></pre></details>
+              </div>
+            </article>
+
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div>
+                  <h4>2. 核心业务流转</h4>
+                  <div class="arch-view-meta">
+                    <span><strong>视图类型：</strong>UML Sequence / Process View</span>
+                  </div>
+                </div>
+                <span class="priority-badge">Priority Interaction</span>
+              </div>
+              <div class="arch-view-body">
+                <p><strong>场景描述：</strong>导入资源后，Agent 在一次任务中检索上下文并在 commit 时沉淀长期记忆。</p>
+                <p>这个视图展示最关键的行为链：资源写入先形成层级目录，再异步生成语义层；检索时先定位目录，再递归下钻；会话 commit 另走记忆抽取链路。</p>
+
+    <div class="svg-frame"><svg viewBox="0 0 1180 730" role="img" aria-label="核心业务流转 sequence">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+
+<rect x="1" y="1" width="1178" height="728" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">核心业务流转</tspan></text>
+<text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">Mermaid sequenceDiagram 渲染图</tspan></text>
+<rect x="0.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="18.0" cy="79" r="11" fill="#17202b"/>
+<text x="18.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="18.0" dy="0">1</tspan></text>
+<text x="82.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">Agent or CLI</tspan></text>
+<path d="M72.0,116 V696" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="148.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="166.0" cy="79" r="11" fill="#17202b"/>
+<text x="166.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="166.0" dy="0">2</tspan></text>
+<text x="230.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="230.0" dy="0">ResourceServic</tspan><tspan x="230.0" dy="15">e</tspan></text>
+<path d="M220.0,116 V696" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="296.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="314.0" cy="79" r="11" fill="#17202b"/>
+<text x="314.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="314.0" dy="0">3</tspan></text>
+<text x="378.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="378.0" dy="0">Parser and</tspan><tspan x="378.0" dy="15">TreeBuilder</tspan></text>
+<path d="M368.0,116 V696" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="444.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="462.0" cy="79" r="11" fill="#17202b"/>
+<text x="462.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="462.0" dy="0">4</tspan></text>
+<text x="526.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="526.0" dy="0">SemanticQueue</tspan></text>
+<path d="M516.0,116 V696" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="592.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="610.0" cy="79" r="11" fill="#17202b"/>
+<text x="610.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="610.0" dy="0">5</tspan></text>
+<text x="674.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="674.0" dy="0">VikingFS and</tspan><tspan x="674.0" dy="15">Vector Index</tspan></text>
+<path d="M664.0,116 V696" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="740.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="758.0" cy="79" r="11" fill="#17202b"/>
+<text x="758.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="758.0" dy="0">6</tspan></text>
+<text x="822.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="822.0" dy="0">SearchService</tspan></text>
+<path d="M812.0,116 V696" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="888.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="906.0" cy="79" r="11" fill="#17202b"/>
+<text x="906.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="906.0" dy="0">7</tspan></text>
+<text x="970.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="970.0" dy="0">HierarchicalRe</tspan><tspan x="970.0" dy="15">triever</tspan></text>
+<path d="M960.0,116 V696" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<rect x="1036.0" y="58" width="144" height="58" rx="8" fill="#edf3fb" stroke="#b9cde5"/>
+<circle cx="1054.0" cy="79" r="11" fill="#17202b"/>
+<text x="1054.0" y="83.0" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff"><tspan x="1054.0" dy="0">8</tspan></text>
+<text x="1118.0" y="81.0" text-anchor="middle" font-size="12" font-weight="850" fill="#17202b"><tspan x="1118.0" dy="0">Session Memory</tspan><tspan x="1118.0" dy="15">Extractor</tspan></text>
+<path d="M1108.0,116 V696" stroke="#b9c6d2" stroke-width="1.4" stroke-dasharray="5 6"/>
+<path d="M106.0,154 H178.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="67.0" y="126" width="150.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="142.0" y="143.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="142.0" dy="0">add_resource(URL/file/dir...</tspan></text>
+<path d="M254.0,212 H326.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="215.0" y="184" width="150.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="290.0" y="201.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="290.0" dy="0">parse and build viking://...</tspan></text>
+<path d="M402.0,270 H474.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="363.0" y="242" width="150.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="438.0" y="259.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="438.0" dy="0">enqueue L0/L1 generation</tspan></text>
+<path d="M550.0,328 H622.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="511.0" y="300" width="150.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="586.0" y="317.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="586.0" dy="0">write abstracts, overview...</tspan></text>
+<path d="M106.0,386 H770.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="308.0" y="358" width="260.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="438.0" y="375.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="438.0" dy="0">find/search query</tspan></text>
+<path d="M846.0,444 H918.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="807.0" y="416" width="150.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="882.0" y="433.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="882.0" dy="0">typed query + target scopes</tspan></text>
+<path d="M926.0,502 H706.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="715.0" y="474" width="202.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="816.0" y="491.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="816.0" dy="0">global search then recurs...</tspan></text>
+<path d="M630.0,560 H114.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="242.0" y="532" width="260.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="372.0" y="549.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="372.0" dy="0">matched contexts + URI +...</tspan></text>
+<path d="M106.0,618 H1066.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="456.0" y="590" width="260.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="586.0" y="607.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="586.0" dy="0">session.commit()</tspan></text>
+<path d="M1074.0,676 H706.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-teal)"/>
+<rect x="760.0" y="648" width="260.0" height="24" rx="12" fill="#fff" stroke="#d8ddd9"/>
+<text x="890.0" y="665.0" text-anchor="middle" font-size="11" font-weight="750" fill="#29313c"><tspan x="890.0" dy="0">write user/agent memories...</tspan></text>
+</svg></div>
+    <p class="diagram-caption">上图由架构视角的 Mermaid sequenceDiagram 源码静态渲染，源码保留在下方。</p>
+
+                <div class="diagram-mobile">
+                <div class="mobile-step" data-step="1">
+                  <b>Agent or CLI -> ResourceService</b>
+                  <p>add_resource(URL/file/directory)</p>
+                </div>
+
+                <div class="mobile-step" data-step="2">
+                  <b>ResourceService -> Parser and TreeBuilder</b>
+                  <p>parse and build viking:// tree</p>
+                </div>
+
+                <div class="mobile-step" data-step="3">
+                  <b>Parser and TreeBuilder -> SemanticQueue</b>
+                  <p>enqueue L0/L1 generation</p>
+                </div>
+
+                <div class="mobile-step" data-step="4">
+                  <b>SemanticQueue -> VikingFS and Vector Index</b>
+                  <p>write abstracts, overviews, vectors</p>
+                </div>
+
+                <div class="mobile-step" data-step="5">
+                  <b>Agent or CLI -> SearchService</b>
+                  <p>find/search query</p>
+                </div>
+
+                <div class="mobile-step" data-step="6">
+                  <b>SearchService -> HierarchicalRetriever</b>
+                  <p>typed query + target scopes</p>
+                </div>
+
+                <div class="mobile-step" data-step="7">
+                  <b>HierarchicalRetriever -> VikingFS and Vector Index</b>
+                  <p>global search then recursive directory search</p>
+                </div>
+
+                <div class="mobile-step" data-step="8">
+                  <b>VikingFS and Vector Index -> Agent or CLI</b>
+                  <p>matched contexts + URI + provenance</p>
+                </div>
+
+                <div class="mobile-step" data-step="9">
+                  <b>Agent or CLI -> Session Memory Extractor</b>
+                  <p>session.commit()</p>
+                </div>
+
+                <div class="mobile-step" data-step="10">
+                  <b>Session Memory Extractor -> VikingFS and Vector Index</b>
+                  <p>write user/agent memories and memory_diff</p>
+                </div>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block"><code>sequenceDiagram
+    autonumber
+    participant A as Agent or CLI
+    participant R as ResourceService
+    participant P as Parser and TreeBuilder
+    participant Q as SemanticQueue
+    participant V as VikingFS and Vector Index
+    participant S as SearchService
+    participant H as HierarchicalRetriever
+    participant M as Session Memory Extractor
+    A-&gt;&gt;R: add_resource(URL/file/directory)
+    R-&gt;&gt;P: parse and build viking:// tree
+    P-&gt;&gt;Q: enqueue L0/L1 generation
+    Q-&gt;&gt;V: write abstracts, overviews, vectors
+    A-&gt;&gt;S: find/search query
+    S-&gt;&gt;H: typed query + target scopes
+    H-&gt;&gt;V: global search then recursive directory search
+    V--&gt;&gt;A: matched contexts + URI + provenance
+    A-&gt;&gt;M: session.commit()
+    M-&gt;&gt;V: write user/agent memories and memory_diff</code></pre></details>
+              </div>
+            </article>
+
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div>
+                  <h4>3. 静态组织结构</h4>
+                  <div class="arch-view-meta">
+                    <span><strong>视图类型：</strong>Development / Implementation View</span>
+                  </div>
+                </div>
+
+              </div>
+              <div class="arch-view-body">
+
+                <p>源码组织显示这是一个多语言系统：Python 负责服务和业务层，Rust 负责 CLI/RAGFS，C++ 扩展承担底层索引/能力探测，Bot 和插件负责上层集成。</p>
+
+    <div class="svg-frame"><svg viewBox="0 0 1180 782" role="img" aria-label="静态组织结构 architecture flow">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+
+<rect x="1" y="1" width="1178" height="780" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">静态组织结构</tspan></text>
+<text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">Mermaid flowchart 渲染图</tspan></text>
+<path d="M431.0,248.0 C332.0,248.0 332.0,570.0 233.0,570.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M431.0,570.0 C459.0,570.0 459.0,194.3 487.0,194.3" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M431.0,570.0 C459.0,570.0 459.0,409.0 487.0,409.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M431.0,570.0 C459.0,570.0 459.0,623.7 487.0,623.7" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M685.0,623.7 C713.0,623.7 713.0,409.0 741.0,409.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M939.0,409.0 C967.0,409.0 967.0,409.0 995.0,409.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M177.0,248.0 C205.0,248.0 205.0,248.0 233.0,248.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M177.0,570.0 C205.0,570.0 205.0,248.0 233.0,248.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M177.0,462.7 C205.0,462.7 205.0,248.0 233.0,248.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M177.0,355.3 C332.0,355.3 332.0,623.7 487.0,623.7" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="241.0" y="211.0" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="336.0" y="244.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="336.0" dy="0">Server</tspan></text>
+<text x="336.0" y="274.0" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="336.0" dy="0">Python package</tspan></text>
+<rect x="241.0" y="533.0" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="336.0" y="566.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="336.0" dy="0">Services</tspan></text>
+<text x="336.0" y="596.0" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="336.0" dy="0">Python package</tspan></text>
+<rect x="495.0" y="157.3" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="590.0" y="190.3" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="590.0" dy="0">Parse</tspan></text>
+<text x="590.0" y="220.3" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="590.0" dy="0">Python package</tspan></text>
+<rect x="495.0" y="372.0" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="590.0" y="405.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="590.0" dy="0">Retrieve</tspan></text>
+<text x="590.0" y="435.0" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="590.0" dy="0">Python package</tspan></text>
+<rect x="495.0" y="586.7" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="590.0" y="619.7" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="590.0" dy="0">Storage</tspan></text>
+<text x="590.0" y="649.7" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="590.0" dy="0">Python package</tspan></text>
+<rect x="-13.0" y="103.7" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="82.0" y="136.7" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">openviking/session</tspan></text>
+<text x="82.0" y="166.7" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="82.0" dy="0">Python package</tspan></text>
+<rect x="-13.0" y="211.0" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="82.0" y="244.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">OvCli</tspan></text>
+<text x="82.0" y="274.0" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="82.0" dy="0">Rust workspace</tspan></text>
+<rect x="1003.0" y="372.0" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="1098.0" y="405.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="1098.0" dy="0">Ragfs</tspan></text>
+<text x="1098.0" y="435.0" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="1098.0" dy="0">Rust workspace</tspan></text>
+<rect x="749.0" y="372.0" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="844.0" y="405.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="844.0" dy="0">RagfsPy</tspan></text>
+<text x="844.0" y="435.0" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="844.0" dy="0">Rust workspace</tspan></text>
+<rect x="-13.0" y="318.3" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="82.0" y="351.3" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">Cpp</tspan></text>
+<text x="82.0" y="381.3" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="82.0" dy="0">Native extensions</tspan></text>
+<rect x="-13.0" y="425.7" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="82.0" y="458.7" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">Examples</tspan></text>
+<text x="82.0" y="488.7" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="82.0" dy="0">Integrations</tspan></text>
+<rect x="-13.0" y="533.0" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="82.0" y="566.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">Bot</tspan></text>
+<text x="82.0" y="596.0" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="82.0" dy="0">Integrations</tspan></text>
+<rect x="-13.0" y="640.3" width="190" height="74" rx="8" fill="#e8f4f2" stroke="#8ac7bd" filter="url(#soft-shadow)"/>
+<text x="82.0" y="673.3" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">docs and console</tspan></text>
+<text x="82.0" y="703.3" text-anchor="middle" font-size="10" font-weight="650" fill="#65707d"><tspan x="82.0" dy="0">Integrations</tspan></text>
+</svg></div>
+    <p class="diagram-caption">上图由架构视角的 Mermaid flowchart 源码静态渲染，源码保留在下方。</p>
+
+                <div class="diagram-mobile">
+                <div class="mobile-step" data-step="1">
+                  <b>Server -> Services</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="2">
+                  <b>Services -> Parse</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="3">
+                  <b>Services -> Retrieve</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="4">
+                  <b>Services -> Storage</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="5">
+                  <b>Storage -> RagfsPy</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="6">
+                  <b>RagfsPy -> Ragfs</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="7">
+                  <b>OvCli -> Server</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="8">
+                  <b>Bot -> Server</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="9">
+                  <b>Examples -> Server</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="10">
+                  <b>Cpp -> Storage</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block"><code>flowchart LR
+    subgraph Python[Python package]
+      Server[openviking/server routers]
+      Services[openviking/service]
+      Parse[openviking/parse]
+      Retrieve[openviking/retrieve]
+      Storage[openviking/storage]
+      Session[openviking/session]
+    end
+    subgraph Rust[Rust workspace]
+      OvCli[crates/ov_cli]
+      Ragfs[crates/ragfs]
+      RagfsPy[crates/ragfs-python]
+    end
+    subgraph Native[Native extensions]
+      Cpp[src C++ extensions]
+    end
+    subgraph Integrations[Integrations]
+      Examples[examples plugins]
+      Bot[VikingBot]
+      Docs[docs and console]
+    end
+    Server --&gt; Services
+    Services --&gt; Parse
+    Services --&gt; Retrieve
+    Services --&gt; Storage
+    Storage --&gt; RagfsPy
+    RagfsPy --&gt; Ragfs
+    OvCli --&gt; Server
+    Bot --&gt; Server
+    Examples --&gt; Server
+    Cpp --&gt; Storage</code></pre></details>
+              </div>
+            </article>
+
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div>
+                  <h4>4. 部署与运行边界</h4>
+                  <div class="arch-view-meta">
+                    <span><strong>视图类型：</strong>Deployment / Physical View</span>
+                  </div>
+                </div>
+
+              </div>
+              <div class="arch-view-body">
+
+                <p>仓库同时支持 embedded mode、独立 HTTP server、Docker compose、Docker image、Helm 示例和带 VikingBot 的 server；生产关键在模型服务、持久化、密钥和多租户隔离。</p>
+
+    <div class="svg-frame"><svg viewBox="0 0 1180 782" role="img" aria-label="部署与运行边界 architecture flow">
+
+    <defs>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#315c8f"/>
+      </marker>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+      </marker>
+      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a66f12"/>
+      </marker>
+      <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#111827" flood-opacity=".10"/>
+      </filter>
+    </defs>
+
+<rect x="1" y="1" width="1178" height="780" rx="8" fill="#fffdf8" stroke="#d8ddd9"/>
+<text x="42.0" y="38.0" text-anchor="start" font-size="15" font-weight="850" fill="#0f766e"><tspan x="42.0" dy="0">部署与运行边界</tspan></text>
+<text x="42.0" y="62.0" text-anchor="start" font-size="12" font-weight="650" fill="#65707d"><tspan x="42.0" dy="0">Mermaid flowchart 渲染图</tspan></text>
+<path d="M177.0,167.5 C332.0,167.5 332.0,248.0 487.0,248.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M177.0,328.5 C332.0,328.5 332.0,570.0 487.0,570.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M685.0,570.0 C840.0,570.0 840.0,140.7 995.0,140.7" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M685.0,570.0 C840.0,570.0 840.0,248.0 995.0,248.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M685.0,570.0 C840.0,570.0 840.0,355.3 995.0,355.3" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M685.0,570.0 C840.0,570.0 840.0,462.7 995.0,462.7" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M685.0,570.0 C840.0,570.0 840.0,570.0 995.0,570.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M685.0,570.0 C840.0,570.0 840.0,677.3 995.0,677.3" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M177.0,489.5 C332.0,489.5 332.0,570.0 487.0,570.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<path d="M177.0,650.5 C332.0,650.5 332.0,570.0 487.0,570.0" stroke="#315c8f" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)"/>
+<rect x="-13.0" y="130.5" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="82.0" y="163.5" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">Embedded Python</tspan><tspan x="82.0" dy="17">Process</tspan></text>
+<rect x="495.0" y="211.0" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="590.0" y="244.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="590.0" dy="0">Local ~/.openviking</tspan><tspan x="590.0" dy="17">workspace</tspan></text>
+<rect x="-13.0" y="291.5" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="82.0" y="324.5" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">SDK / CLI / Plugin</tspan></text>
+<rect x="495.0" y="533.0" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="590.0" y="566.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="590.0" dy="0">Server</tspan></text>
+<rect x="1003.0" y="103.7" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="1098.0" y="136.7" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="1098.0" dy="0">Console UI :8020</tspan></text>
+<rect x="1003.0" y="211.0" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="1098.0" y="244.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="1098.0" dy="0">VikingBot optional</tspan><tspan x="1098.0" dy="17">/chat</tspan></text>
+<rect x="1003.0" y="318.3" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="1098.0" y="351.3" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="1098.0" dy="0">LocalFS or S3 AGFS</tspan></text>
+<rect x="1003.0" y="425.7" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="1098.0" y="458.7" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="1098.0" dy="0">Local/http/Volcengine</tspan><tspan x="1098.0" dy="17">VectorDB</tspan></text>
+<rect x="1003.0" y="533.0" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="1098.0" y="566.0" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="1098.0" dy="0">Embedding/VLM/Rerank</tspan><tspan x="1098.0" dy="17">APIs</tspan></text>
+<rect x="1003.0" y="640.3" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="1098.0" y="673.3" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="1098.0" dy="0">Local key / Vault /</tspan><tspan x="1098.0" dy="17">Volcengine KMS</tspan></text>
+<rect x="-13.0" y="452.5" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="82.0" y="485.5" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">Docker Compose /</tspan><tspan x="82.0" dy="17">Image</tspan></text>
+<rect x="-13.0" y="613.5" width="190" height="74" rx="8" fill="#ffffff" stroke="#cfd8d3" filter="url(#soft-shadow)"/>
+<text x="82.0" y="646.5" text-anchor="middle" font-size="13" font-weight="850" fill="#17202b"><tspan x="82.0" dy="0">K8s Helm example</tspan></text>
+</svg></div>
+    <p class="diagram-caption">上图由架构视角的 Mermaid flowchart 源码静态渲染，源码保留在下方。</p>
+
+                <div class="diagram-mobile">
+                <div class="mobile-step" data-step="1">
+                  <b>Embedded Python Process -> Local ~/.openviking workspace</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="2">
+                  <b>SDK / CLI / Plugin -> Server</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="3">
+                  <b>Server -> Console UI :8020</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="4">
+                  <b>Server -> VikingBot optional /chat</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="5">
+                  <b>Server -> LocalFS or S3 AGFS</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="6">
+                  <b>Server -> Local/http/Volcengine VectorDB</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="7">
+                  <b>Server -> Embedding/VLM/Rerank APIs</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="8">
+                  <b>Server -> Local key / Vault / Volcengine KMS</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="9">
+                  <b>Docker Compose / Image -> Server</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+
+                <div class="mobile-step" data-step="10">
+                  <b>K8s Helm example -> Server</b>
+                  <p>结构依赖 / 数据流向</p>
+                </div>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block"><code>flowchart LR
+    Local[Embedded Python Process] --&gt; Workspace[Local ~/.openviking workspace]
+    Client[SDK / CLI / Plugin] --&gt; Server[openviking-server :1933]
+    Server --&gt; Console[Console UI :8020]
+    Server --&gt; Bot[VikingBot optional /chat]
+    Server --&gt; FS[LocalFS or S3 AGFS]
+    Server --&gt; VDB[Local/http/Volcengine VectorDB]
+    Server --&gt; Model[Embedding/VLM/Rerank APIs]
+    Server --&gt; KMS[Local key / Vault / Volcengine KMS]
+    Docker[Docker Compose / Image] --&gt; Server
+    Helm[K8s Helm example] --&gt; Server</code></pre></details>
+              </div>
+            </article>
+            </div>
+    </div>
+    </div>
+    </section>
+
+    <section id="assets" class="section">
+      <div class="section-head">
+        <div class="section-index">05</div>
+        <h2>核心资产与价值</h2>
+        <p class="section-note">只保留新用户和技术评估者需要理解的关键资产。</p>
+      </div>
+      <div class="section-body"><div class="asset-grid"><div class="asset"><h3>`viking://` URI 与目录语义</h3><p>Context types、Viking URI、FS API 和 namespace 规则让 Agent 像操作文件一样操作上下文。</p></div><div class="asset"><h3>L0/L1/L2 分层处理链</h3><p>Parser、TreeBuilder、SemanticQueue 和 <code>.abstract.md</code>/<code>.overview.md</code> 机制把检索、导航和细读拆开。</p></div><div class="asset"><h3>HierarchicalRetriever</h3><p>全局定位、目录递归、score propagation、rerank fallback 和 relations 是区别于平铺 RAG 的核心算法资产。</p></div><div class="asset"><h3>Session memory lifecycle</h3><p>commit、archive、memory extraction、dedup decision 和 memory_diff 让会话经验可审计地沉淀。</p></div><div class="asset"><h3>部署与集成资产</h3><p>Rust CLI、HTTP API、MCP/WebDAV、Claude Code/OpenClaw/OpenCode 插件、VikingBot、Docker/Helm 降低试点门槛。</p></div><div class="asset"><h3>安全与治理资产</h3><p>multi-tenant identity、API key roles、privacy config、envelope encryption、metrics/observer 支撑生产化讨论。</p></div></div></div>
+    </section>
+
+    <section id="adopt" class="section">
+      <div class="section-head">
+        <div class="section-index">06</div>
+        <h2>采用前确认与证据边界</h2>
+        <p class="section-note">风险和工程化信息只保留会影响试用/采用决策的部分。</p>
+      </div>
+      <div class="section-body">
+    <div class="two-col">
+      <div class="check-card"><h3>采用前确认</h3><ul class="bullets"><li>先把试点范围限定在非敏感仓库或文档，确认导入、分层摘要、检索结果和 provenance 是否符合团队调试习惯。</li><li>确认 AGPL-3.0 对服务化部署和二次修改的合规影响；Rust crates/examples 的 Apache-2.0 不能覆盖主项目许可证。</li><li>压测模型调用成本与延迟，尤其是 VLM 摘要、embedding、rerank、长会话 commit 和批量资源导入。</li><li>生产部署必须配置 root/user key、account/user/agent 边界、加密 provider、日志脱敏、备份和再索引策略。</li><li>把插件接入低风险 Agent 后再逐步扩大，不要直接把个人/客户长期记忆导入未审计的共享实例。</li></ul></div>
+      <div class="evidence-card"><h3>DeepWiki / 证据边界</h3><ul class="bullets compact"><li>外部阅读入口按 GitHub URL 派生：DeepWiki https://deepwiki.com/volcengine/OpenViking，Zread https://zread.ai/volcengine/OpenViking。</li><li>本报告的判断主要来自本地克隆源码、README/docs、CI、license 和 GitHub API；未把第三方总结当作事实来源。</li><li>README 定位为面向 AI Agents 的 Context Database，列出 filesystem paradigm、tiered loading、directory recursive retrieval、visualized trajectory、automatic session management。</li><li><code>docs/en/concepts/01-architecture.md</code> 描述 Client、Service、Retrieve、Session、Parse、Compressor、Storage 与 AGFS + Vector Index。</li><li><code>openviking/service/core.py</code> 初始化 RAGFS、QueueManager、VikingDBManager、VikingFS、processors、SessionCompressor、WatchScheduler 和各 service。</li><li><code>openviking/retrieve/hierarchical_retriever.py</code> 实现全局向量定位、目录递归、score propagation、rerank fallback 和 relation 读取。</li><li><code>pyproject.toml</code> 声明 Python 3.10+、FastAPI、OpenTelemetry、tree-sitter、mcp、model provider 依赖和 <code>ov</code> / <code>openviking-server</code> / <code>vikingbot</code> scripts。</li><li>未安装依赖、未启动 server、未运行 <code>ov</code>、未调用模型服务；性能、召回质量和部署稳定性均为证据边界之外。</li></ul></div>
+    </div>
+    </div>
+    </section>
+
+    <footer class="footer">
+      <div><strong>生成文件：</strong>site/projects/OpenViking/index.html</div>
+      <div><strong>边界：</strong>静态分析，未真实运行目标项目。</div>
+    </footer>
+  </article>
+</main>
+<script>
+document.querySelectorAll('.diagram-shell').forEach((shell) => {
+  const buttons = Array.from(shell.querySelectorAll('[data-diagram-tab]'));
+  const panels = Array.from(shell.querySelectorAll('[data-diagram-panel]'));
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const target = button.getAttribute('data-diagram-tab');
+      buttons.forEach((item) => item.setAttribute('aria-selected', String(item === button)));
+      panels.forEach((panel) => {
+        panel.hidden = panel.getAttribute('data-diagram-panel') !== target;
+      });
+    });
+  });
+});
+</script>
+</body>
+</html>

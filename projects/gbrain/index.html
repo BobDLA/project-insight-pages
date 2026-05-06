@@ -119,6 +119,25 @@ code {
   background: var(--teal);
 }
 .bullets.compact { gap: 6px; font-size: 14px; }
+.resource-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.resource-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 7px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fff;
+  color: #123d38;
+  font-size: 13px;
+  font-weight: 820;
+}
 .adoption {
   min-width: 0;
   display: flex;
@@ -618,6 +637,7 @@ code {
         <div class="eyebrow">https://github.com/garrytan/gbrain</div>
         <h1 class="title">GBrain</h1>
         <ul class="summary"><li>GBrain 是 <strong>个人知识脑 + agent skillpack + CLI/MCP 工具层</strong>，目标是让 agent 在会话之外持续积累可检索、可链接、可维护的上下文。</li><li>它不是普通向量库 wrapper；真正差异在 <strong>operations contract、BrainEngine 抽象、typed links/timeline、29 个 skills 和 Minions job queue</strong> 的组合。</li></ul>
+        <div class="resource-links" aria-label="外部资源"><a class="resource-link" href="https://github.com/garrytan/gbrain" target="_blank" rel="noreferrer" aria-label="打开 GBrain GitHub 页面">GitHub</a><a class="resource-link" href="https://deepwiki.com/garrytan/gbrain" target="_blank" rel="noreferrer" aria-label="打开 GBrain DeepWiki 页面">DeepWiki</a><a class="resource-link" href="https://zread.ai/garrytan/gbrain" target="_blank" rel="noreferrer" aria-label="打开 GBrain Zread 页面">Zread</a></div>
       </div>
       <aside class="adoption">
         <div>

@@ -31,6 +31,7 @@
 
 - 示例：把 Claude Code 指向本地代理
 - 来源：仓库 README 示例图 + 静态推演
+- Demo 状态：静态推演，未运行
 - 启动本地代理服务，例如 localhost:8082。
 - 把 ANTHROPIC_BASE_URL 指向本地代理。
 - 用 MODEL_* 把 Claude 模型名映射到 provider/model。

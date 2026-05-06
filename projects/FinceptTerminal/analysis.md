@@ -33,6 +33,7 @@
 
 - 示例：AAPL 研究工作流
 - 来源：仓库 README 产品图 + 静态推演
+- Demo 状态：静态推演，未运行
 - 打开 Equity Research 或 Markets 页面，输入 AAPL。
 - Qt Screen 发出标的请求，DataHub 订阅 market:quote:AAPL 等 topic。
 - Producer 拉取行情、新闻或财务数据，缓存后发布给页面。

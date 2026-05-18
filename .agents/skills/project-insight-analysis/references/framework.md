@@ -7,11 +7,12 @@ Generate one responsive HTML page per project by default. The page should work a
 Use this structure for first-time technical readers:
 
 1. 新用户先看什么
-2. Gold Example / Demo
-3. 项目机制图（可选）
-4. 架构视角（可选；自适应选择 C4 / 4+1 / UML）
-5. 核心资产与价值
-6. 采用前确认与证据边界
+2. 核心创新提取
+3. Gold Example / Demo
+4. 项目机制图（可选）
+5. 架构视角（可选；自适应选择 C4 / 4+1 / UML）
+6. 核心资产与价值
+7. 采用前确认与证据边界
 
 `新用户先看什么` must preserve and strengthen the Lean/精益判断 content:
 
@@ -22,6 +23,18 @@ Use this structure for first-time technical readers:
 - 最小验证方式
 
 Do not force a fixed number of bullets. Use as many as needed, but keep each bullet scan-friendly and avoid paragraph blocks.
+
+## Core Innovation Extraction
+
+Before writing the report body, identify the project's actual difference:
+
+- What common assumption in comparable projects does it reject?
+- Which concrete mechanisms make that possible?
+- What technical path is unusual enough to matter to a knowledgeable reader?
+
+Name the mechanisms. Prefer `Memory Tree`, `TokenJuice`, `ControllerSchema`, `provider adapter chain`, or similar project-specific contracts over generic labels such as `memory`, `agent`, `tools`, or `backend`.
+
+Use Zread/DeepWiki as clue pools for GitHub projects when available, but do not treat them as authority. Verify each strong external-guide claim against README/docs/code. If an external guide is outdated or conflicts with source evidence, keep the useful lead and correct the fact.
 
 ## Diagram Selection
 
@@ -71,6 +84,7 @@ Prefer semantic drawing patterns over generic graph auto-layout:
 - Hero: project name, one-line positioning, adoption stance, and short explanation.
 - Fact strip: non-scoring facts such as stars, formats, provider families, core contract, or source count.
 - Main body prioritizes usage scenario, value, differentiation, demo, and mechanism.
+- Include a mechanism-and-evidence section when the project has named technical innovations or unusual architecture contracts.
 - No numeric project score.
 - Evidence and boundaries may be a final section or appendix.
 

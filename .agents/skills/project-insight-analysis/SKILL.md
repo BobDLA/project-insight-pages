@@ -22,7 +22,18 @@ The HTML page is the primary deliverable unless the user explicitly asks for tex
 
 2. **Collect evidence**
    - Read README/docs, manifests, source entrypoints, architecture docs, CI, license, and repo metadata.
+   - Search for named mechanisms, domain contracts, schedulers/background jobs, transport/RPC boundaries, storage/retrieval pipelines, browser/webview/native integration, and security/privacy boundaries. Do not stop at module names.
+   - For GitHub repositories, use Zread/DeepWiki as high-signal clue pools when reachable. Treat them as leads, not authority: every important external-guide claim must be verified against README/docs/code or marked as unverified/outdated.
    - Classify evidence as `README/docs`, `code`, `config`, `repo-meta`, `license`, or `static-inference`.
+
+2.5. **Extract core innovations before writing**
+   - Before drafting the report, answer these questions in notes or the analysis draft:
+     1. What default assumption in comparable projects does this project reject?
+     2. Which 2-3 concrete technical mechanisms make that difference possible?
+     3. What technical path is unusual enough that a knowledgeable reader should notice it?
+   - Name 3-7 project-specific mechanisms or contracts. Generic labels such as `agent`, `memory`, `tools`, `frontend`, or `backend` are not enough unless refined into the actual mechanism, e.g. `Memory Tree`, `ControllerSchema`, `TokenJuice`, `provider adapter chain`.
+   - For each mechanism, capture: what it changes, how it works, evidence, why it matters, and what must be verified at runtime.
+   - If Zread/DeepWiki surfaced a strong point, either incorporate it after verification, correct it with source evidence, or state why it was excluded. Do not silently drop high-signal external leads.
 
 3. **Write the report**
    - Follow `references/report-template.md`.
@@ -30,12 +41,15 @@ The HTML page is the primary deliverable unless the user explicitly asks for tex
    - Produce one responsive HTML page per project. Do not create a separate infographic HTML unless the user explicitly requests a second artifact.
    - Prefer a new-user-first technical-reader structure:
      1. 新用户先看什么：适合谁、解决什么问题、和别的方案哪里不同、为什么现在值得看、最小验证方式
-     2. Gold Example / Demo
-     3. 项目机制图：可选；按项目实际选择 UML / CLD / SFD / BOT / 混合图
-     4. 架构视角：可选；先评估复杂度，再裁剪 C4 / 4+1 / UML 组合
-     5. 核心资产与价值
-     6. 采用前确认与证据边界
+     2. 核心创新提取：范式反转、具名机制、少见技术路径、外部导览核验
+     3. Gold Example / Demo
+     4. 项目机制图：可选；按项目实际选择 UML / CLD / SFD / BOT / 混合图
+     5. 架构视角：可选；先评估复杂度，再裁剪 C4 / 4+1 / UML 组合
+     6. 核心资产与价值
+     7. 采用前确认与证据边界
    - Lean Canvas / 精益判断 must be preserved and strengthened. Do not remove `适合谁`、`解决什么问题`、`和别的方案哪里不同`.
+   - The report must explain why the project is different and how it achieves that difference. A professional-looking module inventory is not enough.
+   - In `核心资产与价值`, do not stop at WHAT-level asset descriptions. For each important technical asset, explain the operating HOW: the rule, contract, pipeline, runtime path, or feedback loop that makes it valuable.
    - If the user specifically requires the older five-module framework, map it without adding extra peer modules: Lean Canvas belongs inside `项目价值判断`; flow and assets belong inside `核心业务流程与关键资产`; architecture lenses such as 4+1 belong inside `技术实现与可落地性` only when they add real explanatory value.
 
 4. **Adapt to project type**
@@ -60,7 +74,7 @@ The HTML page is the primary deliverable unless the user explicitly asks for tex
    - Use `references/quality-rubric.md`.
    - Use a checklist, not a numeric project score.
    - When a report artifact exists, run `python scripts/validate_report.py <analysis.md> <report.html>` from this skill directory, or pass equivalent paths. Treat failures as required fixes and browser/layout checks as an additional layer.
-   - Revise if the report overclaims, lacks evidence, misfits the project type, hides the practical usage scenario, buries value/differentiation under delivery details, or uses a fixed diagram shape that does not fit the project.
+   - Revise if the report overclaims, lacks evidence, misfits the project type, hides the practical usage scenario, buries value/differentiation under delivery details, misses named mechanisms, ignores high-signal external leads, or uses a fixed diagram shape that does not fit the project.
 
 6. **Produce deliverables**
    - At minimum: `analysis.md`, `evidence.md`, and a full `report.html`.
@@ -69,6 +83,7 @@ The HTML page is the primary deliverable unless the user explicitly asks for tex
    - For HTML, use `assets/html-template.html` as a report page template, not a summary wrapper. The default layout is a single responsive insight page: positioning hero, non-scoring fact strip, strengthened Lean section, Gold Example, optional interactive project mechanism diagram, optional architecture lens, core assets, adoption checks, and evidence boundary.
    - For GitHub projects, render hero resource links for `GitHub`, `DeepWiki`, and `Zread`. Derive `DeepWiki` and `Zread` from the GitHub URL as `https://deepwiki.com/<owner>/<repo>` and `https://zread.ai/<owner>/<repo>`; strip a trailing `.git` suffix. If the URL is not a GitHub repository URL, omit derived links instead of rendering broken anchors.
    - Render project diagrams as a coherent canvas, not as unrelated mini cards. Prefer SVG or Mermaid-rendered visuals for the visible diagram, keep structured source in a separate tab, and provide a mobile-readable vertical fallback when the full diagram would become too small.
+   - Diagrams must express the project's distinctive mechanism. If the key insight is a data pipeline, scheduler, compression layer, transport contract, runtime boundary, or webview/native bridge, include it or explain why it is out of evidence scope.
    - Architecture sections must include a decision note: complexity, selected framework, tailoring reason, and omitted views. Do not output a fake 4+1 made of unrelated text cards.
    - In HTML, render architecture Mermaid or structured source as visible diagrams. Keep the source in a collapsible/source area; do not leave architecture diagrams as raw code blocks only.
    - Do not rely on a generic auto-layout for every architecture diagram. Choose a semantic drawing pattern: behavior constraints and distribution for rule/skill projects, request boundary and adapter chain for API/proxy projects, workflow/data bus/deployment boundaries for desktop or large apps.

@@ -9,6 +9,9 @@ Use this as a revision checklist, not a numeric scoring sheet.
 - The report has a clear verbal adoption stance and no user-facing numeric project score.
 - `新用户先看什么` preserves Lean content: audience, problem, differentiation, why now, and minimum validation path.
 - A new technical reader can understand the usage scenario, core value, differentiation, demo, and mechanism.
+- The report identifies the project's core paradigm shift or explicitly says the value is integration/engineering/distribution rather than a novel mechanism.
+- The report names 3-7 project-specific mechanisms or contracts and ties each important one to README/docs/code evidence.
+- When Zread/DeepWiki is available and contains high-signal leads, the report verifies, corrects, or explicitly excludes those leads instead of silently ignoring them.
 - Gold Example uses the best relevant source: real media first only when it directly shows the core product/workflow/action/output; repo example second; constructed scenario last.
 - Static analysis is labeled honestly; no runtime success is claimed without execution evidence.
 - The mechanism diagram type is selected from actual project behavior, not copied from a fixed template.
@@ -20,6 +23,7 @@ Use this as a revision checklist, not a numeric scoring sheet.
 - Mermaid or structured diagram source is preserved with the report.
 - Optional architecture lenses are used only when they add concrete signal. They must not be unrelated text cards labeled Logical/Process/Physical, and HTML must not show Mermaid source as the only representation; render a visible diagram and keep source separately.
 - Key assets are tied to concrete files, docs, examples, or static evidence.
+- Key asset `Why it matters` explanations include the operating mechanism when the asset is technical: what happens before/after it, what rule/contract/pipeline it applies, and why that changes cost, quality, safety, or user workflow. Do not stop at a WHAT-level label such as "compression layer", "memory system", or "tool registry".
 - Adoption checks are specific and limited to items that change a trial/use decision.
 - If available, `scripts/validate_report.py` passes on the Markdown and HTML artifacts; browser/layout verification is still needed for visual quality.
 
@@ -28,6 +32,10 @@ Use this as a revision checklist, not a numeric scoring sheet.
 - The report contains a second duplicated infographic HTML without explicit user request.
 - The report contains concrete numeric ratings, `总分`, `综合评分`, or similar scoring language.
 - Lean content is removed or reduced to a generic project summary.
+- The report looks complete but only describes positioning, module lists, or architecture layers without explaining why the project is different, how it works, and where the evidence is.
+- High-signal mechanisms from external guides or project docs are absent without explanation, such as a named compression layer, transport contract, scheduler, retrieval pipeline, or native/browser bridge.
+- External-guide claims are copied as facts without source verification, especially when source docs or code disagree.
+- Core asset rows sound true but generic: they say an asset is important without explaining the concrete HOW path that makes it important.
 - Gold Example uses media that is only adjacent to the project, such as a side integration, generic branding, unrelated client UI, mascot, or ecosystem screenshot that does not explain the core value.
 - UML+CLD is always used even when another diagram type fits better.
 - 4+1 is forced onto a rule pack, small utility, or prompt/skill repo where Logical/Physical/Process views add no real signal.

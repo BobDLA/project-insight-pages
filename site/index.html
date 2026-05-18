@@ -504,9 +504,9 @@ select:focus,
         <p>从问题场景、目标用户、差异机制、架构视角和采用风险等维度理解一个项目。</p>
       </div>
       <aside class="hero-side" aria-label="索引概况">
-        <div class="metric"><b id="metric-total">7</b><span>已收录项目</span></div>
-        <div class="metric"><b>42</b><span>可见标签</span></div>
-        <div class="metric wide"><b class="metric-date">2026-05-06</b><span>最近更新</span></div>
+        <div class="metric"><b id="metric-total">8</b><span>已收录项目</span></div>
+        <div class="metric"><b>45</b><span>可见标签</span></div>
+        <div class="metric wide"><b class="metric-date">2026-05-18</b><span>最近更新</span></div>
       </aside>
     </section>
 
@@ -537,7 +537,7 @@ select:focus,
           <h2 id="list-title">报告列表</h2>
           <p>每份报告围绕问题、差异、机制、架构和采用判断展开；可用关键词或标签收窄列表。</p>
         </div>
-        <span class="count-pill" id="result-count">7 个项目</span>
+        <span class="count-pill" id="result-count">8 个项目</span>
       </div>
       <div class="project-table-head" aria-hidden="true">
         <span>工具与简介</span>
@@ -551,6 +551,30 @@ select:focus,
 
   <script>
 const EMBEDDED_PROJECTS = [
+  {
+    "slug": "openhuman",
+    "title": "OpenHuman",
+    "file": "projects/openhuman/",
+    "markdown": "projects/openhuman/analysis.md",
+    "repo": "https://github.com/tinyhumansai/openhuman",
+    "category": "AI Agent",
+    "adoption": "值得受控试用，隐私边界和运行闭环需实测",
+    "audience": "需要桌面个人 AI agent、本地记忆和多连接器工作流的技术用户",
+    "summary": "OpenHuman 把个人 agent 从 conversation first 推向 context first：先同步并压缩连接源，再让对话使用本地 Memory Tree。",
+    "problem": "多数 AI 助手从空上下文开始，用户需要反复解释邮箱、日历、项目和偏好。",
+    "difference": "差异在 20 分钟 auto-fetch、Memory Tree/Obsidian vault、TokenJuice、ControllerSchema 和 CEF/CDP scanner 的组合。",
+    "demo": "README 真实截图展示 Gmail 查询、工具状态和摘要输出；新版报告补充 Zread 线索核验，本次仍为静态推演。",
+    "architecture": "裁剪版 C4 + 核心交互序列：桌面 shell、Rust core、ControllerSchema registry、Memory Tree、TokenJuice 和后端 broker。",
+    "tags": [
+      "Rust",
+      "Tauri",
+      "Personal Agent",
+      "Memory",
+      "Desktop",
+      "GPL-3.0"
+    ],
+    "updated": "2026-05-18"
+  },
   {
     "slug": "OpenViking",
     "title": "OpenViking",

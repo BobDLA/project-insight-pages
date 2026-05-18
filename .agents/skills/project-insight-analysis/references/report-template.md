@@ -31,7 +31,24 @@
 
 - 
 
-## 2. Gold Example / Demo
+## 2. 核心创新提取
+
+### 范式反转 / 独特假设
+
+- 
+
+### 具名机制与证据
+
+| Mechanism | What it changes | How it works | Evidence | Verify/Risk |
+| --- | --- | --- | --- | --- |
+|  |  |  |  |  |
+
+### 外部导览核验
+
+- Zread/DeepWiki leads used:
+- Corrected or excluded claims:
+
+## 3. Gold Example / Demo
 
 - Demo source:
 - Demo status:
@@ -46,7 +63,7 @@ Boundary:
 
 - 
 
-## 3. 项目机制图
+## 4. 项目机制图
 
 - Selected diagram types:
 - Selection reason:
@@ -59,7 +76,7 @@ Structured source:
 
 ```
 
-## 4. 架构视角（可选）
+## 5. 架构视角（可选）
 
 Use this section only if it adds signal. Start with complexity assessment, then choose C4, 4+1, UML, or a lighter lens.
 
@@ -105,13 +122,15 @@ Use only for complex projects with real deployment boundaries.
 
 ```
 
-## 5. 核心资产与价值
+## 6. 核心资产与价值
 
 | Asset | Location | Why it matters |
 | --- | --- | --- |
 |  |  |  |
 
-## 6. 采用前确认与证据边界
+For each technical asset, make `Why it matters` include HOW, not only WHAT: identify the rule/contract/pipeline/runtime path it applies, what happens before and after it, and why that changes cost, quality, safety, or workflow.
+
+## 7. 采用前确认与证据边界
 
 ### 采用前确认
 

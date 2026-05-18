@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>ML Intern 项目洞察</title>
+<style>
+:root{--bg:#f3f0e8;--paper:#fffdf8;--sheet:#f8fafb;--ink:#151923;--muted:#65707d;--line:#d8ddd9;--line-strong:#bfc8c2;--teal:#0f766e;--blue:#315c8f;--amber:#a66f12;--red:#a13a32;--green:#147a47;--dark:#17202b;--soft-teal:#e8f4f2;--soft-blue:#edf3fb;--soft-amber:#fff5dd;--soft-red:#fff0ee;--radius:8px;--shadow:0 18px 60px rgba(21,25,35,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:linear-gradient(90deg,rgba(21,25,35,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(21,25,35,.03) 1px,transparent 1px),var(--bg);background-size:32px 32px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;line-height:1.62;text-rendering:optimizeLegibility;overflow-x:hidden}a{color:#0b5c55;text-decoration:none}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid rgba(15,118,110,.35);outline-offset:2px}strong{font-weight:850;color:#071018}code{padding:1px 5px;border:1px solid #d7dfdc;border-radius:5px;background:#f4f7f6;color:#183d39;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+.page{width:100%;max-width:1280px;margin:0 auto;padding:28px}.topline{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:14px;color:var(--muted);font-size:13px}.brand{color:var(--teal);font-weight:900;letter-spacing:.08em;text-transform:uppercase}.hero{display:grid;grid-template-columns:minmax(0,1.22fr) minmax(330px,.78fr);border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);box-shadow:var(--shadow);overflow:hidden}.hero-main{min-width:0;padding:42px 46px 36px}.eyebrow{display:block;color:var(--muted);font-size:13px;font-weight:750;overflow-wrap:anywhere}.title{margin:14px 0 18px;font-size:clamp(36px,5vw,60px);line-height:1.02;letter-spacing:0;overflow-wrap:anywhere}.summary{display:grid;gap:8px;margin:0;padding:0;max-width:78ch;list-style:none;font-size:17px}.summary li{position:relative;padding-left:18px;overflow-wrap:anywhere}.summary li:before{content:"";position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--teal)}.resource-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.resource-link{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:7px 11px;border:1px solid var(--line-strong);border-radius:var(--radius);background:#fff;color:#123d38;font-size:13px;font-weight:820}
+.adoption{display:flex;flex-direction:column;justify-content:space-between;gap:26px;padding:34px;color:#fff;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 42%),var(--dark)}.adoption-label{color:#b9c6d6;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.adoption-title{margin-top:10px;font-size:28px;font-weight:900;line-height:1.16}.adoption-detail{margin:13px 0 0;color:#e2ebf3;font-size:14px}.tags{display:flex;flex-wrap:wrap;gap:8px}.tag{display:inline-flex;align-items:center;min-height:28px;padding:4px 8px;border:1px solid rgba(255,255,255,.22);border-radius:6px;background:rgba(255,255,255,.08);color:#f2f6f8;font-size:12px;font-weight:850}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line-strong);border-top:0;background:#fbfcfb}.fact{min-width:0;min-height:104px;padding:18px 22px;border-right:1px solid var(--line)}.fact:last-child{border-right:0}.fact b{display:block;margin-bottom:7px;font-size:26px;font-weight:900;line-height:1;overflow-wrap:anywhere}.fact span{display:block;color:var(--muted);font-size:13px;overflow-wrap:anywhere}.nav{position:sticky;top:0;z-index:20;display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;margin:18px 0 0;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--line);overflow:hidden}.nav a{display:flex;min-height:46px;align-items:center;justify-content:center;padding:8px 10px;background:var(--paper);color:#26313e;font-size:13px;font-weight:800;text-align:center}.section{display:block;margin-top:28px;padding:30px 0 0;border-top:1px solid var(--line-strong)}.section-head{display:block;margin-bottom:18px}.section-index{display:block;margin-bottom:6px;color:var(--teal);font-size:12px;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.section h2{margin:0;font-size:27px;line-height:1.18}.section-note{margin:8px 0 0;max-width:860px;color:var(--muted);font-size:14px}.section-body{min-width:0;display:grid;gap:18px}.lean-grid,.asset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.kv,.asset,.check-card,.evidence-card,.note-card{min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:16px}.kv h3,.asset h3,.check-card h3,.evidence-card h3,.note-card h3{margin:0 0 10px;font-size:16px;line-height:1.25}.kv p,.asset p,.check-card p,.evidence-card p,.note-card p{margin:0;color:#344253}.bullets{display:grid;gap:7px;margin:0;padding:0;list-style:none}.bullets li{position:relative;padding-left:16px}.bullets li:before{content:"";position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+.demo-layout,.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.demo-flow{border:1px solid var(--line-strong);border-radius:var(--radius);background:#fff;overflow:hidden}.flow-row{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px;align-items:start;padding:13px 16px;border-bottom:1px solid var(--line)}.flow-row:last-child{border-bottom:0}.flow-index{display:flex;align-items:center;justify-content:center;min-height:34px;border-radius:6px;background:var(--soft-blue);color:#254466;font-weight:900}.flow-row b{display:block;margin-bottom:3px}.flow-row span{color:#4e5b6a;font-size:14px}.risk{border-left:3px solid var(--amber);background:var(--soft-amber);padding:14px 16px;border-radius:0 var(--radius) var(--radius) 0;color:#49370e}.diagram-shell,.arch-lens{border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);box-shadow:0 12px 34px rgba(21,25,35,.055);overflow:hidden}.diagram-header,.arch-head{display:block;padding:18px 20px 15px;border-bottom:1px solid var(--line);background:#fbfcfb}.scenario{margin:0 0 6px;color:#394656;font-size:14px}.type-row,.diagram-tabs{display:flex;flex-wrap:wrap;gap:8px}.type-chip{display:inline-flex;align-items:center;min-height:28px;padding:3px 8px;border:1px solid #b9cde5;border-radius:5px;background:var(--soft-blue);color:#254466;font-size:12px;font-weight:850}.diagram-tabs{padding:12px 20px;border-bottom:1px solid var(--line);background:#fff}.diagram-tabs button{min-height:34px;border:1px solid var(--line-strong);border-radius:6px;background:#f8fafb;color:#2f3b48;padding:5px 10px;font:inherit;font-size:13px;font-weight:800;cursor:pointer}.diagram-tabs button[aria-selected=true]{color:#fff;border-color:var(--teal);background:var(--teal)}.diagram-panel{padding:18px 20px 20px}.diagram-panel[hidden]{display:none}.svg-frame{width:100%;overflow:auto;border:1px solid #dce2df;border-radius:var(--radius);background:#fff}.svg-frame svg{display:block;width:100%;height:auto;min-width:940px}.diagram-mobile{display:none;gap:10px}.mobile-step{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:12px 14px}.mobile-step b{display:block}.mermaid-block{margin:0;padding:14px;border:1px solid #dce2df;border-radius:var(--radius);background:#f8fafb;color:#26313e;font-size:12px;line-height:1.48;overflow:auto;white-space:pre-wrap}.arch-kicker{display:block;margin-bottom:6px;color:var(--teal);font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.arch-head h3{margin:0;font-size:20px;line-height:1.25}.arch-reason{display:block;max-width:100%;margin-top:12px;border-left:3px solid var(--teal);background:var(--soft-teal);padding:12px 14px;color:#24433f;font-size:13px}.arch-decision{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:20px;border-bottom:1px solid var(--line);background:#fffdf8}.arch-kv{min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:#fbfcfb;padding:13px 14px}.arch-kv b{display:block;margin-bottom:4px;color:var(--teal);font-size:12px;font-weight:900}.arch-kv span{display:block;color:#354252;font-size:14px;overflow-wrap:anywhere}.arch-views{display:grid;gap:14px;padding:20px;background:#fffdf8}.arch-view{min-width:0;border:1px solid #ccd7d2;border-radius:var(--radius);background:var(--paper);overflow:hidden}.arch-view-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;padding:15px 16px;border-bottom:1px solid var(--line);background:#fbfcfb}.arch-view h4{margin:0 0 6px;font-size:17px}.arch-view-meta{display:flex;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:13px}.priority-badge{display:inline-flex;align-items:center;min-height:28px;padding:3px 8px;border:1px solid #e6cf9f;border-radius:5px;background:var(--soft-amber);color:var(--amber);font-size:12px;font-weight:900}.arch-view-body{display:grid;gap:12px;padding:14px 16px 16px}.arch-view-body p{margin:0;color:#354252}.arch-source{border:1px solid #dce2df;border-radius:var(--radius);background:#fbfcfb;overflow:hidden}.arch-source summary{min-height:38px;padding:9px 12px;color:#26313e;cursor:pointer;font-size:13px;font-weight:850}.arch-source .mermaid-block{border:0;border-top:1px solid #dce2df;border-radius:0}.footer{margin-top:28px;padding:18px 0 4px;border-top:1px solid var(--line-strong);color:var(--muted);font-size:13px}
+@media(max-width:1180px) and (min-width:561px){.svg-frame svg{min-width:0}}
+@media(max-width:980px){.page{padding:16px}.hero,.demo-layout,.two-col{grid-template-columns:1fr}.nav{position:static;grid-template-columns:repeat(2,minmax(0,1fr))}.lean-grid,.asset-grid,.facts,.arch-decision{grid-template-columns:1fr}.fact{border-right:0;border-bottom:1px solid var(--line)}.fact:last-child{border-bottom:0}}
+@media(max-width:560px){body{font-size:15px}.page{padding:12px}.hero-main,.adoption{padding:24px 20px}.title{font-size:32px;overflow-wrap:break-word}.nav{grid-template-columns:1fr}.section h2{font-size:24px}.diagram-panel{padding:12px}.svg-frame{display:none}.diagram-mobile{display:grid}.flow-row{grid-template-columns:44px minmax(0,1fr);padding:12px}.arch-view-head{grid-template-columns:1fr}.priority-badge{width:max-content}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="topline"><span class="brand">Project Insight</span><span>Lean · C4 · UML Sequence · Static Analysis</span></div>
+  <article>
+    <header class="hero">
+      <div class="hero-main">
+        <div class="eyebrow">https://github.com/huggingface/ml-intern</div>
+        <h1 class="title">ML Intern</h1>
+        <ul class="summary">
+          <li>Hugging Face 生态里的 ML 工程代理：研究论文和文档、审数据、写训练脚本、开 sandbox / Jobs、沉淀 Trackio 与 session trace。</li>
+          <li>核心看点不是单一工具，而是从 agent loop 到产品化表面的闭环：审批、成本、quota、billing、恢复、遥测和 Web 协作。</li>
+          <li>当前适合内部试点和架构参考；由于没有明确 LICENSE、release/tag 和生产 SLA，不建议直接作为生产依赖或可再分发组件。</li>
+        </ul>
+        <div class="resource-links">
+          <a class="resource-link" href="https://github.com/huggingface/ml-intern">GitHub</a>
+          <a class="resource-link" href="https://deepwiki.com/huggingface/ml-intern">DeepWiki</a>
+          <a class="resource-link" href="https://zread.ai/huggingface/ml-intern">Zread</a>
+        </div>
+      </div>
+      <aside class="adoption">
+        <div>
+          <div class="adoption-label">Adoption Read</div>
+          <div class="adoption-title">试点采用，不宜直接生产依赖</div>
+          <p class="adoption-detail">技术方向很有价值，工程面也认真处理了真实产品问题；但许可、成本、安全和发行边界需要先确认。</p>
+        </div>
+        <div class="tags">
+          <span class="tag">ML Agent</span>
+          <span class="tag">HF Jobs</span>
+          <span class="tag">SSE Web UI</span>
+          <span class="tag">Static</span>
+        </div>
+      </aside>
+    </header>
+    <section class="facts">
+      <div class="fact"><b>7,575</b><span>GitHub stars, API snapshot on 2026-04-30</span></div>
+      <div class="fact"><b>735</b><span>forks; active public repository</span></div>
+      <div class="fact"><b>26</b><span>test files across agent, web, quota, persistence, sandbox, telemetry</span></div>
+      <div class="fact"><b>No LICENSE</b><span>GitHub API license null; local scan found no license file</span></div>
+    </section>
+    <nav class="nav">
+      <a href="#lean">新用户先看什么</a>
+      <a href="#demo">Gold Example</a>
+      <a href="#mechanism">项目机制图</a>
+      <a href="#architecture">架构视角</a>
+      <a href="#assets">核心资产</a>
+      <a href="#adopt">采用前确认</a>
+    </nav>
+
+    <section id="lean" class="section">
+      <div class="section-head">
+        <div class="section-index">01</div>
+        <h2>新用户先看什么</h2>
+        <p class="section-note">适合谁、解决什么问题、和别的方案哪里不同、为什么现在值得看、最小验证方式。</p>
+      </div>
+      <div class="section-body lean-grid">
+        <div class="kv"><h3>适合谁</h3><p>已经在 Hugging Face 生态做模型训练、微调、数据处理或评估的 ML 工程师；也适合评估垂直 Agent 产品形态的团队。</p></div>
+        <div class="kv"><h3>解决什么问题</h3><p>把 ML 任务里分散的研究、当前 API 查证、数据审计、训练脚本、远程 Jobs、监控和产物上传合成一个可交互执行闭环。</p></div>
+        <div class="kv"><h3>和别的方案哪里不同</h3><p>它不是只回答 HF 文档，也不是普通 coding agent 套壳；系统提示强制 literature-first，工具层直接接入 HF Papers、Docs、Datasets、Hub、Jobs、Sandbox 和 MCP。</p></div>
+        <div class="kv"><h3>为什么现在值得看</h3><p>最近提交集中在 GPT-5.5/OpenAI model picker、Bedrock 成本归因、Pro 转化、billing top-up 和 UI 阻断状态，说明项目正在解决真实产品化问题。</p></div>
+        <div class="kv"><h3>最小验证方式</h3><p>从公开小数据集和小模型开始，只批准低成本 sandbox dry-run；观察它是否先查当前 API、审 dataset/model、输出 Trackio/Jobs pre-flight，再启动 HF Job。</p></div>
+        <div class="kv"><h3>采用判断</h3><p>值得作为 ML Agent 架构样本和内部试点；在 license、secret、成本、session trace 与安全边界明确前，不应直接进入关键生产训练链路。</p></div>
+      </div>
+    </section>
+
+    <section id="demo" class="section">
+      <div class="section-head">
+        <div class="section-index">02</div>
+        <h2>Gold Example / Demo</h2>
+        <p class="section-note">Demo 状态：静态推演，未运行。仓库标志图不能展示核心产品工作流，因此不作为 demo 媒体。</p>
+      </div>
+      <div class="section-body demo-layout">
+        <div class="demo-flow">
+          <div class="flow-row"><div class="flow-index">1</div><div><b>用户提交 ML 任务</b><span>`ml-intern "fine-tune a small instruct model on my dataset and publish the result"`</span></div></div>
+          <div class="flow-row"><div class="flow-index">2</div><div><b>Research-first</b><span>查论文、citation graph、HF docs、GitHub examples，确认当前训练 API 和数据格式。</span></div></div>
+          <div class="flow-row"><div class="flow-index">3</div><div><b>Dataset / model audit</b><span>检查 schema、split、样本、模型可用性，避免 KeyError、过期 trainer 参数和错误 tokenizer。</span></div></div>
+          <div class="flow-row"><div class="flow-index">4</div><div><b>Sandbox dry-run</b><span>写脚本、小规模运行、修复导入和参数，再生成 HF Jobs pre-flight。</span></div></div>
+          <div class="flow-row"><div class="flow-index">5</div><div><b>Approval + Jobs</b><span>需要用户批准后才启动敏感操作；完成后返回 Hub、Trackio、job 和 trace 链接。</span></div></div>
+        </div>
+        <div class="note-card">
+          <h3>为什么这个例子重要</h3>
+          <ul class="bullets">
+            <li>覆盖 ML Intern 的核心差异点：研究、验证、执行、审批、监控、发布。</li>
+            <li>能暴露真实风险：token 权限、HF Jobs credits、模型成本、数据隐私、会话上传和失败恢复。</li>
+            <li>如果它在这个小任务上直接幻觉代码、跳过数据审计或不输出 pre-flight，就不应扩大试用范围。</li>
+          </ul>
+          <p class="risk">边界：本报告没有运行项目、没有验证 token、Jobs、Sandbox、Trackio 或 Hub 上传。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="mechanism" class="section">
+      <div class="section-head">
+        <div class="section-index">03</div>
+        <h2>项目机制图</h2>
+        <p class="section-note">图型选择：UML Sequence + CLD feedback overlay。选择理由：核心价值来自一次 ML 任务如何穿过研究、工具、审批、远程执行、监控和复盘。</p>
+      </div>
+      <div class="section-body">
+        <div class="diagram-shell">
+          <div class="diagram-header">
+            <p class="scenario">场景：用户从 CLI/Web 发起一次 ML 训练任务，系统从研究到交付形成闭环。</p>
+            <div class="type-row"><span class="type-chip">UML Sequence</span><span class="type-chip">CLD</span><span class="type-chip">Static inference</span></div>
+          </div>
+          <div class="diagram-tabs">
+            <button type="button" data-diagram-tab="flow" aria-selected="true">主流程</button>
+            <button type="button" data-diagram-tab="loop" aria-selected="false">反馈环</button>
+            <button type="button" data-diagram-tab="source" aria-selected="false">图源</button>
+          </div>
+          <div class="diagram-panel" data-diagram-panel="flow">
+            <div class="svg-frame">
+              <svg viewBox="0 0 1060 360" role="img" aria-label="ML Intern core task flow">
+                <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#315c8f"/></marker></defs>
+                <rect x="22" y="42" width="132" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/><text x="88" y="72" text-anchor="middle" font-size="15" font-weight="800" fill="#1f3854">User</text><text x="88" y="94" text-anchor="middle" font-size="12" fill="#49586a">CLI / Web</text>
+                <rect x="198" y="42" width="146" height="76" rx="8" fill="#fffdf8" stroke="#bfc8c2"/><text x="271" y="70" text-anchor="middle" font-size="15" font-weight="800" fill="#17202b">Agent Loop</text><text x="271" y="94" text-anchor="middle" font-size="12" fill="#49586a">context + tools</text>
+                <rect x="388" y="42" width="146" height="76" rx="8" fill="#e8f4f2" stroke="#93c9c2"/><text x="461" y="70" text-anchor="middle" font-size="15" font-weight="800" fill="#0f766e">Research</text><text x="461" y="94" text-anchor="middle" font-size="12" fill="#49586a">papers / docs</text>
+                <rect x="578" y="42" width="146" height="76" rx="8" fill="#fff5dd" stroke="#e3bf74"/><text x="651" y="70" text-anchor="middle" font-size="15" font-weight="800" fill="#83540c">Audit</text><text x="651" y="94" text-anchor="middle" font-size="12" fill="#49586a">dataset / model</text>
+                <rect x="768" y="42" width="146" height="76" rx="8" fill="#fffdf8" stroke="#bfc8c2"/><text x="841" y="70" text-anchor="middle" font-size="15" font-weight="800" fill="#17202b">Sandbox</text><text x="841" y="94" text-anchor="middle" font-size="12" fill="#49586a">dry-run scripts</text>
+                <rect x="468" y="204" width="146" height="76" rx="8" fill="#edf3fb" stroke="#b9cde5"/><text x="541" y="232" text-anchor="middle" font-size="15" font-weight="800" fill="#1f3854">Approval</text><text x="541" y="256" text-anchor="middle" font-size="12" fill="#49586a">jobs / repo ops</text>
+                <rect x="658" y="204" width="146" height="76" rx="8" fill="#e8f4f2" stroke="#93c9c2"/><text x="731" y="232" text-anchor="middle" font-size="15" font-weight="800" fill="#0f766e">HF Jobs</text><text x="731" y="256" text-anchor="middle" font-size="12" fill="#49586a">train / publish</text>
+                <rect x="848" y="204" width="164" height="76" rx="8" fill="#fff5dd" stroke="#e3bf74"/><text x="930" y="232" text-anchor="middle" font-size="15" font-weight="800" fill="#83540c">Observability</text><text x="930" y="256" text-anchor="middle" font-size="12" fill="#49586a">Trackio / trace / cost</text>
+                <path d="M154 80 H194" stroke="#315c8f" stroke-width="2" marker-end="url(#arrow)"/><path d="M344 80 H384" stroke="#315c8f" stroke-width="2" marker-end="url(#arrow)"/><path d="M534 80 H574" stroke="#315c8f" stroke-width="2" marker-end="url(#arrow)"/><path d="M724 80 H764" stroke="#315c8f" stroke-width="2" marker-end="url(#arrow)"/>
+                <path d="M841 118 C841 172 541 155 541 200" fill="none" stroke="#315c8f" stroke-width="2" marker-end="url(#arrow)"/><path d="M614 242 H654" stroke="#315c8f" stroke-width="2" marker-end="url(#arrow)"/><path d="M804 242 H844" stroke="#315c8f" stroke-width="2" marker-end="url(#arrow)"/><path d="M930 280 C930 330 270 330 270 122" fill="none" stroke="#0f766e" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+                <text x="620" y="326" text-anchor="middle" font-size="13" fill="#0f766e">telemetry / session traces improve future prompts, guardrails and product decisions</text>
+              </svg>
+            </div>
+            <div class="diagram-mobile">
+              <div class="mobile-step"><b>User</b>CLI/Web 提交 ML 任务。</div>
+              <div class="mobile-step"><b>Agent Loop</b>维护 context、工具、审批和错误恢复。</div>
+              <div class="mobile-step"><b>Research + Audit</b>查论文/API，验证 dataset/model。</div>
+              <div class="mobile-step"><b>Sandbox + Jobs</b>先 dry-run，再批准远程执行。</div>
+              <div class="mobile-step"><b>Observability</b>Trackio、trace、cost 信号回流。</div>
+            </div>
+          </div>
+          <div class="diagram-panel" data-diagram-panel="loop" hidden>
+            <div class="svg-frame">
+              <svg viewBox="0 0 980 300" role="img" aria-label="ML Intern feedback loop">
+                <defs><marker id="loopArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#0f766e"/></marker><marker id="balArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#a66f12"/></marker></defs>
+                <rect x="42" y="86" width="150" height="72" rx="8" fill="#e8f4f2" stroke="#93c9c2"/><text x="117" y="116" text-anchor="middle" font-size="14" font-weight="800" fill="#0f766e">Better research</text><text x="117" y="138" text-anchor="middle" font-size="12" fill="#485663">papers / docs / examples</text>
+                <rect x="246" y="86" width="150" height="72" rx="8" fill="#e8f4f2" stroke="#93c9c2"/><text x="321" y="116" text-anchor="middle" font-size="14" font-weight="800" fill="#0f766e">Fewer failures</text><text x="321" y="138" text-anchor="middle" font-size="12" fill="#485663">API / data / jobs</text>
+                <rect x="450" y="86" width="150" height="72" rx="8" fill="#e8f4f2" stroke="#93c9c2"/><text x="525" y="116" text-anchor="middle" font-size="14" font-weight="800" fill="#0f766e">More trust</text><text x="525" y="138" text-anchor="middle" font-size="12" fill="#485663">approvals increase</text>
+                <rect x="654" y="86" width="150" height="72" rx="8" fill="#e8f4f2" stroke="#93c9c2"/><text x="729" y="116" text-anchor="middle" font-size="14" font-weight="800" fill="#0f766e">More real runs</text><text x="729" y="138" text-anchor="middle" font-size="12" fill="#485663">jobs and traces</text>
+                <rect x="420" y="206" width="170" height="62" rx="8" fill="#fff5dd" stroke="#e3bf74"/><text x="505" y="232" text-anchor="middle" font-size="14" font-weight="800" fill="#83540c">Cost pressure</text><text x="505" y="252" text-anchor="middle" font-size="12" fill="#485663">quota / billing / gating</text>
+                <path d="M192 122 H242" stroke="#0f766e" stroke-width="2" marker-end="url(#loopArrow)"/><path d="M396 122 H446" stroke="#0f766e" stroke-width="2" marker-end="url(#loopArrow)"/><path d="M600 122 H650" stroke="#0f766e" stroke-width="2" marker-end="url(#loopArrow)"/><path d="M729 158 C729 246 152 246 117 160" fill="none" stroke="#0f766e" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#loopArrow)"/>
+                <path d="M729 158 C710 205 610 226 594 236" fill="none" stroke="#a66f12" stroke-width="2" marker-end="url(#balArrow)"/><path d="M420 238 C310 232 260 178 321 158" fill="none" stroke="#a66f12" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#balArrow)"/>
+                <text x="223" y="278" font-size="13" fill="#0f766e">reinforcing loop</text><text x="622" y="278" font-size="13" fill="#a66f12">balancing loop</text>
+              </svg>
+            </div>
+          </div>
+          <div class="diagram-panel" data-diagram-panel="source" hidden>
+            <pre class="mermaid-block">sequenceDiagram
+    User->>CLI/Web: ML task request
+    CLI/Web->>agent_loop: user_input operation
+    agent_loop->>ContextManager: add message, compact if needed
+    agent_loop->>ToolRouter: expose tool specs
+    ToolRouter->>HF: papers / docs / datasets / jobs
+    ToolRouter->>Sandbox: write and dry-run script
+    agent_loop->>User: approval_required
+    ToolRouter->>HF Jobs: launch training and publish
+    Telemetry-->>agent_loop: cost / trace / Trackio feedback</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture" class="section">
+      <div class="section-head">
+        <div class="section-index">04</div>
+        <h2>架构视角</h2>
+        <p class="section-note">优先解释交互和边界。完整 4+1 没有足够部署证据，因此采用 C4 L1/L2 + Core Process。</p>
+      </div>
+      <div class="section-body">
+        <div class="arch-lens">
+          <div class="arch-head">
+            <span class="arch-kicker">Architecture Decision</span>
+            <h3>Project complexity: 中高复杂度，Selected architecture framework: C4 L1/L2 + dynamic sequence</h3>
+            <div class="arch-reason">Tailoring reason: 读者最需要理解用户任务如何穿过 CLI/Web、agent loop、tool router、HF resources、approval 和 telemetry。Omitted views: 省略完整物理部署、安全威胁模型和数据仓库建模，因为仓库没有足够 runbook / deployment evidence。</div>
+          </div>
+          <div class="arch-decision">
+            <div class="arch-kv"><b>Project complexity</b><span>中高：CLI、agent runtime、HF tools、FastAPI/SSE、React UI、OAuth、Mongo、quota、telemetry 同仓协作。</span></div>
+            <div class="arch-kv"><b>Selected architecture framework</b><span>C4 L1/L2 + Core Process sequence。</span></div>
+            <div class="arch-kv"><b>Tailoring reason</b><span>交互、审批和资源边界比抽象逻辑视图更能帮助采用判断。</span></div>
+            <div class="arch-kv"><b>Omitted views</b><span>不绘制完整 physical/deployment 视图；证据不足时避免假 4+1。</span></div>
+          </div>
+          <div class="arch-views">
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div><h4>System Overview</h4><div class="arch-view-meta"><span>C4 L1 Context</span><span>用户、LLM、HF、GitHub、Mongo、通知系统</span></div></div>
+                <span class="priority-badge">Context</span>
+              </div>
+              <div class="arch-view-body">
+                <div class="svg-frame">
+                  <svg viewBox="0 0 980 360" role="img" aria-label="C4 context diagram">
+                    <defs><marker id="ctxArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#315c8f"/></marker></defs>
+                    <rect x="410" y="128" width="170" height="90" rx="8" fill="#17202b" stroke="#17202b"/><text x="495" y="164" text-anchor="middle" font-size="16" font-weight="800" fill="#fff">ML Intern</text><text x="495" y="188" text-anchor="middle" font-size="12" fill="#d7e0ea">agent runtime</text>
+                    <rect x="52" y="50" width="148" height="70" rx="8" fill="#edf3fb" stroke="#b9cde5"/><text x="126" y="82" text-anchor="middle" font-size="14" font-weight="800">User</text><text x="126" y="103" text-anchor="middle" font-size="12">ML engineer</text>
+                    <rect x="52" y="220" width="148" height="70" rx="8" fill="#fffdf8" stroke="#bfc8c2"/><text x="126" y="252" text-anchor="middle" font-size="14" font-weight="800">CLI / Web</text><text x="126" y="273" text-anchor="middle" font-size="12">entry surfaces</text>
+                    <rect x="760" y="35" width="160" height="70" rx="8" fill="#e8f4f2" stroke="#93c9c2"/><text x="840" y="67" text-anchor="middle" font-size="14" font-weight="800">HF Platform</text><text x="840" y="88" text-anchor="middle" font-size="12">docs/jobs/hub</text>
+                    <rect x="760" y="135" width="160" height="70" rx="8" fill="#fff5dd" stroke="#e3bf74"/><text x="840" y="167" text-anchor="middle" font-size="14" font-weight="800">LLM Providers</text><text x="840" y="188" text-anchor="middle" font-size="12">LiteLLM routing</text>
+                    <rect x="760" y="235" width="160" height="70" rx="8" fill="#fffdf8" stroke="#bfc8c2"/><text x="840" y="267" text-anchor="middle" font-size="14" font-weight="800">Ops Stores</text><text x="840" y="288" text-anchor="middle" font-size="12">Mongo / traces</text>
+                    <path d="M200 85 C300 90 350 134 407 158" fill="none" stroke="#315c8f" stroke-width="2" marker-end="url(#ctxArrow)"/><path d="M200 255 C310 245 360 210 407 188" fill="none" stroke="#315c8f" stroke-width="2" marker-end="url(#ctxArrow)"/><path d="M580 158 C655 120 690 78 756 70" fill="none" stroke="#315c8f" stroke-width="2" marker-end="url(#ctxArrow)"/><path d="M580 174 H756" stroke="#315c8f" stroke-width="2" marker-end="url(#ctxArrow)"/><path d="M580 196 C650 230 690 266 756 270" fill="none" stroke="#315c8f" stroke-width="2" marker-end="url(#ctxArrow)"/>
+                  </svg>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block">flowchart TB
+    User[ML engineer] --> CLI[CLI / Web]
+    CLI --> Runtime[ML Intern agent runtime]
+    Runtime --> HF[HF docs / papers / datasets / Hub / Jobs / MCP]
+    Runtime --> Providers[LLM providers via LiteLLM]
+    Runtime --> Stores[Mongo / session dataset / telemetry / Trackio]</pre></details>
+              </div>
+            </article>
+            <article class="arch-view">
+              <div class="arch-view-head">
+                <div><h4>Core Process & Interaction</h4><div class="arch-view-meta"><span>Dynamic sequence</span><span>priority core interaction</span></div></div>
+                <span class="priority-badge">Priority</span>
+              </div>
+              <div class="arch-view-body">
+                <div class="svg-frame">
+                  <svg viewBox="0 0 980 330" role="img" aria-label="Core process interaction diagram">
+                    <defs><marker id="seqArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#315c8f"/></marker></defs>
+                    <line x1="100" y1="52" x2="100" y2="292" stroke="#d8ddd9"/><line x1="275" y1="52" x2="275" y2="292" stroke="#d8ddd9"/><line x1="465" y1="52" x2="465" y2="292" stroke="#d8ddd9"/><line x1="655" y1="52" x2="655" y2="292" stroke="#d8ddd9"/><line x1="840" y1="52" x2="840" y2="292" stroke="#d8ddd9"/>
+                    <text x="100" y="34" text-anchor="middle" font-size="13" font-weight="800">React UI</text><text x="275" y="34" text-anchor="middle" font-size="13" font-weight="800">FastAPI/SSE</text><text x="465" y="34" text-anchor="middle" font-size="13" font-weight="800">SessionManager</text><text x="655" y="34" text-anchor="middle" font-size="13" font-weight="800">agent_loop</text><text x="840" y="34" text-anchor="middle" font-size="13" font-weight="800">ToolRouter</text>
+                    <path d="M100 72 H270" stroke="#315c8f" stroke-width="2" marker-end="url(#seqArrow)"/><text x="185" y="64" text-anchor="middle" font-size="12">POST text / approvals</text>
+                    <path d="M275 112 H460" stroke="#315c8f" stroke-width="2" marker-end="url(#seqArrow)"/><text x="367" y="104" text-anchor="middle" font-size="12">subscribe before submit</text>
+                    <path d="M465 152 H650" stroke="#315c8f" stroke-width="2" marker-end="url(#seqArrow)"/><text x="557" y="144" text-anchor="middle" font-size="12">operation queue</text>
+                    <path d="M655 192 H835" stroke="#315c8f" stroke-width="2" marker-end="url(#seqArrow)"/><text x="745" y="184" text-anchor="middle" font-size="12">parallel tool execution</text>
+                    <path d="M840 232 H660" stroke="#0f766e" stroke-width="2" marker-end="url(#seqArrow)"/><text x="750" y="224" text-anchor="middle" font-size="12">tool output / approval</text>
+                    <path d="M655 272 H105" stroke="#0f766e" stroke-width="2" marker-end="url(#seqArrow)"/><text x="380" y="264" text-anchor="middle" font-size="12">SSE events to UIMessage chunks</text>
+                  </svg>
+                </div>
+                <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block">sequenceDiagram
+    UI->>API: POST text or approvals
+    API->>SessionManager: subscribe broadcaster before submit
+    SessionManager->>agent_loop: operation queue
+    agent_loop->>ToolRouter: execute non-approval tools in parallel
+    ToolRouter-->>agent_loop: output / approval required
+    agent_loop-->>UI: SSE events mapped to UI chunks</pre></details>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="assets" class="section">
+      <div class="section-head">
+        <div class="section-index">05</div>
+        <h2>核心资产与价值</h2>
+      </div>
+      <div class="section-body asset-grid">
+        <div class="asset"><h3>ML-specific system prompt</h3><p><code>agent/prompts/system_prompt_v3.yaml</code> 把研究、数据审计、sandbox、HF Jobs、Trackio 和错误恢复固化为执行规范。</p></div>
+        <div class="asset"><h3>Agent loop</h3><p><code>agent/core/agent_loop.py</code> 处理 streaming、tool calls、审批、并行工具、context compaction、doom-loop 和中断。</p></div>
+        <div class="asset"><h3>ToolRouter + HF tools</h3><p><code>agent/core/tools.py</code> 与 <code>agent/tools/**</code> 连接 HF Docs、Papers、Datasets、Jobs、Hub、GitHub、Sandbox 和 MCP。</p></div>
+        <div class="asset"><h3>Web collaboration surface</h3><p><code>backend/routes/agent.py</code> 与 <code>frontend/src/lib/sse-chat-transport.ts</code> 支持 SSE、审批 continuation、quota/billing UI 和重连。</p></div>
+        <div class="asset"><h3>Telemetry and persistence</h3><p><code>session_persistence.py</code>、<code>telemetry.py</code> 将会话、事件、trace、quota、cost 和转化信号变成运营数据资产。</p></div>
+        <div class="asset"><h3>Review and test harness</h3><p><code>tests/**</code>、<code>REVIEW.md</code>、<code>.github/workflows/**</code> 显示项目在快速迭代下仍重视行为回归和 PR review。</p></div>
+      </div>
+    </section>
+
+    <section id="adopt" class="section">
+      <div class="section-head">
+        <div class="section-index">06</div>
+        <h2>采用前确认与证据边界</h2>
+      </div>
+      <div class="section-body two-col">
+        <div class="check-card">
+          <h3>采用前确认</h3>
+          <ul class="bullets">
+            <li>许可：当前没有检测到 LICENSE，GitHub API license 为 null。</li>
+            <li>成本：需要定义 Anthropic/OpenAI/HF token 权限、HF Jobs credits、Sandbox/Space 和 Bedrock 花费上限。</li>
+            <li>隐私：默认配置保存 sessions 到 <code>smolagents/ml-intern-sessions</code>，私有数据与客户提示需额外审计。</li>
+            <li>安全：需要验证 sandbox 隔离、repo write 权限、MCP trust、secret redaction 和 prompt injection 下的工具审批。</li>
+            <li>稳定性：没有 release/tag；近期提交仍在处理 live Space、quota、billing 和成本归因问题。</li>
+          </ul>
+        </div>
+        <div class="evidence-card">
+          <h3>证据与边界</h3>
+          <ul class="bullets">
+            <li>README/docs：定位、安装、CLI/headless、Slack gateway、架构和事件模型。</li>
+            <li>code：agent loop、ToolRouter、HF Jobs、Sandbox、backend routes、frontend SSE transport。</li>
+            <li>config：Python/JS dependencies、entrypoint、MCP defaults、session save defaults。</li>
+            <li>repo-meta：2026-04-30 GitHub API 快照；stars、forks、issues、pushed date 和 license null。</li>
+            <li>static-inference：本报告没有运行项目、测试、OAuth、Jobs、Sandbox、Trackio 或模型调用。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      Bottom line: ML Intern 是值得研究的 ML Agent 产品原型，适合作为内部试点和垂直 agent 架构参考；在许可、成本、安全和生产边界明确前，不建议直接作为生产依赖使用。
+    </footer>
+  </article>
+</main>
+<script>
+document.querySelectorAll('.diagram-shell').forEach((shell)=>{const buttons=[...shell.querySelectorAll('[data-diagram-tab]')];const panels=[...shell.querySelectorAll('[data-diagram-panel]')];buttons.forEach((button)=>{button.addEventListener('click',()=>{const target=button.getAttribute('data-diagram-tab');buttons.forEach((item)=>item.setAttribute('aria-selected',String(item===button)));panels.forEach((panel)=>{panel.hidden=panel.getAttribute('data-diagram-panel')!==target;});});});});
+</script>
+</body>
+</html>

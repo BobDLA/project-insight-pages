@@ -77,6 +77,31 @@
     "updated": "2026-04-30"
   },
   {
+    "slug": "claude-context",
+    "title": "claude-context",
+    "file": "projects/claude-context/",
+    "markdown": "projects/claude-context/analysis.md",
+    "repo": "https://github.com/zilliztech/claude-context",
+    "category": "Agentic Coding / MCP Code Search",
+    "adoption": "值得进入内部仓库试点",
+    "audience": "使用 Claude Code、Cursor、Gemini CLI、Codex CLI 等 agent 工具，且需要大仓库代码上下文检索的团队",
+    "summary": "MCP 代码语义搜索层：用 AST/文本分块、embedding、Milvus/Zilliz hybrid search、后台索引和增量同步，把大仓库变成 agent 可查询上下文。",
+    "problem": "AI 编码代理在大仓库中常用 grep/read 多轮探索，token 和工具调用成本高，且容易错过跨文件语义关系。",
+    "difference": "主入口是 MCP 工具；默认 dense + sparse hybrid search 和 RRF；包含异步索引、snapshot、Merkle 增量同步、触发 watcher 与跨进程锁。",
+    "demo": "Demo 状态：静态推演，未运行；示例来自 README quick start 和 MCP 工具调用链。",
+    "architecture": "C4 L1/L2 + UML sequence；省略完整 4+1 和物理部署，因为核心信号是 MCP 工具边界、core package、embedding/vector DB 依赖和索引/搜索交互。",
+    "tags": [
+      "MCP",
+      "Semantic Search",
+      "Milvus",
+      "Zilliz",
+      "Claude Code",
+      "Agentic RAG",
+      "TypeScript"
+    ],
+    "updated": "2026-04-30"
+  },
+  {
     "slug": "free-claude-code",
     "title": "free-claude-code",
     "file": "projects/free-claude-code/",

@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>claude-context 项目洞察</title>
+<style>
+:root{--bg:#f5f2eb;--paper:#fffdf8;--ink:#151923;--muted:#65707d;--line:#d9dedb;--line-strong:#bdc7c2;--teal:#0f766e;--blue:#315c8f;--amber:#9a6a11;--red:#9f3c37;--green:#147a47;--dark:#17202b;--soft-teal:#e8f4f2;--soft-blue:#eef4fb;--soft-amber:#fff5dd;--radius:8px;--shadow:0 18px 60px rgba(21,25,35,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:linear-gradient(90deg,rgba(21,25,35,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(21,25,35,.03) 1px,transparent 1px),var(--bg);background-size:32px 32px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;line-height:1.62;overflow-x:hidden}a{color:#0b5c55;text-decoration:none}a:focus-visible,button:focus-visible{outline:3px solid #65b8b1;outline-offset:2px}strong{font-weight:850;color:#071018}code{padding:1px 5px;border:1px solid #d7dfdc;border-radius:5px;background:#f4f7f6;color:#183d39;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+.page{max-width:1280px;margin:0 auto;padding:28px}.topline{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:14px;color:var(--muted);font-size:13px}.brand{color:var(--teal);font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.hero{display:grid;grid-template-columns:minmax(0,1.22fr) minmax(330px,.78fr);border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);box-shadow:var(--shadow);overflow:hidden}.hero-main{min-width:0;padding:42px 46px 36px}.eyebrow{display:block;color:var(--muted);font-size:13px;font-weight:750;overflow-wrap:anywhere}.title{margin:14px 0 18px;font-size:clamp(36px,5vw,60px);line-height:1.02;letter-spacing:0;overflow-wrap:anywhere}.summary,.bullets{display:grid;gap:8px;margin:0;padding:0;list-style:none}.summary{max-width:78ch;font-size:17px}.summary li,.bullets li{position:relative;padding-left:18px;overflow-wrap:anywhere}.summary li:before,.bullets li:before{content:"";position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--teal)}
+.resource-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.resource-link{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:7px 11px;border:1px solid var(--line-strong);border-radius:var(--radius);background:#fff;color:#123d38;font-size:13px;font-weight:820}.adoption{display:flex;flex-direction:column;justify-content:space-between;gap:26px;padding:34px;color:#fff;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 42%),var(--dark)}.adoption-label{color:#b9c6d6;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.adoption-title{margin-top:10px;font-size:28px;font-weight:900;line-height:1.16}.adoption-detail{margin:13px 0 0;color:#e2ebf3;font-size:14px}.tags{display:flex;flex-wrap:wrap;gap:8px}.tag{min-height:28px;padding:4px 8px;border:1px solid rgba(255,255,255,.22);border-radius:6px;background:rgba(255,255,255,.08);color:#eff6fb;font-size:12px;font-weight:800}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line-strong);border-top:0;background:#fbfcfb}.fact{min-width:0;min-height:102px;padding:18px 22px;border-right:1px solid var(--line)}.fact:last-child{border-right:0}.fact b{display:block;margin-bottom:7px;font-size:28px;font-weight:900;line-height:1;overflow-wrap:anywhere}.fact span{display:block;color:var(--muted);font-size:13px;overflow-wrap:anywhere}
+.nav{position:sticky;top:0;z-index:20;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;margin:18px 0 0;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--line);overflow:hidden}.nav a{display:flex;min-height:46px;align-items:center;justify-content:center;padding:8px 10px;background:var(--paper);color:#26313e;font-size:13px;font-weight:800;text-align:center}
+.section{display:block;margin-top:28px;padding:30px 0 0;border-top:1px solid var(--line-strong)}.section-head{display:block;margin-bottom:18px}.section-index{display:block;margin-bottom:6px;color:var(--teal);font-size:12px;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.section h2{margin:0;font-size:27px;line-height:1.18}.section-note{margin:8px 0 0;max-width:860px;color:var(--muted);font-size:14px}.section-body{min-width:0;display:grid;gap:18px}.lean-grid,.asset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.kv,.asset,.check-card,.evidence-card{min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:16px}.kv h3,.asset h3,.check-card h3,.evidence-card h3{margin:0 0 10px;font-size:16px;line-height:1.25}.kv p,.asset p,.check-card p,.evidence-card p{margin:0;color:#344150}.kv ul,.asset ul,.check-card ul,.evidence-card ul{margin:0;padding-left:18px;color:#344150}.kv li,.asset li,.check-card li,.evidence-card li{margin:4px 0}.demo-layout,.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.diagram-shell,.arch-lens{border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);box-shadow:0 12px 34px rgba(21,25,35,.055);overflow:hidden}.diagram-header,.arch-head{display:block;padding:18px 20px 15px;border-bottom:1px solid var(--line);background:#fbfcfb}.scenario{margin:0 0 6px;color:#394656;font-size:14px}.type-row,.diagram-tabs{display:flex;flex-wrap:wrap;gap:8px}.type-chip{display:inline-flex;align-items:center;min-height:28px;padding:3px 8px;border:1px solid #b9cde5;border-radius:5px;background:var(--soft-blue);color:#254466;font-size:12px;font-weight:850}.diagram-tabs{padding:12px 20px;border-bottom:1px solid var(--line);background:#fff}.diagram-tabs button{min-height:34px;border:1px solid var(--line-strong);border-radius:6px;background:#f8fafb;color:#2f3b48;padding:5px 10px;font:inherit;font-size:13px;font-weight:800;cursor:pointer}.diagram-tabs button[aria-selected=true]{color:#fff;border-color:var(--teal);background:var(--teal)}.diagram-panel{padding:18px 20px 20px}.diagram-panel[hidden]{display:none}.svg-frame{width:100%;overflow:auto;border:1px solid #dce2df;border-radius:var(--radius);background:#fff}.svg-frame svg{display:block;width:100%;height:auto;min-width:960px}.diagram-mobile{display:none;gap:10px}.mobile-step{border:1px solid #dce2df;border-radius:8px;background:#fff;padding:12px}.mobile-step b{display:block;margin-bottom:4px}.mermaid-block{margin:0;padding:14px;border:1px solid #dce2df;border-radius:var(--radius);background:#f8fafb;color:#26313e;font-size:12px;line-height:1.48;overflow:auto;white-space:pre-wrap}
+.arch-kicker{display:block;margin-bottom:6px;color:var(--teal);font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.arch-head h3{margin:0;font-size:20px;line-height:1.25}.arch-reason{display:block;max-width:100%;margin-top:12px;border-left:3px solid var(--teal);background:var(--soft-teal);padding:12px 14px;color:#24433f;font-size:13px}.arch-decision{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:20px;border-bottom:1px solid var(--line);background:#fffdf8}.arch-kv{min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:#fbfcfb;padding:13px 14px}.arch-kv b{display:block;margin-bottom:4px;color:var(--teal);font-size:12px;font-weight:900}.arch-kv span{display:block;color:#354252;font-size:14px;overflow-wrap:anywhere}.arch-views{display:grid;gap:14px;padding:20px;background:#fffdf8}.arch-view{min-width:0;border:1px solid #ccd7d2;border-radius:var(--radius);background:var(--paper);overflow:hidden}.arch-view-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;padding:15px 16px;border-bottom:1px solid var(--line);background:#fbfcfb}.arch-view h4{margin:0 0 6px;font-size:17px}.arch-view-meta{display:flex;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:13px}.priority-badge{display:inline-flex;align-items:center;min-height:28px;padding:3px 8px;border:1px solid #e6cf9f;border-radius:5px;background:var(--soft-amber);color:var(--amber);font-size:12px;font-weight:900}.arch-view-body{display:grid;gap:12px;padding:14px 16px 16px}.arch-view-body p{margin:0;color:#354252}.arch-source{border:1px solid #dce2df;border-radius:var(--radius);background:#fbfcfb;overflow:hidden}.arch-source summary{min-height:38px;padding:9px 12px;color:#26313e;cursor:pointer;font-size:13px;font-weight:850}.arch-source .mermaid-block{border:0;border-top:1px solid #dce2df;border-radius:0}.footer{margin-top:28px;padding:18px 0 4px;border-top:1px solid var(--line-strong);color:var(--muted);font-size:13px}
+@media(max-width:1180px) and (min-width:561px){.svg-frame svg{min-width:0}}@media(max-width:980px){.page{padding:16px}.hero,.demo-layout,.two-col{grid-template-columns:1fr}.nav{position:static;grid-template-columns:repeat(2,minmax(0,1fr))}.lean-grid,.asset-grid,.facts,.arch-decision{grid-template-columns:1fr}.fact{border-right:0;border-bottom:1px solid var(--line)}.fact:last-child{border-bottom:0}}@media(max-width:560px){body{font-size:15px}.page{padding:12px}.hero-main,.adoption{padding:24px 20px}.title{font-size:32px;overflow-wrap:break-word}.nav{grid-template-columns:1fr}.section h2{font-size:24px}.diagram-panel{padding:12px}.svg-frame{display:none}.diagram-mobile{display:grid}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="topline"><span class="brand">Project Insight</span><span>Lean · C4/UML · 静态分析</span></div>
+  <article>
+    <header class="hero">
+      <div class="hero-main">
+        <div class="eyebrow">https://github.com/zilliztech/claude-context</div>
+        <h1 class="title">claude-context</h1>
+        <ul class="summary">
+          <li>一个面向 Claude Code 等 AI 编码代理的代码语义搜索 MCP server，把大仓库索引成可检索上下文，而不是每次把文件塞进 prompt。</li>
+          <li>核心机制是 AST/文本分块、embedding、Milvus/Zilliz hybrid search、后台索引、snapshot 状态与增量同步。</li>
+          <li>适合有大仓库、MCP 工作流和向量库预算的团队做试点；采用前要复现实测收益、确认代码数据边界和运维成本。</li>
+        </ul>
+        <div class="resource-links">
+          <a class="resource-link" href="https://github.com/zilliztech/claude-context">GitHub</a>
+          <a class="resource-link" href="https://deepwiki.com/zilliztech/claude-context">DeepWiki</a>
+          <a class="resource-link" href="https://zread.ai/zilliztech/claude-context">Zread</a>
+        </div>
+      </div>
+      <aside class="adoption">
+        <div>
+          <div class="adoption-label">Adoption Read</div>
+          <div class="adoption-title">值得进入内部仓库试点</div>
+          <p class="adoption-detail">先用真实维护任务验证 token、工具调用、目标文件命中时间和增量同步一致性；不要只看 README 的评估数字直接生产化。</p>
+        </div>
+        <div class="tags"><span class="tag">MCP</span><span class="tag">Semantic Search</span><span class="tag">Milvus</span><span class="tag">Agentic Coding</span></div>
+      </aside>
+    </header>
+    <section class="facts">
+      <div class="fact"><b>0.1.11</b><span>最新 tag 与 npm latest，仓库版本一致</span></div>
+      <div class="fact"><b>4 tools</b><span>`index_codebase`、`search_code`、`clear_index`、`get_indexing_status`</span></div>
+      <div class="fact"><b>静态</b><span>Demo 状态：静态推演，未运行</span></div>
+    </section>
+    <nav class="nav">
+      <a href="#lean">新用户</a><a href="#demo">Gold Example</a><a href="#diagram">机制图</a><a href="#architecture">架构视角</a><a href="#assets">核心资产</a><a href="#adopt">采用边界</a>
+    </nav>
+
+    <section id="lean" class="section">
+      <div class="section-head"><div class="section-index">01</div><h2>新用户先看什么</h2><p class="section-note">适合谁、解决什么问题、差异、时机和最小验证。</p></div>
+      <div class="section-body lean-grid">
+        <div class="kv"><h3>适合谁</h3><p>正在用 Claude Code、Cursor、Gemini CLI、Codex CLI 等 agent 工具，且仓库大到 grep/read 多轮探索成本高的团队。</p></div>
+        <div class="kv"><h3>解决什么问题</h3><p>把“找相关代码”从临时上下文消耗变成可复用索引：agent 用自然语言搜索，返回文件路径、行号和片段。</p></div>
+        <div class="kv"><h3>和别的方案哪里不同</h3><p>主入口是 MCP 工具；默认 hybrid search；同时处理异步索引、部分结果、snapshot、Merkle 增量同步和触发 watcher。</p></div>
+        <div class="kv"><h3>为什么现在值得看</h3><p>项目仍在活跃迭代，源码里有多处生产化边缘处理，且 evaluation 给出了可复现实验假设。</p></div>
+        <div class="kv"><h3>最小验证方式</h3><p>选内部真实维护任务，对比 grep/read 与 grep/read + `search_code` 的 token、工具调用、命中速度和误命中率。</p></div>
+        <div class="kv"><h3>先不适合的场景</h3><p>不允许代码片段进入外部 embedding 服务、不能维护向量库、或只需要轻量本地字面搜索的场景。</p></div>
+      </div>
+    </section>
+
+    <section id="demo" class="section">
+      <div class="section-head"><div class="section-index">02</div><h2>Gold Example / Demo</h2><p class="section-note">Demo 状态：静态推演，未运行；示例来自 README 与 MCP/Context 源码。</p></div>
+      <div class="section-body demo-layout">
+        <div class="check-card">
+          <h3>最小闭环</h3>
+          <ul>
+            <li>配置 MCP：`npx @zilliz/claude-context-mcp@latest`，提供 embedding 与 Milvus/Zilliz 参数。</li>
+            <li>用户说“Index this codebase”，MCP 写入 `indexing` 状态并后台执行索引。</li>
+            <li>用户查询状态，读取本地 snapshot 的进度、失败或完成统计。</li>
+            <li>用户自然语言搜索，返回代码片段、路径和行号。</li>
+          </ul>
+        </div>
+        <div class="check-card">
+          <h3>为什么这个例子重要</h3>
+          <p>它体现项目真正卖点：不是单次 embedding API 调用，而是 agent 可以持续调用的代码上下文层。README 的效率数据是有用假设，但本报告未复现实验。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="diagram" class="section">
+      <div class="section-head"><div class="section-index">03</div><h2>项目机制图</h2><p class="section-note">图型选择：UML sequence + SFD-lite；选择理由：同时解释工具调用链路和索引库存流动。</p></div>
+      <div class="diagram-shell">
+        <div class="diagram-header">
+          <p class="scenario">场景：用户在 Claude Code 中索引仓库，然后搜索认证相关函数。</p>
+          <div class="type-row"><span class="type-chip">UML Sequence</span><span class="type-chip">SFD-lite</span><span class="type-chip">Hybrid Search</span></div>
+        </div>
+        <div class="diagram-tabs">
+          <button type="button" data-diagram-tab="flow" aria-selected="true">主流程</button>
+          <button type="button" data-diagram-tab="source" aria-selected="false">图源</button>
+        </div>
+        <div class="diagram-panel" data-diagram-panel="flow">
+          <div class="svg-frame">
+            <svg viewBox="0 0 1180 560" role="img" aria-label="claude-context indexing and search flow">
+              <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#315c8f"/></marker><marker id="flowArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f766e"/></marker></defs>
+              <rect x="24" y="28" width="1132" height="500" rx="10" fill="#fffdf8" stroke="#cbd6d1"/>
+              <text x="52" y="66" font-size="22" font-weight="800" fill="#151923">从 agent 工具调用到代码上下文库存</text>
+              <g font-size="14" font-weight="700">
+                <rect x="58" y="108" width="150" height="62" rx="8" fill="#eef4fb" stroke="#b9cde5"/><text x="83" y="144" fill="#254466">User / Agent</text>
+                <rect x="272" y="108" width="170" height="62" rx="8" fill="#e8f4f2" stroke="#a9cbc5"/><text x="306" y="144" fill="#174b44">MCP server</text>
+                <rect x="506" y="108" width="170" height="62" rx="8" fill="#fff5dd" stroke="#e3c983"/><text x="548" y="144" fill="#7a5312">Snapshot</text>
+                <rect x="724" y="108" width="170" height="62" rx="8" fill="#eef4fb" stroke="#b9cde5"/><text x="763" y="144" fill="#254466">Core Context</text>
+                <rect x="958" y="108" width="150" height="62" rx="8" fill="#f4f7f6" stroke="#cbd6d1"/><text x="982" y="136" fill="#344150">Embedding</text><text x="982" y="156" fill="#344150">+ Milvus</text>
+              </g>
+              <g stroke="#315c8f" stroke-width="2.2" marker-end="url(#arrow)" fill="none">
+                <path d="M208 139 C232 139 248 139 272 139"/><path d="M442 139 C466 139 482 139 506 139"/><path d="M442 240 C524 240 636 240 724 240"/><path d="M894 240 C918 240 936 240 958 240"/><path d="M958 328 C925 328 925 328 894 328"/><path d="M724 404 C590 404 382 404 272 404"/><path d="M272 454 C238 454 230 454 208 454"/>
+              </g>
+              <g font-size="13" fill="#344150">
+                <text x="218" y="128">index_codebase(abs path)</text><text x="454" y="128">indexing 状态</text>
+                <text x="470" y="224">后台索引：扫描、ignore、AST 分块</text><text x="902" y="224">embedBatch + insertHybrid</text>
+                <text x="915" y="314">hybridSearch + RRF</text><text x="472" y="390">dedup 后的片段、路径、行号</text>
+                <text x="84" y="442">search_code(query)</text>
+              </g>
+              <g>
+                <rect x="80" y="242" width="180" height="136" rx="8" fill="#fbfcfb" stroke="#d9dedb"/>
+                <text x="100" y="272" font-size="15" font-weight="800" fill="#0f766e">Stock</text>
+                <text x="100" y="300" font-size="14" fill="#344150">Indexed chunks</text>
+                <text x="100" y="324" font-size="14" fill="#344150">Snapshot state</text>
+                <text x="100" y="348" font-size="14" fill="#344150">Merkle file hashes</text>
+                <path d="M260 310 C382 310 560 310 724 310" stroke="#0f766e" stroke-width="2.4" marker-end="url(#flowArrow)" fill="none"/>
+                <text x="372" y="298" font-size="13" fill="#0f766e">initial index / trigger sync</text>
+              </g>
+              <g>
+                <rect x="724" y="430" width="384" height="60" rx="8" fill="#fff5dd" stroke="#e3c983"/>
+                <text x="748" y="455" font-size="14" font-weight="800" fill="#7a5312">控制回路</text>
+                <text x="748" y="476" font-size="13" fill="#344150">状态查询、失败重试、collection limit、0/0 snapshot guard</text>
+              </g>
+            </svg>
+          </div>
+          <div class="diagram-mobile">
+            <div class="mobile-step"><b>1. Agent</b>调用 `index_codebase` 或 `search_code`。</div>
+            <div class="mobile-step"><b>2. MCP</b>校验路径、读写 snapshot，并把索引放到后台。</div>
+            <div class="mobile-step"><b>3. Core</b>扫描文件、应用 ignore、AST 分块并批量 embedding。</div>
+            <div class="mobile-step"><b>4. Vector DB</b>保存 hybrid collection，搜索时 dense + sparse + RRF。</div>
+            <div class="mobile-step"><b>5. 返回</b>去重后的代码片段、文件路径和行号。</div>
+          </div>
+        </div>
+        <div class="diagram-panel" data-diagram-panel="source" hidden>
+          <pre class="mermaid-block">sequenceDiagram
+  participant U as User / Coding Agent
+  participant MCP as claude-context MCP
+  participant S as SnapshotManager
+  participant C as Core Context
+  participant E as Embedding Provider
+  participant V as Milvus / Zilliz
+  U-&gt;&gt;MCP: index_codebase(abs path)
+  MCP-&gt;&gt;S: set status indexing
+  MCP--&gt;&gt;U: returns immediately
+  MCP-&gt;&gt;C: background index
+  C-&gt;&gt;C: scan, ignore rules, AST split
+  C-&gt;&gt;E: embedBatch(chunks)
+  C-&gt;&gt;V: insertHybrid(chunks)
+  C-&gt;&gt;S: set indexed / failed
+  U-&gt;&gt;MCP: search_code(query)
+  MCP-&gt;&gt;C: semanticSearch(query)
+  C-&gt;&gt;E: embed(query)
+  C-&gt;&gt;V: dense + sparse search, RRF
+  C--&gt;&gt;MCP: deduped snippets
+  MCP--&gt;&gt;U: file paths, lines, code context</pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture" class="section">
+      <div class="section-head"><div class="section-index">04</div><h2>架构视角</h2><p class="section-note">先说明复杂度与裁剪，再给出 C4/UML 视图。</p></div>
+      <div class="arch-lens">
+        <div class="arch-head"><span class="arch-kicker">Architecture Decision</span><h3>C4 L1/L2 + UML Sequence</h3><div class="arch-reason">项目复杂性评估结果：中等偏复杂。选用的架构描述框架：C4 + UML。裁剪策略理由：MCP 工具边界和容器关系是主要信号，完整 4+1 物理视图收益不高。省略内容：未绘制数据库内部索引实现和真实部署拓扑。</div></div>
+        <div class="arch-decision">
+          <div class="arch-kv"><b>项目复杂性评估结果</b><span>MCP server + core library + IDE/浏览器扩展 + evaluation + 外部服务依赖。</span></div>
+          <div class="arch-kv"><b>选用的架构描述框架</b><span>C4 L1/L2 描述边界，UML sequence 描述核心业务流转。</span></div>
+          <div class="arch-kv"><b>裁剪策略理由</b><span>读者需要快速判断集成成本和调用链，不需要强行展开所有 4+1 视图。</span></div>
+          <div class="arch-kv"><b>省略内容</b><span>Milvus 内部、云部署细节、Chrome extension 的生产发布路径。</span></div>
+        </div>
+        <div class="arch-views">
+          <article class="arch-view">
+            <div class="arch-view-head"><div><h4>System Overview</h4><div class="arch-view-meta"><span>C4 L1 Context</span><span>agent 到外部服务边界</span></div></div></div>
+            <div class="arch-view-body">
+              <svg viewBox="0 0 900 260" role="img" aria-label="C4 system context">
+                <defs><marker id="archArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#315c8f"/></marker></defs>
+                <rect x="20" y="28" width="860" height="204" rx="10" fill="#fff" stroke="#cbd6d1"/>
+                <rect x="54" y="92" width="150" height="66" rx="8" fill="#eef4fb" stroke="#b9cde5"/><text x="82" y="130" font-size="14" font-weight="800" fill="#254466">AI Coding Agent</text>
+                <rect x="278" y="82" width="178" height="86" rx="8" fill="#e8f4f2" stroke="#a9cbc5"/><text x="315" y="120" font-size="14" font-weight="800" fill="#174b44">MCP Server</text><text x="316" y="142" font-size="12" fill="#344150">stdio tools</text>
+                <rect x="530" y="82" width="150" height="86" rx="8" fill="#fff5dd" stroke="#e3c983"/><text x="558" y="120" font-size="14" font-weight="800" fill="#7a5312">Core</text><text x="558" y="142" font-size="12" fill="#344150">index/search</text>
+                <rect x="736" y="54" width="110" height="56" rx="8" fill="#f4f7f6" stroke="#cbd6d1"/><text x="760" y="87" font-size="12" font-weight="800" fill="#344150">Embedding</text>
+                <rect x="736" y="148" width="110" height="56" rx="8" fill="#f4f7f6" stroke="#cbd6d1"/><text x="759" y="181" font-size="12" font-weight="800" fill="#344150">Milvus</text>
+                <path d="M204 125 L278 125" stroke="#315c8f" stroke-width="2" marker-end="url(#archArrow)"/><path d="M456 125 L530 125" stroke="#315c8f" stroke-width="2" marker-end="url(#archArrow)"/><path d="M680 113 C704 95 714 86 736 82" stroke="#315c8f" stroke-width="2" marker-end="url(#archArrow)" fill="none"/><path d="M680 137 C704 158 714 171 736 176" stroke="#315c8f" stroke-width="2" marker-end="url(#archArrow)" fill="none"/>
+              </svg>
+              <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block">flowchart LR
+  Agent -- MCP stdio --&gt; MCPServer
+  MCPServer --&gt; Core
+  Core --&gt; EmbeddingProvider
+  Core --&gt; MilvusZilliz</pre></details>
+            </div>
+          </article>
+          <article class="arch-view">
+            <div class="arch-view-head"><div><h4>核心业务流转</h4><div class="arch-view-meta"><span>UML Sequence</span><span>Core Process</span></div></div><span class="priority-badge">Priority Interaction</span></div>
+            <div class="arch-view-body">
+              <svg viewBox="0 0 900 270" role="img" aria-label="Core process sequence">
+                <defs><marker id="seqArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f766e"/></marker></defs>
+                <rect x="20" y="24" width="860" height="222" rx="10" fill="#fff" stroke="#cbd6d1"/>
+                <g font-size="12" font-weight="800" fill="#344150"><text x="70" y="58">Agent</text><text x="228" y="58">MCP</text><text x="380" y="58">Snapshot</text><text x="548" y="58">Context</text><text x="718" y="58">Vector DB</text></g>
+                <g stroke="#d9dedb" stroke-width="1.5"><line x1="88" y1="72" x2="88" y2="220"/><line x1="244" y1="72" x2="244" y2="220"/><line x1="410" y1="72" x2="410" y2="220"/><line x1="580" y1="72" x2="580" y2="220"/><line x1="748" y1="72" x2="748" y2="220"/></g>
+                <g stroke="#0f766e" stroke-width="2" marker-end="url(#seqArrow)" fill="none">
+                  <path d="M88 92 L244 92"/><path d="M244 118 L410 118"/><path d="M244 144 L580 144"/><path d="M580 170 L748 170"/><path d="M748 196 L244 196"/>
+                </g>
+                <g font-size="12" fill="#344150"><text x="112" y="85">index_codebase</text><text x="270" y="111">status=indexing</text><text x="360" y="137">scan + split + embed</text><text x="610" y="163">insertHybrid/search</text><text x="395" y="189">snippets + lines</text></g>
+              </svg>
+              <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block">sequenceDiagram
+  Agent-&gt;&gt;MCP: index_codebase(path)
+  MCP-&gt;&gt;Snapshot: indexing(0%)
+  MCP--&gt;&gt;Agent: started background indexing
+  MCP-&gt;&gt;Context: indexCodebase(path)
+  Context-&gt;&gt;VectorDB: createHybridCollection + insertHybrid
+  Agent-&gt;&gt;MCP: search_code(query)
+  MCP-&gt;&gt;Context: semanticSearch(query)</pre></details>
+            </div>
+          </article>
+          <article class="arch-view">
+            <div class="arch-view-head"><div><h4>Static Organization</h4><div class="arch-view-meta"><span>C4 L2 Container</span><span>monorepo package boundaries</span></div></div></div>
+            <div class="arch-view-body">
+              <svg viewBox="0 0 900 250" role="img" aria-label="Monorepo package organization">
+                <rect x="24" y="22" width="852" height="204" rx="10" fill="#fff" stroke="#cbd6d1"/>
+                <rect x="346" y="90" width="190" height="72" rx="8" fill="#fff5dd" stroke="#e3c983"/><text x="392" y="130" font-size="15" font-weight="900" fill="#7a5312">packages/core</text>
+                <g font-size="13" font-weight="800" fill="#254466">
+                  <rect x="58" y="44" width="170" height="52" rx="8" fill="#eef4fb" stroke="#b9cde5"/><text x="93" y="76">packages/mcp</text>
+                  <rect x="58" y="156" width="170" height="52" rx="8" fill="#eef4fb" stroke="#b9cde5"/><text x="84" y="188">vscode-extension</text>
+                  <rect x="648" y="44" width="170" height="52" rx="8" fill="#eef4fb" stroke="#b9cde5"/><text x="676" y="76">chrome-extension</text>
+                  <rect x="648" y="156" width="170" height="52" rx="8" fill="#eef4fb" stroke="#b9cde5"/><text x="704" y="188">evaluation</text>
+                </g>
+                <g stroke="#315c8f" stroke-width="2" fill="none"><path d="M228 70 C285 76 312 95 346 116"/><path d="M228 182 C285 174 312 151 346 136"/><path d="M648 70 C595 77 568 96 536 116"/><path d="M648 182 C594 174 568 151 536 136"/></g>
+              </svg>
+              <details class="arch-source"><summary>Mermaid 源码</summary><pre class="mermaid-block">flowchart TB
+  Root[claude-context monorepo]
+  Root --&gt; Core[packages/core]
+  Root --&gt; MCP[packages/mcp]
+  Root --&gt; VS[packages/vscode-extension]
+  Root --&gt; Chrome[packages/chrome-extension]
+  Root --&gt; Eval[evaluation]
+  MCP --&gt; Core
+  VS --&gt; Core
+  Chrome --&gt; Core</pre></details>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="assets" class="section">
+      <div class="section-head"><div class="section-index">05</div><h2>核心资产与价值</h2></div>
+      <div class="section-body asset-grid">
+        <div class="asset"><h3>MCP 工具入口</h3><p>`packages/mcp/src/index.ts` 与 `handlers.ts` 把索引、搜索、状态和清理变成 agent 可调用工具。</p></div>
+        <div class="asset"><h3>Core Context</h3><p>`packages/core/src/context.ts` 聚合文件发现、ignore、分块、embedding、collection、search 和 dedup。</p></div>
+        <div class="asset"><h3>AST + fallback splitter</h3><p>Tree-sitter 分块覆盖多语言，失败或不支持时回退 LangChain splitter。</p></div>
+        <div class="asset"><h3>Hybrid vector DB adapter</h3><p>Milvus/Zilliz collection 支持 dense vector、BM25 sparse vector 和 RRF reranking。</p></div>
+        <div class="asset"><h3>Snapshot / Sync</h3><p>本地 snapshot、Merkle file hashes、后台同步、trigger watcher 和跨进程锁共同支撑持续索引。</p></div>
+        <div class="asset"><h3>Evaluation harness</h3><p>`evaluation/` 给出 SWE-bench 检索效率对比，是采用方复现实验的起点。</p></div>
+      </div>
+    </section>
+
+    <section id="adopt" class="section">
+      <div class="section-head"><div class="section-index">06</div><h2>采用前确认与证据边界</h2></div>
+      <div class="section-body two-col">
+        <div class="check-card">
+          <h3>采用前确认</h3>
+          <ul>
+            <li>代码片段能否进入外部 embedding provider；若不能，先验证 Ollama 路径。</li>
+            <li>Milvus/Zilliz 的 collection limit、延迟、权限、清理和备份策略。</li>
+            <li>同一仓库必须使用一致绝对路径，否则索引身份会分裂。</li>
+            <li>CI 目前更偏 build gate，lint 被注释，测试文件较少；生产引入要补自己的检索回归集。</li>
+          </ul>
+        </div>
+        <div class="evidence-card">
+          <h3>证据与边界</h3>
+          <ul>
+            <li>证据：README/docs、`packages/core`、`packages/mcp`、package manifests、CI/release、evaluation、LICENSE、GitHub metadata。</li>
+            <li>边界：静态分析；未启动 MCP，未索引真实仓库，未复现 README 的效率实验。</li>
+            <li>结论：适合作为大仓库 agentic coding 检索层试点，不应跳过内部任务集验证。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <footer class="footer">Generated from static analysis on 2026-04-30. HEAD: 367546904b5bcd1d7138a6ae5ca253c8cb0680a1.</footer>
+  </article>
+</main>
+<script>
+document.querySelectorAll('.diagram-shell').forEach((shell)=>{const buttons=[...shell.querySelectorAll('[data-diagram-tab]')];const panels=[...shell.querySelectorAll('[data-diagram-panel]')];buttons.forEach((button)=>{button.addEventListener('click',()=>{const target=button.getAttribute('data-diagram-tab');buttons.forEach((item)=>item.setAttribute('aria-selected',String(item===button)));panels.forEach((panel)=>{panel.hidden=panel.getAttribute('data-diagram-panel')!==target;});});});});
+</script>
+</body>
+</html>

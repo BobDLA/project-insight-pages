@@ -25,9 +25,12 @@
 
 | 项目 | 类型 | 报告 |
 | --- | --- | --- |
+| OpenViking | AI Browser / Trace Data | [HTML](site/projects/OpenViking/) · [Markdown](site/projects/OpenViking/analysis.md) |
+| andrej-karpathy-skills | Agent Skill / Rules | [HTML](site/projects/andrej-karpathy-skills/) · [Markdown](site/projects/andrej-karpathy-skills/analysis.md) |
+| neat-freak | CLI / AI Cleanup | [HTML](site/projects/neat-freak/) · [Markdown](site/projects/neat-freak/analysis.md) |
+| claude-context | Agentic Coding / MCP Code Search | [HTML](site/projects/claude-context/) · [Markdown](site/projects/claude-context/analysis.md) |
 | free-claude-code | API / Proxy | [HTML](site/projects/free-claude-code/) · [Markdown](site/projects/free-claude-code/analysis.md) |
 | FinceptTerminal | Desktop / FinTech | [HTML](site/projects/FinceptTerminal/) · [Markdown](site/projects/FinceptTerminal/analysis.md) |
-| andrej-karpathy-skills | Agent Skill / Rules | [HTML](site/projects/andrej-karpathy-skills/) · [Markdown](site/projects/andrej-karpathy-skills/analysis.md) |
 | GBrain | Knowledge Tool / MCP | [HTML](site/projects/gbrain/) · [Markdown](site/projects/gbrain/analysis.md) |
 
 ## 报告结构
